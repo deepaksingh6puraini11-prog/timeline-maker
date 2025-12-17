@@ -4,10 +4,11 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Plus, Trash2, Download, LogOut, Save } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Download, LogOut } from "lucide-react";
 import { toPng } from 'html-to-image';
+import toast from "react-hot-toast";
 
-// ✅ Supabase Connect
+// Supabase Connect
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -39,8 +40,7 @@ export default function EditorPage() {
       }
       setUser(user);
 
-      // Database se events lao
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('timeline_events')
         .select('*')
         .order('date', { ascending: true });
@@ -53,43 +53,42 @@ export default function EditorPage() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    toast.success("Logged out successfully");
     router.push("/login");
   };
 
-  // 2. Add Event to Database
+  // 2. Add Event
   const addEvent = async () => {
-    if (!newEvent.title || !newEvent.date) return alert("Title and Date are required!");
+    if (!newEvent.title || !newEvent.date) {
+        toast.error("Please fill Title and Date!");
+        return;
+    }
     setSaving(true);
 
-    // Supabase me insert karo
     const { data, error } = await supabase
       .from('timeline_events')
-      .insert([
-        { 
+      .insert([{ 
           user_id: user.id,
           title: newEvent.title, 
           date: newEvent.date, 
           description: newEvent.description 
-        }
-      ])
+        }])
       .select();
 
     if (error) {
-      alert("Error saving: " + error.message);
+      toast.error(error.message);
     } else {
-      // Screen par dikhao
       if(data) setEvents([...events, ...data]);
       setNewEvent({ title: "", date: "", description: "" });
+      toast.success("Event added successfully! 🎉");
     }
     setSaving(false);
   };
 
-  // 3. Delete from Database
+  // 3. Delete Event
   const deleteEvent = async (id: number) => {
-    const confirmDelete = window.confirm("Delete this event?");
-    if(!confirmDelete) return;
+    if(!confirm("Are you sure you want to delete this?")) return;
 
-    // Supabase se udao
     const { error } = await supabase
       .from('timeline_events')
       .delete()
@@ -97,15 +96,15 @@ export default function EditorPage() {
 
     if (!error) {
       setEvents(events.filter((e) => e.id !== id));
+      toast.success("Event deleted!");
     } else {
-      alert("Delete failed: " + error.message);
+      toast.error("Could not delete");
     }
   };
 
   const handleExport = useCallback(() => {
     if (timelineRef.current === null) return;
-    const btn = document.getElementById("export-btn");
-    if(btn) btn.innerText = "Downloading...";
+    const loadToast = toast.loading("Generating image...");
 
     toPng(timelineRef.current, { cacheBust: true, backgroundColor: '#111827' })
       .then((dataUrl) => {
@@ -113,11 +112,11 @@ export default function EditorPage() {
         link.download = 'my-timeline.png';
         link.href = dataUrl;
         link.click();
-        if(btn) btn.innerText = "Export";
+        toast.dismiss(loadToast);
+        toast.success("Image downloaded! 📸");
       })
       .catch((err) => {
-        console.log(err);
-        if(btn) btn.innerText = "Export";
+        toast.error("Failed to export image");
       });
   }, [timelineRef]);
 
@@ -133,8 +132,44 @@ export default function EditorPage() {
     return ((current - minDate) / totalDuration) * 100;
   };
 
-  if (loading) return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading your timeline... ⏳</div>;
+  // 🔥 NEW SKELETON LOADING (Ye naya magic hai) 🔥
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black text-white p-6">
+        <div className="max-w-6xl mx-auto animate-pulse">
+          {/* Header Skeleton */}
+          <div className="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
+             <div className="h-8 bg-gray-800 rounded w-48"></div>
+             <div className="h-10 bg-gray-800 rounded w-32"></div>
+          </div>
 
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {/* Form Skeleton (Sidebar) */}
+            <div className="bg-gray-900 p-6 rounded-xl border border-gray-800 h-96">
+               <div className="h-6 bg-gray-800 rounded w-1/3 mb-6"></div>
+               <div className="space-y-4">
+                 <div className="h-12 bg-gray-800 rounded"></div>
+                 <div className="h-12 bg-gray-800 rounded"></div>
+                 <div className="h-24 bg-gray-800 rounded"></div>
+                 <div className="h-12 bg-gray-700 rounded mt-4"></div>
+               </div>
+            </div>
+
+            {/* Timeline Display Skeleton (Main Area) */}
+            <div className="lg:col-span-3 bg-[#111827] border border-gray-800 rounded-xl h-[400px] flex items-center justify-center p-8">
+               <div className="h-1 w-full bg-gray-800 rounded relative">
+                  <div className="absolute left-[20%] top-[-6px] w-4 h-4 bg-gray-700 rounded-full"></div>
+                  <div className="absolute left-[50%] top-[-6px] w-4 h-4 bg-gray-700 rounded-full"></div>
+                  <div className="absolute left-[80%] top-[-6px] w-4 h-4 bg-gray-700 rounded-full"></div>
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Main Return (Jab data load ho jaye)
   return (
     <div className="min-h-screen bg-black text-white p-6">
       <div className="flex items-center justify-between mb-8 max-w-6xl mx-auto border-b border-gray-800 pb-4">
@@ -148,7 +183,7 @@ export default function EditorPage() {
         </div>
         
         <div className="flex items-center gap-4">
-            <button id="export-btn" onClick={handleExport} className="bg-purple-600 px-4 py-2 rounded-lg font-medium hover:bg-purple-700 flex items-center gap-2 text-sm">
+            <button onClick={handleExport} className="bg-purple-600 px-4 py-2 rounded-lg font-medium hover:bg-purple-700 flex items-center gap-2 text-sm">
             <Download className="w-4 h-4" /> Export
             </button>
             <button onClick={handleLogout} className="bg-red-600/20 text-red-500 hover:bg-red-600 hover:text-white px-3 py-2 rounded-lg transition-all">
