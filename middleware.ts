@@ -2,12 +2,14 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  // 1. Response banate hain
   let response = NextResponse.next({
     request: {
       headers: request.headers,
     },
   })
 
+  // 2. Supabase Client banate hain
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -17,7 +19,6 @@ export async function middleware(request: NextRequest) {
           return request.cookies.get(name)?.value
         },
         set(name: string, value: string, options: CookieOptions) {
-          // Request cookie update
           request.cookies.set({
             name,
             value,
@@ -28,7 +29,6 @@ export async function middleware(request: NextRequest) {
               headers: request.headers,
             },
           })
-          // Response cookie update
           response.cookies.set({
             name,
             value,
@@ -56,7 +56,24 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  await supabase.auth.getUser()
+  // 3. Check karte hain ki User Login hai ya nahi
+  const { data: { user } } = await supabase.auth.getUser()
+
+  // --- 🔒 SECURITY GUARD SHURU (YE NAYA HAIN) ---
+
+  // Agar user LOGIN NAHI HAI aur wo /dashboard par jane ki koshish kar raha hai
+  if (!user && request.nextUrl.pathname.startsWith('/dashboard')) {
+    // Toh usse wapas Login page par bhej do
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+
+  // Agar user LOGIN HAI aur wo wapas /login page par aa gaya
+  if (user && request.nextUrl.pathname === '/login') {
+    // Toh usse seedha Dashboard par bhej do (Time waste nahi)
+    return NextResponse.redirect(new URL('/dashboard', request.url))
+  }
+
+  // --- 🔒 SECURITY GUARD KHATAM ---
 
   return response
 }
