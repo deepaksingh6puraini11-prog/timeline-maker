@@ -12,7 +12,12 @@ export async function POST(request: Request) {
       {
         cookies: {
           getAll() { return cookieStore.getAll(); },
-          setAll(cookiesToSet) { try { cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options)); } catch {} },
+          // FIX: Added ': any' below to solve the TypeScript error
+          setAll(cookiesToSet: any) { 
+            try { 
+              cookiesToSet.forEach(({ name, value, options }: any) => cookieStore.set(name, value, options)); 
+            } catch {} 
+          },
         },
       }
     );
@@ -30,9 +35,9 @@ export async function POST(request: Request) {
 
     // Logic: Sahi ID select karo
     if (planType === 'monthly') {
-        VARIANT_ID = process.env.LEMONSQUEEZY_VARIANT_ID_MONTHLY; // $5 (1197199)
+        VARIANT_ID = process.env.LEMONSQUEEZY_VARIANT_ID_MONTHLY; // $5 
     } else {
-        VARIANT_ID = process.env.LEMONSQUEEZY_VARIANT_ID_SINGLE;  // $2 (1197194)
+        VARIANT_ID = process.env.LEMONSQUEEZY_VARIANT_ID_SINGLE;  // $2
     }
 
     if (!VARIANT_ID) {
