@@ -126,7 +126,7 @@ export async function POST(req: Request) {
     let timelineData = [];
     try {
          // Kabhi kabhi AI extra text deta hai, usse clean karne ke liye:
-        const jsonMatch = text.match(/\[.*\]/s);
+         const jsonMatch = text.match(/\[[\s\S]*\]/);
         timelineData = JSON.parse(jsonMatch ? jsonMatch[0] : text);
     } catch (e) {
         return NextResponse.json({ error: "Failed to parse AI response" }, { status: 500 });
