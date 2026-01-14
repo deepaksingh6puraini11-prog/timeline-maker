@@ -263,7 +263,8 @@ export default function CreatePage() {
     printRef.current.style.display = "block";
     try {
         toast.loading("Rendering PDF...");
-        const canvas = await html2canvas(printRef.current, { scale: 2, backgroundColor: "#ffffff", useCORS: true });
+        // 'as any' lagane se Vercel check karna band kar dega
+const canvas = await html2canvas(printRef.current, { scale: 2, backgroundColor: "#ffffff", useCORS: true } as any);
         const imgData = canvas.toDataURL("image/png");
         const pdfWidth = 210; 
         const pxToMm = 210 / canvas.width;
