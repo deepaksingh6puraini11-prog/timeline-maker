@@ -48,11 +48,11 @@ export default function LandingPage() {
                 <Sparkles className="w-3 h-3" /> Join early users & simplify your projects. Free for Students.
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
-                Create <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent">Historical Timelines</span> <br />
-                & Project Roadmaps in Seconds
+                Create <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent">Historical & Project</span> <br />
+                Timelines in Seconds
             </h1>
             <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-                Whether it's for a history assignment or a business roadmap, just type your topic and our AI builds a visual timeline instantly.
+                Whether it's for a history assignment or a project roadmap, just type your topic and our AI builds a visual timeline instantly.
             </p>
 
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-20">
@@ -62,7 +62,7 @@ export default function LandingPage() {
             </div>
         </motion.div>
 
-        {/* 💻 BROWSER MOCKUP with YOUR IMAGE */}
+        {/* 💻 BROWSER MOCKUP */}
         <motion.div id="preview" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className="relative mx-auto max-w-5xl group">
             <div className="rounded-2xl bg-[#0f172a] border border-white/10 shadow-2xl shadow-purple-900/40 overflow-hidden">
                 <div className="h-10 bg-[#1e293b] border-b border-white/5 flex items-center px-4 gap-2">
@@ -71,21 +71,15 @@ export default function LandingPage() {
                       <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                       <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
                     </div>
-                    <div className="ml-4 flex-1 bg-[#0f172a] h-6 rounded-md mx-auto max-w-md opacity-50 text-[10px] flex items-center justify-center text-gray-400 tracking-wider">
-                        https://www.aitimelinemaker.online/preview
-                    </div>
                 </div>
                 
                 <div className="relative h-auto bg-[#050505] overflow-hidden p-2">
-                    <Image 
+                    <img 
                         src="/timeline-preview.png" 
                         alt="AI Generated Timeline Preview" 
-                        width={1200}
-                        height={800}
-                        className="w-full h-auto rounded-lg object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500 border border-white/5"
+                        className="w-full h-auto rounded-lg object-cover border border-white/5"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-40"></div>
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-purple-600/90 backdrop-blur-md text-white px-6 py-2 rounded-full text-xs font-bold flex items-center gap-2 shadow-2xl border border-white/20 scale-110">
+                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-purple-600/90 backdrop-blur-md text-white px-6 py-2 rounded-full text-xs font-bold flex items-center gap-2 shadow-2xl border border-white/20">
                         <Sparkles className="w-3 h-3" /> Real AI Generated Output
                     </div>
                 </div>
@@ -181,11 +175,41 @@ export default function LandingPage() {
           </div>
       </section>
 
-      {/* 🦶 FOOTER */}
-      <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10 text-center">
-          <p className="text-gray-600 text-xs">
+      {/* 🦶 FOOTER (Back in Action) */}
+      <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10">
+          <div className="grid md:grid-cols-4 gap-12 mb-12">
+              <div className="col-span-1">
+                  <div className="flex items-center gap-2 mb-4">
+                        <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center">
+                            <History className="text-white w-3 h-3" />
+                        </div>
+                        <span className="text-lg font-bold">AI Timeline Maker</span>
+                  </div>
+                  <p className="text-gray-500 text-sm leading-relaxed text-left">
+                      Making history visual and interactive for everyone. Built with AI power.
+                  </p>
+              </div>
+              
+              <div>
+                  <h4 className="font-bold mb-4 text-white text-left">Product</h4>
+                  <ul className="space-y-2 text-sm text-gray-400 text-left">
+                      <li><Link href="#features" className="hover:text-purple-400">Features</Link></li>
+                      <li><Link href="/pricing" className="hover:text-purple-400">Pricing</Link></li>
+                      <li><Link href="/create" className="hover:text-purple-400">Create Timeline</Link></li>
+                  </ul>
+              </div>
+
+              <div>
+                  <h4 className="font-bold mb-4 text-white text-left">Company</h4>
+                  <ul className="space-y-2 text-sm text-gray-400 text-left">
+                      <li><Link href="/privacy" className="hover:text-purple-400">Privacy Policy</Link></li>
+                      <li><Link href="/contact" className="hover:text-purple-400">Contact</Link></li>
+                  </ul>
+              </div>
+          </div>
+          <div className="text-center text-gray-600 text-xs pt-8 border-t border-white/5">
               © 2026 aitimelinemaker.online. Made with ❤️ in India.
-          </p>
+          </div>
       </footer>
     </div>
   );
@@ -205,11 +229,11 @@ function PricingCheck({ text, active }: any) {
 function FeatureCard({ icon, title, desc }: any) {
     return (
         <div className="bg-[#0f172a] border border-white/5 p-8 rounded-2xl hover:border-purple-500/30 transition-all hover:-translate-y-1 group">
-            <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 text-2xl group-hover:bg-white/10 transition-colors">
+            <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 text-2xl group-hover:bg-white/10 transition-colors text-left">
                 {icon}
             </div>
-            <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
-            <p className="text-gray-400 leading-relaxed text-sm">{desc}</p>
+            <h3 className="text-xl font-bold text-white mb-3 text-left">{title}</h3>
+            <p className="text-gray-400 leading-relaxed text-sm text-left">{desc}</p>
         </div>
     )
 }
