@@ -19,7 +19,7 @@ export default function LandingPage() {
       <nav className="sticky top-0 z-50 backdrop-blur-lg bg-[#050505]/80 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-purple-900/20">
                     <History className="text-white w-5 h-5" />
                 </div>
                 <span className="text-xl font-bold tracking-tight">AI Timeline Maker</span>
@@ -61,7 +61,7 @@ export default function LandingPage() {
             </div>
         </motion.div>
 
-        {/* 💻 BROWSER MOCKUP */}
+        {/* 💻 BROWSER MOCKUP WITH FIXED IMAGE */}
         <motion.div id="preview" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className="relative mx-auto max-w-5xl group">
             <div className="rounded-2xl bg-[#0f172a] border border-white/10 shadow-2xl shadow-purple-900/40 overflow-hidden">
                 <div className="h-10 bg-[#1e293b] border-b border-white/5 flex items-center px-4 gap-2">
@@ -74,9 +74,12 @@ export default function LandingPage() {
                 
                 <div className="relative h-auto bg-[#050505] overflow-hidden">
                     <img 
-                        src="/timeline-preview.png" 
+                        src="./timeline-preview.png" 
                         alt="AI Generated Timeline Preview" 
                         className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                        onError={(e) => {
+                          e.currentTarget.src = "/timeline-preview.png"; // Fallback path
+                        }}
                     />
                     <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-purple-600/90 backdrop-blur-md text-white px-6 py-2 rounded-full text-xs font-bold flex items-center gap-2 shadow-2xl border border-white/20">
                         <Sparkles className="w-3 h-3" /> Actual AI Output
@@ -131,7 +134,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 💰 PRICING SECTION (Restored with your original detailed features) */}
+      {/* 💰 PRICING SECTION (Restored Original Content) */}
       <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-16">
               <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Invest in your Grades</h2>
@@ -153,7 +156,7 @@ export default function LandingPage() {
                   <button className="w-full bg-white text-black py-3 rounded-xl font-bold cursor-default">Current Plan</button>
               </div>
 
-              {/* Single Project (Restored Details) */}
+              {/* Single Project */}
               <div className="bg-[#1a1033] border border-purple-500 p-8 rounded-2xl flex flex-col relative transform shadow-[0_0_40px_rgba(168,85,247,0.15)]">
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Best for Students</div>
                   <h3 className="text-xl font-bold text-purple-300 mb-2">Single Project</h3>
@@ -166,7 +169,7 @@ export default function LandingPage() {
                       <PricingCheck text="Premium AI Models" active />
                       <PricingCheck text="No Subscription" active />
                   </div>
-                  <Link href="/pricing" className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform">
+                  <Link href="/pricing" className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform shadow-lg">
                       <Zap className="w-4 h-4 fill-current" /> Buy Now
                   </Link>
               </div>
@@ -183,20 +186,20 @@ export default function LandingPage() {
                       <PricingCheck text="Early Access Features" active />
                       <PricingCheck text="Cancel Anytime" active />
                   </div>
-                  <Link href="/pricing" className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors">Subscribe</Link>
+                  <Link href="/pricing" className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors shadow-lg">Subscribe</Link>
               </div>
           </div>
           <div className="mt-10 flex flex-col md:flex-row items-center justify-center gap-6 text-gray-500 text-xs">
               <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-500" /> Secure Payment by Lemon Squeezy</span>
-              <span className="flex items-center gap-2"><Star className="w-4 h-4 text-yellow-500" /> 100% Satisfaction</span>
+              <span className="flex items-center gap-2"><Star className="w-4 h-4 text-yellow-500" /> 100% Satisfaction Guarantee</span>
           </div>
       </section>
 
-      {/* 🦶 PROFESSIONAL FOOTER (Restored Original with Centered Copyright) */}
+      {/* 🦶 PROFESSIONAL FOOTER (Centered Copyright) */}
       <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10 text-left">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
               <div className="col-span-1">
-                  <div className="flex items-center gap-2 mb-4">
+                  <div className="flex items-center gap-2 mb-4 text-left">
                         <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center font-bold">
                             <History className="text-white w-3 h-3" />
                         </div>
@@ -212,34 +215,33 @@ export default function LandingPage() {
                   </div>
               </div>
               
-              <div>
-                  <h4 className="font-bold mb-4 text-white text-left">Product</h4>
-                  <ul className="space-y-2 text-sm text-gray-400 text-left">
+              <div className="text-left">
+                  <h4 className="font-bold mb-4 text-white">Product</h4>
+                  <ul className="space-y-2 text-sm text-gray-400">
                       <li><Link href="#features" className="hover:text-purple-400 transition-colors">Features</Link></li>
                       <li><Link href="/pricing" className="hover:text-purple-400 transition-colors">Pricing</Link></li>
                       <li><Link href="/create" className="hover:text-purple-400 transition-colors">Create Timeline</Link></li>
                   </ul>
               </div>
 
-              <div>
-                  <h4 className="font-bold mb-4 text-white text-left">Company</h4>
-                  <ul className="space-y-2 text-sm text-gray-400 text-left">
+              <div className="text-left">
+                  <h4 className="font-bold mb-4 text-white">Company</h4>
+                  <ul className="space-y-2 text-sm text-gray-400">
                       <li><Link href="/about" className="hover:text-purple-400 transition-colors">About Us</Link></li>
                       <li><Link href="/contact" className="hover:text-purple-400 transition-colors">Contact Us</Link></li>
                       <li><Link href="/privacy" className="hover:text-purple-400 transition-colors">Privacy Policy</Link></li>
                   </ul>
               </div>
 
-              <div>
-                  <h4 className="font-bold mb-4 text-white text-left">Stay Updated</h4>
-                  <p className="text-xs text-gray-500 mb-4 text-left">Get the latest features and tips.</p>
+              <div className="text-left">
+                  <h4 className="font-bold mb-4 text-white">Stay Updated</h4>
+                  <p className="text-xs text-gray-500 mb-4">Get the latest features and tips.</p>
                   <div className="flex gap-2">
                       <input type="email" placeholder="Email address" className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm w-full focus:outline-none focus:border-purple-500 text-white" />
                       <button className="bg-purple-600 hover:bg-purple-500 p-2 rounded-lg transition-colors"><ArrowRight className="w-4 h-4 text-white"/></button>
                   </div>
               </div>
           </div>
-          {/* Copyright Centered as requested */}
           <div className="text-center text-gray-600 text-xs pt-8 border-t border-white/5">
               © 2026 aitimelinemaker.online. Made with ❤️ in India.
           </div>
