@@ -15,7 +15,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-purple-500/30 overflow-x-hidden">
       
-      {/* 🌟 NAVBAR */}
+      {/* 🌟 NAVBAR (Multilingual Functionality Restored) */}
       <nav className="sticky top-0 z-50 backdrop-blur-lg bg-[#050505]/80 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -32,6 +32,16 @@ export default function LandingPage() {
             </div>
 
             <div className="flex gap-4 items-center">
+                {/* 🌍 SPANISH LANGUAGE BUTTON RESTORED */}
+                <Link 
+                  href="/es" 
+                  className="flex items-center gap-1 text-sm font-bold text-gray-400 hover:text-white transition-colors mr-2 border border-white/10 px-2 py-1 rounded-md hover:bg-white/5"
+                  title="Ir a Español"
+                >
+                    <Globe className="w-3 h-3" />
+                    <span>ES</span>
+                </Link>
+
                 <Link href="/login" className="hidden md:block text-sm font-medium text-gray-300 hover:text-white transition-colors py-2">Login</Link>
                 <Link href="/create" className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-transform hover:scale-105 shadow-xl">Get Started Free</Link>
             </div>
@@ -90,7 +100,7 @@ export default function LandingPage() {
       <section id="features" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-16">
               <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Everything you need.</h2>
-              <p className="text-gray-400 text-center">Designed for speed, accuracy, and professional results.</p>
+              <p className="text-gray-400">Designed for speed, accuracy, and professional results.</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-6 text-left">
@@ -103,7 +113,7 @@ export default function LandingPage() {
           </div>
       </section>
 
-      {/* 🗣️ TESTIMONIALS (RESTORED SECTION) */}
+      {/* 🗣️ TESTIMONIALS */}
       <section id="testimonials" className="py-24 bg-[#080808] border-y border-white/5 relative overflow-hidden">
         <div className="text-center mb-16 px-6 relative z-10">
              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic">Real feedback.</h2>
@@ -131,11 +141,11 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 💰 PRICING - FIXED STYLE WITH DETAILED CONTENT */}
+      {/* 💰 PRICING SECTION (Detailed & Styled) */}
       <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter text-left md:text-center">Invest in your Grades</h2>
-              <p className="text-gray-400 text-left md:text-center">Choose the plan that fits your project needs. No hidden fees.</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Invest in your Grades</h2>
+              <p className="text-gray-400">Choose the plan that fits your project needs. No hidden fees.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
@@ -166,7 +176,7 @@ export default function LandingPage() {
                       <PricingCheck text="Premium AI Models" active />
                       <PricingCheck text="No Subscription" active />
                   </div>
-                  <Link href="/pricing" className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform shadow-lg">
+                  <Link href="/pricing" className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform">
                       <Zap className="w-4 h-4 fill-current" /> Buy Now
                   </Link>
               </div>
@@ -188,15 +198,15 @@ export default function LandingPage() {
           </div>
       </section>
 
-      {/* 🦶 FOOTER (CENTERED COPYRIGHT) */}
+      {/* 🦶 FOOTER (Centered Copyright Restored) */}
       <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10 text-left">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
               <div className="col-span-1">
-                  <div className="flex items-center gap-2 mb-4 text-left">
-                        <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center font-bold text-white shadow-lg">
-                            <History className="w-3 h-3" />
+                  <div className="flex items-center gap-2 mb-4">
+                        <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center font-bold text-white">
+                            <History className="text-white w-3 h-3" />
                         </div>
-                        <span className="text-lg font-bold tracking-tight text-left">AI Timeline Maker</span>
+                        <span className="text-lg font-bold tracking-tight">AI Timeline Maker</span>
                   </div>
                   <p className="text-gray-500 text-sm leading-relaxed max-w-xs text-left">
                       Making history visual and interactive for everyone. Built with AI power for students and professionals.
@@ -209,8 +219,8 @@ export default function LandingPage() {
               </div>
               
               <div className="text-left">
-                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest text-left">Product</h4>
-                  <ul className="space-y-2 text-sm text-gray-400 text-left">
+                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest">Product</h4>
+                  <ul className="space-y-2 text-sm text-gray-400">
                       <li><Link href="#features" className="hover:text-purple-400 transition-colors">Features</Link></li>
                       <li><Link href="/pricing" className="hover:text-purple-400 transition-colors">Pricing</Link></li>
                       <li><Link href="/create" className="hover:text-purple-400 transition-colors">Create Timeline</Link></li>
@@ -218,8 +228,8 @@ export default function LandingPage() {
               </div>
 
               <div className="text-left">
-                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest text-left">Company</h4>
-                  <ul className="space-y-2 text-sm text-gray-400 text-left">
+                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest">Company</h4>
+                  <ul className="space-y-2 text-sm text-gray-400">
                       <li><Link href="/about" className="hover:text-purple-400 transition-colors">About Us</Link></li>
                       <li><Link href="/contact" className="hover:text-purple-400 transition-colors">Contact Us</Link></li>
                       <li><Link href="/privacy" className="hover:text-purple-400 transition-colors">Privacy Policy</Link></li>
@@ -227,7 +237,7 @@ export default function LandingPage() {
               </div>
 
               <div className="text-left">
-                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest text-left">Newsletter</h4>
+                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest">Newsletter</h4>
                   <div className="flex gap-2">
                       <input type="email" placeholder="Email address" className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm w-full focus:outline-none focus:border-purple-500 text-white" />
                       <button className="bg-purple-600 hover:bg-purple-500 p-2 rounded-lg transition-colors"><ArrowRight className="w-4 h-4 text-white"/></button>
