@@ -19,7 +19,7 @@ export default function LandingPage() {
       <nav className="sticky top-0 z-50 backdrop-blur-lg bg-[#050505]/80 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-purple-900/20">
+                <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
                     <History className="text-white w-5 h-5" />
                 </div>
                 <span className="text-xl font-bold tracking-tight">AI Timeline Maker</span>
@@ -50,7 +50,7 @@ export default function LandingPage() {
                 Create <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent">Historical & Project</span> <br />
                 Timelines in Seconds
             </h1>
-            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed text-center">
                 Whether it's for a history assignment or a project roadmap, just type your topic and our AI builds a visual timeline instantly.
             </p>
 
@@ -61,7 +61,7 @@ export default function LandingPage() {
             </div>
         </motion.div>
 
-        {/* 💻 BROWSER MOCKUP WITH FIXED IMAGE */}
+        {/* 💻 BROWSER MOCKUP - Fixed direct path */}
         <motion.div id="preview" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className="relative mx-auto max-w-5xl group">
             <div className="rounded-2xl bg-[#0f172a] border border-white/10 shadow-2xl shadow-purple-900/40 overflow-hidden">
                 <div className="h-10 bg-[#1e293b] border-b border-white/5 flex items-center px-4 gap-2">
@@ -73,27 +73,22 @@ export default function LandingPage() {
                 </div>
                 
                 <div className="relative h-auto bg-[#050505] overflow-hidden">
+                    {/* Fixed path to direct public file */}
                     <img 
-                        src="./timeline-preview.png" 
+                        src="timeline-preview.png" 
                         alt="AI Generated Timeline Preview" 
-                        className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-                        onError={(e) => {
-                          e.currentTarget.src = "/timeline-preview.png"; // Fallback path
-                        }}
+                        className="w-full h-auto object-cover opacity-95 group-hover:opacity-100 transition-opacity"
                     />
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-purple-600/90 backdrop-blur-md text-white px-6 py-2 rounded-full text-xs font-bold flex items-center gap-2 shadow-2xl border border-white/20">
-                        <Sparkles className="w-3 h-3" /> Actual AI Output
-                    </div>
                 </div>
             </div>
         </motion.div>
       </main>
 
       {/* ⚡ FEATURES GRID */}
-      <section id="features" className="max-w-7xl mx-auto px-6 py-24 text-left md:text-center">
+      <section id="features" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-16">
               <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Everything you need.</h2>
-              <p className="text-gray-400">Designed for speed, accuracy, and professional results.</p>
+              <p className="text-gray-400 text-center">Designed for speed, accuracy, and professional results.</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-6 text-left">
@@ -110,7 +105,7 @@ export default function LandingPage() {
       <section id="testimonials" className="py-24 bg-[#080808] border-y border-white/5 relative overflow-hidden">
         <div className="text-center mb-16 px-6 relative z-10">
              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic">Real feedback.</h2>
-             <p className="text-gray-400">Join our growing community of students and creators.</p>
+             <p className="text-gray-400 text-center">Join our growing community of students and creators.</p>
         </div>
         
         <div className="flex overflow-hidden">
@@ -134,76 +129,58 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 💰 PRICING SECTION (Restored Original Content) */}
+      {/* 💰 PRICING - Restored to your clean original layout */}
       <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-center">
-          <div className="mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Invest in your Grades</h2>
-              <p className="text-gray-400">Choose the plan that fits your project needs. No hidden fees.</p>
+          <div className="mb-16 text-center">
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Student-friendly pricing.</h2>
+              <p className="text-gray-400 text-center">Pay only for what you need. No hidden subscriptions.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
-              {/* Free Starter */}
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto text-left">
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
-                  <h3 className="text-xl font-bold text-gray-300 mb-2">Free Starter</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$0</div>
-                  <p className="text-gray-500 text-sm mb-8 italic">Perfect for testing & drafts.</p>
+                  <h3 className="text-xl font-bold text-gray-300 mb-2">Free</h3>
+                  <div className="text-4xl font-bold text-white mb-6">$0</div>
                   <div className="space-y-4 mb-8 flex-1">
                       <PricingCheck text="Unlimited Drafts" active />
-                      <PricingCheck text="Basic AI Generation" active />
-                      <PricingCheck text="Watermarked Export" active />
-                      <PricingCheck text="Standard Support" active />
+                      <PricingCheck text="Watermarked PDF" active />
                   </div>
-                  <button className="w-full bg-white text-black py-3 rounded-xl font-bold cursor-default">Current Plan</button>
+                  <Link href="/create" className="w-full block text-center bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl font-bold">Start Free</Link>
               </div>
 
-              {/* Single Project */}
-              <div className="bg-[#1a1033] border border-purple-500 p-8 rounded-2xl flex flex-col relative transform shadow-[0_0_40px_rgba(168,85,247,0.15)]">
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Best for Students</div>
+              <div className="bg-[#1a1033] border border-purple-500 p-8 rounded-2xl flex flex-col relative transform hover:-translate-y-2 transition-transform shadow-[0_0_40px_rgba(168,85,247,0.15)]">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-purple-600 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Most Popular</div>
                   <h3 className="text-xl font-bold text-purple-300 mb-2">Single Project</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$2 <span className="text-sm text-gray-500 font-normal">/ one-time</span></div>
-                  <p className="text-gray-500 text-sm mb-8 italic">For that one important assignment.</p>
+                  <div className="text-4xl font-bold text-white mb-6">$2 <span className="text-lg text-gray-500 font-normal">/ once</span></div>
                   <div className="space-y-4 mb-8 flex-1">
                       <PricingCheck text="Remove Watermark" active />
-                      <PricingCheck text="HD PDF & PNG Export" active />
-                      <PricingCheck text="Lifetime Access" active />
-                      <PricingCheck text="Premium AI Models" active />
-                      <PricingCheck text="No Subscription" active />
+                      <PricingCheck text="High-Res Export" active />
+                      <PricingCheck text="Premium Themes" active />
                   </div>
-                  <Link href="/pricing" className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform shadow-lg">
-                      <Zap className="w-4 h-4 fill-current" /> Buy Now
-                  </Link>
+                  <Link href="/pricing" className="w-full block text-center bg-purple-600 text-white py-3 rounded-xl font-bold hover:scale-105 transition-transform">Get Started</Link>
               </div>
 
-              {/* Pro Monthly */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
-                  <h3 className="text-xl font-bold text-gray-300 mb-2">Pro Monthly</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$5 <span className="text-sm text-gray-500 font-normal">/ month</span></div>
-                  <p className="text-gray-500 text-sm mb-8 italic">For power users & teachers.</p>
+                  <h3 className="text-xl font-bold text-gray-300 mb-2">Power User</h3>
+                  <div className="text-4xl font-bold text-white mb-6">$5 <span className="text-lg text-gray-500 font-normal">/ month</span></div>
                   <div className="space-y-4 mb-8 flex-1">
                       <PricingCheck text="Everything in Single" active />
                       <PricingCheck text="Unlimited Exports" active />
-                      <PricingCheck text="Priority 24/7 Support" active />
-                      <PricingCheck text="Early Access Features" active />
-                      <PricingCheck text="Cancel Anytime" active />
+                      <PricingCheck text="Priority Support" active />
                   </div>
-                  <Link href="/pricing" className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors shadow-lg">Subscribe</Link>
+                  <Link href="/pricing" className="w-full block text-center bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl font-bold">Go Pro</Link>
               </div>
-          </div>
-          <div className="mt-10 flex flex-col md:flex-row items-center justify-center gap-6 text-gray-500 text-xs">
-              <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-500" /> Secure Payment by Lemon Squeezy</span>
-              <span className="flex items-center gap-2"><Star className="w-4 h-4 text-yellow-500" /> 100% Satisfaction Guarantee</span>
           </div>
       </section>
 
-      {/* 🦶 PROFESSIONAL FOOTER (Centered Copyright) */}
-      <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10 text-left">
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
+      {/* 🦶 FOOTER - Original Professional with Centered Copyright */}
+      <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10">
+          <div className="grid md:grid-cols-4 gap-12 mb-12 text-left">
               <div className="col-span-1">
-                  <div className="flex items-center gap-2 mb-4 text-left">
-                        <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center font-bold">
-                            <History className="text-white w-3 h-3" />
+                  <div className="flex items-center gap-2 mb-4">
+                        <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center font-bold text-white shadow-lg">
+                            <History className="w-3 h-3" />
                         </div>
-                        <span className="text-lg font-bold tracking-tight">AI Timeline Maker</span>
+                        <span className="text-lg font-bold tracking-tight text-left">AI Timeline Maker</span>
                   </div>
                   <p className="text-gray-500 text-sm leading-relaxed max-w-xs text-left">
                       Making history visual and interactive for everyone. Built with AI power for students and professionals.
@@ -216,8 +193,8 @@ export default function LandingPage() {
               </div>
               
               <div className="text-left">
-                  <h4 className="font-bold mb-4 text-white">Product</h4>
-                  <ul className="space-y-2 text-sm text-gray-400">
+                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest text-left">Product</h4>
+                  <ul className="space-y-2 text-sm text-gray-400 text-left">
                       <li><Link href="#features" className="hover:text-purple-400 transition-colors">Features</Link></li>
                       <li><Link href="/pricing" className="hover:text-purple-400 transition-colors">Pricing</Link></li>
                       <li><Link href="/create" className="hover:text-purple-400 transition-colors">Create Timeline</Link></li>
@@ -225,8 +202,8 @@ export default function LandingPage() {
               </div>
 
               <div className="text-left">
-                  <h4 className="font-bold mb-4 text-white">Company</h4>
-                  <ul className="space-y-2 text-sm text-gray-400">
+                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest text-left">Company</h4>
+                  <ul className="space-y-2 text-sm text-gray-400 text-left">
                       <li><Link href="/about" className="hover:text-purple-400 transition-colors">About Us</Link></li>
                       <li><Link href="/contact" className="hover:text-purple-400 transition-colors">Contact Us</Link></li>
                       <li><Link href="/privacy" className="hover:text-purple-400 transition-colors">Privacy Policy</Link></li>
@@ -234,15 +211,14 @@ export default function LandingPage() {
               </div>
 
               <div className="text-left">
-                  <h4 className="font-bold mb-4 text-white">Stay Updated</h4>
-                  <p className="text-xs text-gray-500 mb-4">Get the latest features and tips.</p>
+                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest text-left">Newsletter</h4>
                   <div className="flex gap-2">
                       <input type="email" placeholder="Email address" className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm w-full focus:outline-none focus:border-purple-500 text-white" />
                       <button className="bg-purple-600 hover:bg-purple-500 p-2 rounded-lg transition-colors"><ArrowRight className="w-4 h-4 text-white"/></button>
                   </div>
               </div>
           </div>
-          <div className="text-center text-gray-600 text-xs pt-8 border-t border-white/5">
+          <div className="text-center text-gray-600 text-[10px] pt-8 border-t border-white/5 uppercase tracking-widest">
               © 2026 aitimelinemaker.online. Made with ❤️ in India.
           </div>
       </footer>
@@ -253,8 +229,8 @@ export default function LandingPage() {
 function PricingCheck({ text, active }: any) {
     return (
         <div className="flex items-center gap-3">
-            <div className={`w-5 h-5 rounded-full flex items-center justify-center ${active ? 'bg-green-500/20 text-green-400' : 'bg-white/5 text-gray-400'}`}>
-                <Check className="w-3 h-3" />
+            <div className={`w-4 h-4 rounded-full flex items-center justify-center ${active ? 'bg-green-500/20 text-green-400' : 'bg-white/5 text-gray-400'}`}>
+                <Check className="w-2.5 h-2.5" />
             </div>
             <span className={`text-sm ${active ? 'text-white' : 'text-gray-400'}`}>{text}</span>
         </div>
