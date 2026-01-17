@@ -75,7 +75,7 @@ export default function LandingPage() {
                 <div className="relative h-auto bg-[#050505] overflow-hidden">
                     {/* Fixed path to direct public file */}
                     <img 
-                        src="timeline-preview.png" 
+                        src="/timeline-preview.png" 
                         alt="AI Generated Timeline Preview" 
                         className="w-full h-auto object-cover opacity-95 group-hover:opacity-100 transition-opacity"
                     />
@@ -87,8 +87,8 @@ export default function LandingPage() {
       {/* ⚡ FEATURES GRID */}
       <section id="features" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Everything you need.</h2>
-              <p className="text-gray-400 text-center">Designed for speed, accuracy, and professional results.</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter text-left md:text-center">Everything you need.</h2>
+              <p className="text-gray-400 text-left md:text-center">Designed for speed, accuracy, and professional results.</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-6 text-left">
@@ -101,39 +101,11 @@ export default function LandingPage() {
           </div>
       </section>
 
-      {/* 🗣️ TESTIMONIALS */}
-      <section id="testimonials" className="py-24 bg-[#080808] border-y border-white/5 relative overflow-hidden">
-        <div className="text-center mb-16 px-6 relative z-10">
-             <h2 className="text-3xl md:text-5xl font-bold mb-4 italic">Real feedback.</h2>
-             <p className="text-gray-400 text-center">Join our growing community of students and creators.</p>
-        </div>
-        
-        <div className="flex overflow-hidden">
-            <motion.div className="flex gap-6 px-6" animate={{ x: "-50%" }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }} style={{ width: "fit-content" }}>
-                {[...testimonials, ...testimonials].map((t, i) => (
-                    <div key={i} className="w-[350px] md:w-[400px] flex-shrink-0 bg-[#0f172a] border border-white/5 p-8 rounded-2xl relative text-left">
-                        <Quote className="absolute top-6 right-6 text-white/5 w-10 h-10" />
-                        <p className="text-gray-300 mb-6 text-lg leading-relaxed font-medium">"{t.text}"</p>
-                        <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center font-bold text-white shadow-lg">
-                                {t.name[0]}
-                            </div>
-                            <div>
-                                <div className="font-bold text-white text-sm">{t.name}</div>
-                                <div className="text-xs text-purple-400 font-medium tracking-wide">{t.role}</div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </motion.div>
-        </div>
-      </section>
-
-      {/* 💰 PRICING - Restored to your clean original layout */}
+      {/* 💰 PRICING - Restored Clean Home Version */}
       <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-center">
-          <div className="mb-16 text-center">
+          <div className="mb-16">
               <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Student-friendly pricing.</h2>
-              <p className="text-gray-400 text-center">Pay only for what you need. No hidden subscriptions.</p>
+              <p className="text-gray-400">Pay only for what you need. No hidden subscriptions.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto text-left">
@@ -180,9 +152,9 @@ export default function LandingPage() {
                         <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center font-bold text-white shadow-lg">
                             <History className="w-3 h-3" />
                         </div>
-                        <span className="text-lg font-bold tracking-tight text-left">AI Timeline Maker</span>
+                        <span className="text-lg font-bold tracking-tight">AI Timeline Maker</span>
                   </div>
-                  <p className="text-gray-500 text-sm leading-relaxed max-w-xs text-left">
+                  <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
                       Making history visual and interactive for everyone. Built with AI power for students and professionals.
                   </p>
                   <div className="flex gap-4 mt-6 text-gray-400">
@@ -192,7 +164,7 @@ export default function LandingPage() {
                   </div>
               </div>
               
-              <div className="text-left">
+              <div>
                   <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest text-left">Product</h4>
                   <ul className="space-y-2 text-sm text-gray-400 text-left">
                       <li><Link href="#features" className="hover:text-purple-400 transition-colors">Features</Link></li>
@@ -201,7 +173,7 @@ export default function LandingPage() {
                   </ul>
               </div>
 
-              <div className="text-left">
+              <div>
                   <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest text-left">Company</h4>
                   <ul className="space-y-2 text-sm text-gray-400 text-left">
                       <li><Link href="/about" className="hover:text-purple-400 transition-colors">About Us</Link></li>
@@ -210,7 +182,7 @@ export default function LandingPage() {
                   </ul>
               </div>
 
-              <div className="text-left">
+              <div>
                   <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest text-left">Newsletter</h4>
                   <div className="flex gap-2">
                       <input type="email" placeholder="Email address" className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm w-full focus:outline-none focus:border-purple-500 text-white" />
