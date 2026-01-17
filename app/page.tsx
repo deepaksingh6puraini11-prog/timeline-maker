@@ -50,7 +50,7 @@ export default function LandingPage() {
                 Create <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent">Historical & Project</span> <br />
                 Timelines in Seconds
             </h1>
-            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed text-center">
+            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
                 Whether it's for a history assignment or a project roadmap, just type your topic and our AI builds a visual timeline instantly.
             </p>
 
@@ -61,7 +61,7 @@ export default function LandingPage() {
             </div>
         </motion.div>
 
-        {/* 💻 BROWSER MOCKUP - FIXED IMAGE TAG */}
+        {/* 💻 BROWSER MOCKUP */}
         <motion.div id="preview" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className="relative mx-auto max-w-5xl group">
             <div className="rounded-2xl bg-[#0f172a] border border-white/10 shadow-2xl shadow-purple-900/40 overflow-hidden">
                 <div className="h-10 bg-[#1e293b] border-b border-white/5 flex items-center px-4 gap-2">
@@ -131,50 +131,68 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 💰 PRICING */}
-      <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-left md:text-center">
-          <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Student-friendly pricing.</h2>
-              <p className="text-gray-400">Pay only for what you need. No hidden subscriptions.</p>
+      {/* 💰 PRICING SECTION (Restored with your original detailed features) */}
+      <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-center">
+          <div className="mb-16">
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Invest in your Grades</h2>
+              <p className="text-gray-400">Choose the plan that fits your project needs. No hidden fees.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
+              {/* Free Starter */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
-                  <h3 className="text-xl font-bold text-gray-300 mb-2">Free</h3>
-                  <div className="text-4xl font-bold text-white mb-6">$0</div>
+                  <h3 className="text-xl font-bold text-gray-300 mb-2">Free Starter</h3>
+                  <div className="text-4xl font-bold text-white mb-2">$0</div>
+                  <p className="text-gray-500 text-sm mb-8 italic">Perfect for testing & drafts.</p>
                   <div className="space-y-4 mb-8 flex-1">
                       <PricingCheck text="Unlimited Drafts" active />
-                      <PricingCheck text="Watermarked PDF" active />
+                      <PricingCheck text="Basic AI Generation" active />
+                      <PricingCheck text="Watermarked Export" active />
+                      <PricingCheck text="Standard Support" active />
                   </div>
-                  <Link href="/create" className="w-full block text-center bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl font-bold">Start Free</Link>
+                  <button className="w-full bg-white text-black py-3 rounded-xl font-bold cursor-default">Current Plan</button>
               </div>
 
-              <div className="bg-[#1a1033] border border-purple-500 p-8 rounded-2xl flex flex-col relative transform hover:-translate-y-2 transition-transform shadow-[0_0_40px_rgba(168,85,247,0.15)]">
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">Most Popular</div>
+              {/* Single Project (Restored Details) */}
+              <div className="bg-[#1a1033] border border-purple-500 p-8 rounded-2xl flex flex-col relative transform shadow-[0_0_40px_rgba(168,85,247,0.15)]">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Best for Students</div>
                   <h3 className="text-xl font-bold text-purple-300 mb-2">Single Project</h3>
-                  <div className="text-4xl font-bold text-white mb-6">$2 <span className="text-lg text-gray-500 font-normal">/ once</span></div>
+                  <div className="text-4xl font-bold text-white mb-2">$2 <span className="text-sm text-gray-500 font-normal">/ one-time</span></div>
+                  <p className="text-gray-500 text-sm mb-8 italic">For that one important assignment.</p>
                   <div className="space-y-4 mb-8 flex-1">
                       <PricingCheck text="Remove Watermark" active />
-                      <PricingCheck text="High-Res Export" active />
-                      <PricingCheck text="Premium Themes" active />
+                      <PricingCheck text="HD PDF & PNG Export" active />
+                      <PricingCheck text="Lifetime Access" active />
+                      <PricingCheck text="Premium AI Models" active />
+                      <PricingCheck text="No Subscription" active />
                   </div>
-                  <Link href="/pricing" className="w-full block text-center bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-xl font-bold hover:scale-105 transition-transform">Get Started</Link>
+                  <Link href="/pricing" className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform">
+                      <Zap className="w-4 h-4 fill-current" /> Buy Now
+                  </Link>
               </div>
 
+              {/* Pro Monthly */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
-                  <h3 className="text-xl font-bold text-gray-300 mb-2">Power User</h3>
-                  <div className="text-4xl font-bold text-white mb-6">$5 <span className="text-lg text-gray-500 font-normal">/ month</span></div>
+                  <h3 className="text-xl font-bold text-gray-300 mb-2">Pro Monthly</h3>
+                  <div className="text-4xl font-bold text-white mb-2">$5 <span className="text-sm text-gray-500 font-normal">/ month</span></div>
+                  <p className="text-gray-500 text-sm mb-8 italic">For power users & teachers.</p>
                   <div className="space-y-4 mb-8 flex-1">
                       <PricingCheck text="Everything in Single" active />
                       <PricingCheck text="Unlimited Exports" active />
-                      <PricingCheck text="Priority Support" active />
+                      <PricingCheck text="Priority 24/7 Support" active />
+                      <PricingCheck text="Early Access Features" active />
+                      <PricingCheck text="Cancel Anytime" active />
                   </div>
-                  <Link href="/pricing" className="w-full block text-center bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl font-bold">Go Pro</Link>
+                  <Link href="/pricing" className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors">Subscribe</Link>
               </div>
+          </div>
+          <div className="mt-10 flex flex-col md:flex-row items-center justify-center gap-6 text-gray-500 text-xs">
+              <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-500" /> Secure Payment by Lemon Squeezy</span>
+              <span className="flex items-center gap-2"><Star className="w-4 h-4 text-yellow-500" /> 100% Satisfaction</span>
           </div>
       </section>
 
-      {/* 🦶 ORIGINAL PROFESSIONAL FOOTER (RESTORED) */}
+      {/* 🦶 PROFESSIONAL FOOTER (Restored Original with Centered Copyright) */}
       <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10 text-left">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
               <div className="col-span-1">
@@ -184,19 +202,19 @@ export default function LandingPage() {
                         </div>
                         <span className="text-lg font-bold tracking-tight">AI Timeline Maker</span>
                   </div>
-                  <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+                  <p className="text-gray-500 text-sm leading-relaxed max-w-xs text-left">
                       Making history visual and interactive for everyone. Built with AI power for students and professionals.
                   </p>
                   <div className="flex gap-4 mt-6 text-gray-400">
-                    <Twitter className="w-4 h-4 hover:text-white cursor-pointer" />
-                    <Instagram className="w-4 h-4 hover:text-white cursor-pointer" />
-                    <Github className="w-4 h-4 hover:text-white cursor-pointer" />
+                    <Twitter className="w-4 h-4 hover:text-white cursor-pointer transition-colors" />
+                    <Instagram className="w-4 h-4 hover:text-white cursor-pointer transition-colors" />
+                    <Github className="w-4 h-4 hover:text-white cursor-pointer transition-colors" />
                   </div>
               </div>
               
               <div>
-                  <h4 className="font-bold mb-4 text-white">Product</h4>
-                  <ul className="space-y-2 text-sm text-gray-400">
+                  <h4 className="font-bold mb-4 text-white text-left">Product</h4>
+                  <ul className="space-y-2 text-sm text-gray-400 text-left">
                       <li><Link href="#features" className="hover:text-purple-400 transition-colors">Features</Link></li>
                       <li><Link href="/pricing" className="hover:text-purple-400 transition-colors">Pricing</Link></li>
                       <li><Link href="/create" className="hover:text-purple-400 transition-colors">Create Timeline</Link></li>
@@ -204,8 +222,8 @@ export default function LandingPage() {
               </div>
 
               <div>
-                  <h4 className="font-bold mb-4 text-white">Company</h4>
-                  <ul className="space-y-2 text-sm text-gray-400">
+                  <h4 className="font-bold mb-4 text-white text-left">Company</h4>
+                  <ul className="space-y-2 text-sm text-gray-400 text-left">
                       <li><Link href="/about" className="hover:text-purple-400 transition-colors">About Us</Link></li>
                       <li><Link href="/contact" className="hover:text-purple-400 transition-colors">Contact Us</Link></li>
                       <li><Link href="/privacy" className="hover:text-purple-400 transition-colors">Privacy Policy</Link></li>
@@ -213,15 +231,16 @@ export default function LandingPage() {
               </div>
 
               <div>
-                  <h4 className="font-bold mb-4 text-white">Stay Updated</h4>
-                  <p className="text-xs text-gray-500 mb-4">Get the latest features and tips.</p>
+                  <h4 className="font-bold mb-4 text-white text-left">Stay Updated</h4>
+                  <p className="text-xs text-gray-500 mb-4 text-left">Get the latest features and tips.</p>
                   <div className="flex gap-2">
                       <input type="email" placeholder="Email address" className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm w-full focus:outline-none focus:border-purple-500 text-white" />
                       <button className="bg-purple-600 hover:bg-purple-500 p-2 rounded-lg transition-colors"><ArrowRight className="w-4 h-4 text-white"/></button>
                   </div>
               </div>
           </div>
-          <div className="text-center md:text-left text-gray-600 text-xs pt-8 border-t border-white/5">
+          {/* Copyright Centered as requested */}
+          <div className="text-center text-gray-600 text-xs pt-8 border-t border-white/5">
               © 2026 aitimelinemaker.online. Made with ❤️ in India.
           </div>
       </footer>
