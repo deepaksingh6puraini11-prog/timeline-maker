@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Sparkles, History, FileText, Zap, Star, CheckCircle, Check, Globe, Quote, MousePointer2 } from "lucide-react";
+import { ArrowRight, Sparkles, History, FileText, Zap, Star, CheckCircle, Check, Globe, Quote, MousePointer2, Instagram, Twitter, Github } from "lucide-react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 const testimonials = [
   { name: "Sarah Jenkins", role: "History Teacher", text: "Transformed how my students understand chronology. The AI is shockingly accurate." },
@@ -73,12 +72,14 @@ export default function LandingPage() {
                     </div>
                 </div>
                 
-                <div className="relative h-auto bg-[#050505] overflow-hidden p-2">
+                <div className="relative h-auto bg-[#050505] overflow-hidden">
+                    {/* Fixed Image Tag */}
                     <img 
                         src="/timeline-preview.png" 
                         alt="AI Generated Timeline Preview" 
-                        className="w-full h-auto rounded-lg object-cover border border-white/5"
+                        className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-40"></div>
                     <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-purple-600/90 backdrop-blur-md text-white px-6 py-2 rounded-full text-xs font-bold flex items-center gap-2 shadow-2xl border border-white/20">
                         <Sparkles className="w-3 h-3" /> Real AI Generated Output
                     </div>
@@ -90,11 +91,11 @@ export default function LandingPage() {
       {/* ⚡ FEATURES GRID */}
       <section id="features" className="max-w-7xl mx-auto px-6 py-24">
           <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Everything you need.</h2>
-              <p className="text-gray-400">Designed for speed, accuracy, and professional results.</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter text-left md:text-center">Everything you need.</h2>
+              <p className="text-gray-400 text-left md:text-center">Designed for speed, accuracy, and professional results.</p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6 text-left">
               <FeatureCard icon={<Sparkles className="text-purple-400" />} title="AI Brain" desc="Simply describe your topic. Our AI researches and plots the events accurately." />
               <FeatureCard icon={<FileText className="text-red-400" />} title="HD Export" desc="Get high-quality PDF or PNG files. Perfect for assignments and presentations." />
               <FeatureCard icon={<Zap className="text-yellow-400" />} title="Smart Editor" desc="Want to change a date? Just edit it. The layout adjusts itself automatically." />
@@ -107,21 +108,21 @@ export default function LandingPage() {
       {/* 🗣️ TESTIMONIALS */}
       <section id="testimonials" className="py-24 bg-[#080808] border-y border-white/5 relative overflow-hidden">
         <div className="text-center mb-16 px-6 relative z-10">
-             <h2 className="text-3xl md:text-5xl font-bold mb-4 italic">Real feedback.</h2>
-             <p className="text-gray-400">Join our growing community of students and creators.</p>
+             <h2 className="text-3xl md:text-5xl font-bold mb-4 italic text-left md:text-center">Real feedback.</h2>
+             <p className="text-gray-400 text-left md:text-center">Join our growing community of students and creators.</p>
         </div>
         
         <div className="flex overflow-hidden">
             <motion.div className="flex gap-6 px-6" animate={{ x: "-50%" }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }} style={{ width: "fit-content" }}>
                 {[...testimonials, ...testimonials].map((t, i) => (
-                    <div key={i} className="w-[350px] md:w-[400px] flex-shrink-0 bg-[#0f172a] border border-white/5 p-8 rounded-2xl relative">
+                    <div key={i} className="w-[350px] md:w-[400px] flex-shrink-0 bg-[#0f172a] border border-white/5 p-8 rounded-2xl relative text-left">
                         <Quote className="absolute top-6 right-6 text-white/5 w-10 h-10" />
-                        <p className="text-gray-300 mb-6 text-lg leading-relaxed">"{t.text}"</p>
+                        <p className="text-gray-300 mb-6 text-lg leading-relaxed font-medium text-left">"{t.text}"</p>
                         <div className="flex items-center gap-4">
                             <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center font-bold text-white shadow-lg">
                                 {t.name[0]}
                             </div>
-                            <div>
+                            <div className="text-left">
                                 <div className="font-bold text-white text-sm">{t.name}</div>
                                 <div className="text-xs text-purple-400 font-medium">{t.role}</div>
                             </div>
@@ -135,11 +136,11 @@ export default function LandingPage() {
       {/* 💰 PRICING */}
       <section id="pricing" className="max-w-7xl mx-auto px-6 py-24">
           <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Student-friendly pricing.</h2>
-              <p className="text-gray-400">Pay only for what you need. No hidden subscriptions.</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter text-left md:text-center">Student-friendly pricing.</h2>
+              <p className="text-gray-400 text-left md:text-center">Pay only for what you need. No hidden subscriptions.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
                   <h3 className="text-xl font-bold text-gray-300 mb-2">Free</h3>
                   <div className="text-4xl font-bold text-white mb-6">$0</div>
@@ -175,40 +176,55 @@ export default function LandingPage() {
           </div>
       </section>
 
-      {/* 🦶 FOOTER (Back in Action) */}
-      <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10">
+      {/* 🦶 PROFESSIONAL FOOTER (FULLY RESTORED) */}
+      <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10 text-left">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
-              <div className="col-span-1">
+              <div className="col-span-1 md:col-span-1">
                   <div className="flex items-center gap-2 mb-4">
-                        <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center">
+                        <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center font-bold">
                             <History className="text-white w-3 h-3" />
                         </div>
-                        <span className="text-lg font-bold">AI Timeline Maker</span>
+                        <span className="text-lg font-bold tracking-tight">AI Timeline Maker</span>
                   </div>
-                  <p className="text-gray-500 text-sm leading-relaxed text-left">
-                      Making history visual and interactive for everyone. Built with AI power.
+                  <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+                      Making history visual and interactive for everyone. Built with high-performance AI power for students and professionals.
                   </p>
+                  <div className="flex gap-4 mt-6">
+                    <Twitter className="w-4 h-4 text-gray-400 hover:text-white cursor-pointer" />
+                    <Instagram className="w-4 h-4 text-gray-400 hover:text-white cursor-pointer" />
+                    <Github className="w-4 h-4 text-gray-400 hover:text-white cursor-pointer" />
+                  </div>
               </div>
               
               <div>
-                  <h4 className="font-bold mb-4 text-white text-left">Product</h4>
-                  <ul className="space-y-2 text-sm text-gray-400 text-left">
-                      <li><Link href="#features" className="hover:text-purple-400">Features</Link></li>
-                      <li><Link href="/pricing" className="hover:text-purple-400">Pricing</Link></li>
-                      <li><Link href="/create" className="hover:text-purple-400">Create Timeline</Link></li>
+                  <h4 className="font-bold mb-4 text-white">Product</h4>
+                  <ul className="space-y-2 text-sm text-gray-400">
+                      <li><Link href="#features" className="hover:text-purple-400 transition-colors">Features</Link></li>
+                      <li><Link href="/pricing" className="hover:text-purple-400 transition-colors">Pricing</Link></li>
+                      <li><Link href="/create" className="hover:text-purple-400 transition-colors">Create Timeline</Link></li>
                   </ul>
               </div>
 
               <div>
-                  <h4 className="font-bold mb-4 text-white text-left">Company</h4>
-                  <ul className="space-y-2 text-sm text-gray-400 text-left">
-                      <li><Link href="/privacy" className="hover:text-purple-400">Privacy Policy</Link></li>
-                      <li><Link href="/contact" className="hover:text-purple-400">Contact</Link></li>
+                  <h4 className="font-bold mb-4 text-white">Company</h4>
+                  <ul className="space-y-2 text-sm text-gray-400">
+                      <li><Link href="/about" className="hover:text-purple-400 transition-colors">About Us</Link></li>
+                      <li><Link href="/contact" className="hover:text-purple-400 transition-colors">Contact Us</Link></li>
+                      <li><Link href="/privacy" className="hover:text-purple-400 transition-colors">Privacy Policy</Link></li>
                   </ul>
               </div>
+
+              <div>
+                  <h4 className="font-bold mb-4 text-white">Stay Updated</h4>
+                  <p className="text-xs text-gray-500 mb-4">Get the latest features and tips.</p>
+                  <div className="flex gap-2">
+                      <input type="email" placeholder="Email address" className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm w-full focus:outline-none focus:border-purple-500 text-white" />
+                      <button className="bg-purple-600 hover:bg-purple-500 p-2 rounded-lg transition-colors"><ArrowRight className="w-4 h-4 text-white"/></button>
+                  </div>
+              </div>
           </div>
-          <div className="text-center text-gray-600 text-xs pt-8 border-t border-white/5">
-              © 2026 aitimelinemaker.online. Made with ❤️ in India.
+          <div className="text-center md:text-left text-gray-600 text-xs pt-8 border-t border-white/5">
+              © 2026 aitimelinemaker.online. All rights reserved. Made with ❤️ in India.
           </div>
       </footer>
     </div>
@@ -229,11 +245,11 @@ function PricingCheck({ text, active }: any) {
 function FeatureCard({ icon, title, desc }: any) {
     return (
         <div className="bg-[#0f172a] border border-white/5 p-8 rounded-2xl hover:border-purple-500/30 transition-all hover:-translate-y-1 group">
-            <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 text-2xl group-hover:bg-white/10 transition-colors text-left">
+            <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 text-2xl group-hover:bg-white/10 transition-colors">
                 {icon}
             </div>
-            <h3 className="text-xl font-bold text-white mb-3 text-left">{title}</h3>
-            <p className="text-gray-400 leading-relaxed text-sm text-left">{desc}</p>
+            <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
+            <p className="text-gray-400 leading-relaxed text-sm">{desc}</p>
         </div>
     )
 }
