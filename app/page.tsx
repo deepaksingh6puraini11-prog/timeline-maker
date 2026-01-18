@@ -153,7 +153,7 @@ export default function LandingPage() {
                       <PricingCheck text="Watermarked Export" active />
                       <PricingCheck text="Standard Support" active />
                   </div>
-                  <button className="w-full bg-white text-black py-3 rounded-xl font-bold cursor-default">Current Plan</button>
+                  <button className="w-full bg-white text-black py-3 rounded-xl font-bold cursor-default">StartFree</button>
               </div>
 
               <div className="bg-[#1a1033] border border-purple-500 p-8 rounded-2xl flex flex-col relative transform hover:-translate-y-2 transition-transform shadow-[0_0_40px_rgba(168,85,247,0.15)]">
