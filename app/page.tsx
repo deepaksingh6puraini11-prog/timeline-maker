@@ -21,7 +21,7 @@ export default function LandingPage() {
       
       {/* 🌟 NAVBAR */}
       <nav className="sticky top-0 z-50 backdrop-blur-lg bg-[#050505]/80 border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between text-left">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-purple-900/20">
                     <History className="text-white w-5 h-5" />
@@ -36,7 +36,7 @@ export default function LandingPage() {
             </div>
 
             <div className="flex gap-4 items-center">
-                <Link href="/es" className="flex items-center gap-1 text-sm font-bold text-gray-400 hover:text-white transition-colors mr-2 border border-white/10 px-2 py-1 rounded-md hover:bg-white/5" title="Ir a Español">
+                <Link href="/es" className="flex items-center gap-1 text-sm font-bold text-gray-400 hover:text-white transition-colors mr-2 border border-white/10 px-2 py-1 rounded-md hover:bg-white/5">
                     <Globe className="w-3 h-3" />
                     <span>ES</span>
                 </Link>
@@ -69,7 +69,7 @@ export default function LandingPage() {
             </div>
         </motion.div>
 
-        {/* 💻 BROWSER MOCKUP - RESTORED */}
+        {/* 💻 BROWSER MOCKUP */}
         <motion.div id="preview" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className="relative mx-auto max-w-5xl group">
             <div className="rounded-2xl bg-[#0f172a] border border-white/10 shadow-2xl shadow-purple-900/40 overflow-hidden">
                 <div className="h-10 bg-[#1e293b] border-b border-white/5 flex items-center px-4 gap-2">
@@ -82,7 +82,7 @@ export default function LandingPage() {
                 
                 <div className="relative h-auto bg-[#050505] overflow-hidden">
                     <img 
-                        src="/preview.png.png" 
+                        src="/preview.png" 
                         alt="AI Generated Timeline Preview" 
                         className="w-full h-auto object-cover opacity-95 group-hover:opacity-100 transition-opacity"
                     />
@@ -113,15 +113,15 @@ export default function LandingPage() {
 
       {/* 🗣️ TESTIMONIALS */}
       <section id="testimonials" className="py-24 bg-[#080808] border-y border-white/5 relative overflow-hidden">
-        <div className="text-center mb-16 px-6 relative z-10 text-center">
+        <div className="text-center mb-16 px-6 relative z-10">
              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic">Real feedback.</h2>
-             <p className="text-gray-400 text-center">Join our growing community of students and creators.</p>
+             <p className="text-gray-400">Join our growing community of students and creators.</p>
         </div>
         
         <div className="flex overflow-hidden">
             <motion.div className="flex gap-6 px-6" animate={{ x: "-50%" }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }} style={{ width: "fit-content" }}>
                 {[...testimonials, ...testimonials].map((t, i) => (
-                    <div key={i} className="w-[350px] md:w-[400px] flex-shrink-0 bg-[#0f172a] border border-white/5 p-8 rounded-2xl relative text-left">
+                    <div key={i} className="w-[350px] md:w-[400px] flex-shrink-0 bg-[#0f172a] border border-white/5 p-8 rounded-2xl relative">
                         <Quote className="absolute top-6 right-6 text-white/5 w-10 h-10" />
                         <p className="text-gray-300 mb-6 text-lg leading-relaxed font-medium text-left">"{t.text}"</p>
                         <div className="flex items-center gap-4">
@@ -139,15 +139,14 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 💰 PRICING - DETAILED CONTENT RESTORED */}
+      {/* 💰 PRICING */}
       <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-center">
-          <div className="mb-16 text-center">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter text-center">Invest in your Grades</h2>
-              <p className="text-gray-400 text-center">Choose the plan that fits your project needs. No hidden fees.</p>
+          <div className="mb-16">
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Invest in your Grades</h2>
+              <p className="text-gray-400">Choose the plan that fits your project needs. No hidden fees.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
-              {/* Free Starter */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
                   <h3 className="text-xl font-bold text-gray-300 mb-2">Free Starter</h3>
                   <div className="text-4xl font-bold text-white mb-2">$0</div>
@@ -158,28 +157,26 @@ export default function LandingPage() {
                       <PricingCheck text="Watermarked Export" active />
                       <PricingCheck text="Standard Support" active />
                   </div>
-                  <button className="w-full bg-white text-black py-3 rounded-xl font-bold cursor-default hover:bg-gray-200 transition-colors">Start Free</button>
+                  <button className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors">Start Free</button>
               </div>
 
-              {/* Single Project */}
               <div className="bg-[#1a1033] border border-purple-500 p-8 rounded-2xl flex flex-col relative transform hover:-translate-y-2 transition-transform shadow-[0_0_40px_rgba(168,85,247,0.15)]">
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">Best for Students</div>
                   <h3 className="text-xl font-bold text-purple-300 mb-2">Single Project</h3>
                   <div className="text-4xl font-bold text-white mb-2">$2 <span className="text-sm text-gray-500 font-normal">/ once</span></div>
-                  <p className="text-gray-500 text-sm mb-8 italic text-left">For that one important assignment.</p>
-                  <div className="space-y-4 mb-8 flex-1 text-left">
+                  <p className="text-gray-500 text-sm mb-8 italic">For that one important assignment.</p>
+                  <div className="space-y-4 mb-8 flex-1">
                       <PricingCheck text="Remove Watermark" active />
                       <PricingCheck text="HD PDF & PNG Export" active />
                       <PricingCheck text="Lifetime Access" active />
                       <PricingCheck text="Premium AI Models" active />
                       <PricingCheck text="No Subscription" active />
                   </div>
-                  <Link href="/pricing" className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform shadow-lg">
+                  <Link href="/pricing" className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform">
                       <Zap className="w-4 h-4 fill-current" /> Buy Now
                   </Link>
               </div>
 
-              {/* Pro Monthly */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
                   <h3 className="text-xl font-bold text-gray-300 mb-2">Pro Monthly</h3>
                   <div className="text-4xl font-bold text-white mb-2">$5 <span className="text-sm text-gray-500 font-normal">/ month</span></div>
@@ -196,15 +193,15 @@ export default function LandingPage() {
           </div>
       </section>
 
-      {/* 🦶 FOOTER (Centered Copyright) */}
-      <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10 text-left">
+      {/* 🦶 FOOTER */}
+      <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
               <div className="col-span-1">
-                  <div className="flex items-center gap-2 mb-4 text-left">
+                  <div className="flex items-center gap-2 mb-4">
                         <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center font-bold text-white shadow-lg">
                             <History className="text-white w-3 h-3" />
                         </div>
-                        <span className="text-lg font-bold tracking-tight text-left">AI Timeline Maker</span>
+                        <span className="text-lg font-bold tracking-tight">AI Timeline Maker</span>
                   </div>
                   <p className="text-gray-500 text-sm leading-relaxed max-w-xs text-left">
                       Making history visual and interactive for everyone. Built with AI power for students and professionals.
@@ -217,8 +214,8 @@ export default function LandingPage() {
               </div>
               
               <div className="text-left">
-                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest text-left">Product</h4>
-                  <ul className="space-y-2 text-sm text-gray-400 text-left">
+                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest">Product</h4>
+                  <ul className="space-y-2 text-sm text-gray-400">
                       <li><Link href="#features" className="hover:text-purple-400 transition-colors">Features</Link></li>
                       <li><Link href="/pricing" className="hover:text-purple-400 transition-colors">Pricing</Link></li>
                       <li><Link href="/create" className="hover:text-purple-400 transition-colors">Create Timeline</Link></li>
@@ -226,8 +223,8 @@ export default function LandingPage() {
               </div>
 
               <div className="text-left">
-                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest text-left">Company</h4>
-                  <ul className="space-y-2 text-sm text-gray-400 text-left">
+                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest">Company</h4>
+                  <ul className="space-y-2 text-sm text-gray-400">
                       <li><Link href="/about" className="hover:text-purple-400 transition-colors">About Us</Link></li>
                       <li><Link href="/contact" className="hover:text-purple-400 transition-colors">Contact Us</Link></li>
                       <li><Link href="/privacy" className="hover:text-purple-400 transition-colors">Privacy Policy</Link></li>
@@ -235,7 +232,7 @@ export default function LandingPage() {
               </div>
 
               <div className="text-left">
-                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest text-left">Stay Updated</h4>
+                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest">Stay Updated</h4>
                   <div className="flex gap-2">
                       <input type="email" placeholder="Email address" className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm w-full focus:outline-none focus:border-purple-500 text-white" />
                       <button className="bg-purple-600 hover:bg-purple-500 p-2 rounded-lg transition-colors"><ArrowRight className="w-4 h-4 text-white"/></button>
