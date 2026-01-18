@@ -144,7 +144,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 💰 PRICING - Spelling "Start Free" Fixed */}
+      {/* 💰 PRICING - CLEAN HOME VERSION */}
       <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-16 text-center">
               <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter text-center">Invest in your Grades</h2>
@@ -162,7 +162,6 @@ export default function LandingPage() {
                       <PricingCheck text="Watermarked Export" active />
                       <PricingCheck text="Standard Support" active />
                   </div>
-                  {/* Fixed Spelling here */}
                   <button className="w-full bg-white text-black py-3 rounded-xl font-bold cursor-default hover:bg-gray-200 transition-colors">Start Free</button>
               </div>
 
