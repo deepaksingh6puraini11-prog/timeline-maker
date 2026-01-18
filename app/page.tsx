@@ -1,21 +1,38 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, History, FileText, Zap, Star, CheckCircle, Check, Globe, Quote, Twitter, Instagram, Github } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowRight, Sparkles, History, FileText, Zap, Star, CheckCircle, Check, Globe, Quote, Twitter, Instagram, Github, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const testimonials = [
   { name: "Sarah Jenkins", role: "History Teacher", text: "Transformed how my students understand chronology. The AI is shockingly accurate." },
   { name: "David Chen", role: "PhD Student", text: "Saved me 10+ hours on my thesis visualization. Export quality is publishing-ready." },
   { name: "Emily Roberts", role: "YouTuber", text: "The visuals are stunning. I use the PNG exports directly in my documentary videos." },
-  { name: "Prof. Alan Grant", role: "Archeologist", text: "Finally, a timeline tool that actually understands historical context. Highly recommended." },
-  { name: "Jessica Lee", role: "Student", text: "Got an 'A' on my history final! The timeline looked so professional compared to others." },
-  { name: "Rahul Verma", role: "EdTech Dev", text: "Clean UI, fast generation, and the dark mode is beautiful. Best tool in the market." },
-  { name: "Maria Garcia", role: "Literature Student", text: "Perfect for mapping out 'Gabriel García Márquez's' life events. Love the Spanish support." },
-  { name: "Tom Hollander", role: "Project Manager", text: "Not just for history! I use this for project roadmaps. It's faster than Jira." },
+  { name: "Jessica Lee", role: "Student", text: "Got an 'A' on my history final! The timeline looked so professional." },
+];
+
+// 📸 LIST OF SLIDER IMAGES
+const previewImages = [
+  "/preview.png",          // First Image
+  "/preview.png",          // Second Image (Yahan apni dusri photo ka path dalen)
+  "/preview.png",          // Third Image (Yahan apni tisri photo ka path dalen)
 ];
 
 export default function LandingPage() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Auto-play Slider logic
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev === previewImages.length - 1 ? 0 : prev + 1));
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const nextSlide = () => setCurrentSlide((prev) => (prev === previewImages.length - 1 ? 0 : prev + 1));
+  const prevSlide = () => setCurrentSlide((prev) => (prev === 0 ? previewImages.length - 1 : prev - 1));
+
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-purple-500/30 overflow-x-hidden">
       
@@ -23,7 +40,7 @@ export default function LandingPage() {
       <nav className="sticky top-0 z-50 backdrop-blur-lg bg-[#050505]/80 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-purple-900/20">
+                <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg">
                     <History className="text-white w-5 h-5" />
                 </div>
                 <span className="text-xl font-bold tracking-tight">AI Timeline Maker</span>
@@ -69,23 +86,47 @@ export default function LandingPage() {
             </div>
         </motion.div>
 
-        {/* 💻 BROWSER MOCKUP */}
+        {/* 💻 BROWSER MOCKUP WITH SLIDER */}
         <motion.div id="preview" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className="relative mx-auto max-w-5xl group">
             <div className="rounded-2xl bg-[#0f172a] border border-white/10 shadow-2xl shadow-purple-900/40 overflow-hidden">
-                <div className="h-10 bg-[#1e293b] border-b border-white/5 flex items-center px-4 gap-2">
+                <div className="h-10 bg-[#1e293b] border-b border-white/5 flex items-center justify-between px-4">
                     <div className="flex gap-1.5">
                       <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
                       <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                       <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
                     </div>
+                    <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">Preview Mode</div>
                 </div>
                 
-                <div className="relative h-auto bg-[#050505] overflow-hidden">
-                    <img 
-                        src="/preview.png" 
-                        alt="AI Generated Timeline Preview" 
-                        className="w-full h-auto object-cover opacity-95 group-hover:opacity-100 transition-opacity"
-                    />
+                <div className="relative h-auto bg-[#050505] overflow-hidden group">
+                    <AnimatePresence mode="wait">
+                      <motion.img 
+                          key={currentSlide}
+                          src={previewImages[currentSlide]}
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -20 }}
+                          transition={{ duration: 0.5 }}
+                          alt={`Timeline Preview ${currentSlide + 1}`}
+                          className="w-full h-auto object-cover opacity-95"
+                      />
+                    </AnimatePresence>
+
+                    {/* Navigation Buttons */}
+                    <button onClick={prevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 p-2 rounded-full border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ChevronLeft className="w-6 h-6 text-white" />
+                    </button>
+                    <button onClick={nextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 p-2 rounded-full border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ChevronRight className="w-6 h-6 text-white" />
+                    </button>
+
+                    {/* Indicators */}
+                    <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-2">
+                        {previewImages.map((_, idx) => (
+                          <div key={idx} className={`w-1.5 h-1.5 rounded-full transition-all ${idx === currentSlide ? 'bg-purple-500 w-4' : 'bg-white/20'}`} />
+                        ))}
+                    </div>
+
                     <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-purple-600/90 backdrop-blur-md text-white px-6 py-2 rounded-full text-xs font-bold flex items-center gap-2 shadow-2xl border border-white/20">
                         <Sparkles className="w-3 h-3" /> Actual AI Output
                     </div>
@@ -98,9 +139,8 @@ export default function LandingPage() {
       <section id="features" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-16">
               <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Everything you need.</h2>
-              <p className="text-gray-400 text-center">Designed for speed, accuracy, and professional results.</p>
+              <p className="text-gray-400">Designed for speed, accuracy, and professional results.</p>
           </div>
-          
           <div className="grid md:grid-cols-3 gap-6 text-left">
               <FeatureCard icon={<Sparkles className="text-purple-400" />} title="AI Brain" desc="Simply describe your topic. Our AI researches and plots the events accurately." />
               <FeatureCard icon={<FileText className="text-red-400" />} title="HD Export" desc="Get high-quality PDF or PNG files. Perfect for assignments and presentations." />
@@ -112,23 +152,22 @@ export default function LandingPage() {
       </section>
 
       {/* 🗣️ TESTIMONIALS */}
-      <section id="testimonials" className="py-24 bg-[#080808] border-y border-white/5 relative overflow-hidden">
-        <div className="text-center mb-16 px-6 relative z-10">
+      <section id="testimonials" className="py-24 bg-[#080808] border-y border-white/5 relative overflow-hidden text-center">
+        <div className="mb-16 px-6 relative z-10">
              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic">Real feedback.</h2>
              <p className="text-gray-400">Join our growing community of students and creators.</p>
         </div>
-        
         <div className="flex overflow-hidden">
             <motion.div className="flex gap-6 px-6" animate={{ x: "-50%" }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }} style={{ width: "fit-content" }}>
                 {[...testimonials, ...testimonials].map((t, i) => (
-                    <div key={i} className="w-[350px] md:w-[400px] flex-shrink-0 bg-[#0f172a] border border-white/5 p-8 rounded-2xl relative">
+                    <div key={i} className="w-[350px] md:w-[400px] flex-shrink-0 bg-[#0f172a] border border-white/5 p-8 rounded-2xl relative text-left">
                         <Quote className="absolute top-6 right-6 text-white/5 w-10 h-10" />
-                        <p className="text-gray-300 mb-6 text-lg leading-relaxed font-medium text-left">"{t.text}"</p>
+                        <p className="text-gray-300 mb-6 text-lg leading-relaxed font-medium">"{t.text}"</p>
                         <div className="flex items-center gap-4">
                             <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center font-bold text-white shadow-lg">
                                 {t.name[0]}
                             </div>
-                            <div className="text-left">
+                            <div>
                                 <div className="font-bold text-white text-sm">{t.name}</div>
                                 <div className="text-xs text-purple-400 font-medium tracking-wide">{t.role}</div>
                             </div>
@@ -145,96 +184,36 @@ export default function LandingPage() {
               <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Invest in your Grades</h2>
               <p className="text-gray-400">Choose the plan that fits your project needs. No hidden fees.</p>
           </div>
-
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
-              <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
-                  <h3 className="text-xl font-bold text-gray-300 mb-2">Free Starter</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$0</div>
-                  <p className="text-gray-500 text-sm mb-8 italic">Perfect for testing & drafts.</p>
-                  <div className="space-y-4 mb-8 flex-1">
-                      <PricingCheck text="Unlimited Drafts" active />
-                      <PricingCheck text="Basic AI Generation" active />
-                      <PricingCheck text="Watermarked Export" active />
-                      <PricingCheck text="Standard Support" active />
-                  </div>
-                  <button className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors">Start Free</button>
-              </div>
-
-              <div className="bg-[#1a1033] border border-purple-500 p-8 rounded-2xl flex flex-col relative transform hover:-translate-y-2 transition-transform shadow-[0_0_40px_rgba(168,85,247,0.15)]">
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">Best for Students</div>
-                  <h3 className="text-xl font-bold text-purple-300 mb-2">Single Project</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$2 <span className="text-sm text-gray-500 font-normal">/ once</span></div>
-                  <p className="text-gray-500 text-sm mb-8 italic">For that one important assignment.</p>
-                  <div className="space-y-4 mb-8 flex-1">
-                      <PricingCheck text="Remove Watermark" active />
-                      <PricingCheck text="HD PDF & PNG Export" active />
-                      <PricingCheck text="Lifetime Access" active />
-                      <PricingCheck text="Premium AI Models" active />
-                      <PricingCheck text="No Subscription" active />
-                  </div>
-                  <Link href="/pricing" className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform">
-                      <Zap className="w-4 h-4 fill-current" /> Buy Now
-                  </Link>
-              </div>
-
-              <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
-                  <h3 className="text-xl font-bold text-gray-300 mb-2">Pro Monthly</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$5 <span className="text-sm text-gray-500 font-normal">/ month</span></div>
-                  <p className="text-gray-500 text-sm mb-8 italic">For power users & teachers.</p>
-                  <div className="space-y-4 mb-8 flex-1">
-                      <PricingCheck text="Everything in Single" active />
-                      <PricingCheck text="Unlimited Exports" active />
-                      <PricingCheck text="Priority 24/7 Support" active />
-                      <PricingCheck text="Early Access Features" active />
-                      <PricingCheck text="Cancel Anytime" active />
-                  </div>
-                  <Link href="/pricing" className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors shadow-lg">Subscribe</Link>
-              </div>
+              <PricingCard title="Free Starter" price="$0" features={["Unlimited Drafts", "Basic AI Generation", "Watermarked Export", "Standard Support"]} buttonText="Start Free" footer="Perfect for testing & drafts." />
+              <PricingCard title="Single Project" price="$2" priceSuffix="/ one-time" features={["Remove Watermark", "HD PDF & PNG Export", "Lifetime Access", "Premium AI Models", "No Subscription"]} buttonText="Buy Now" footer="For that one important assignment." featured />
+              <PricingCard title="Pro Monthly" price="$5" priceSuffix="/ month" features={["Everything in Single", "Unlimited Exports", "Priority 24/7 Support", "Early Access Features", "Cancel Anytime"]} buttonText="Subscribe" footer="For power users & teachers." />
           </div>
       </section>
 
       {/* 🦶 FOOTER */}
       <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10">
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
+          <div className="grid md:grid-cols-4 gap-12 mb-12 text-left">
               <div className="col-span-1">
                   <div className="flex items-center gap-2 mb-4">
                         <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center font-bold text-white shadow-lg">
-                            <History className="text-white w-3 h-3" />
+                            <History className="w-3 h-3" />
                         </div>
                         <span className="text-lg font-bold tracking-tight">AI Timeline Maker</span>
                   </div>
-                  <p className="text-gray-500 text-sm leading-relaxed max-w-xs text-left">
-                      Making history visual and interactive for everyone. Built with AI power for students and professionals.
-                  </p>
+                  <p className="text-gray-500 text-sm leading-relaxed max-w-xs">Making history visual and interactive for everyone.</p>
                   <div className="flex gap-4 mt-6 text-gray-400">
                     <Twitter className="w-4 h-4 hover:text-white cursor-pointer transition-colors" />
                     <Instagram className="w-4 h-4 hover:text-white cursor-pointer transition-colors" />
                     <Github className="w-4 h-4 hover:text-white cursor-pointer transition-colors" />
                   </div>
               </div>
-              
+              <FooterLinkGroup title="Product" links={["Features", "Pricing", "Create Timeline"]} />
+              <FooterLinkGroup title="Company" links={["About Us", "Contact Us", "Privacy Policy"]} />
               <div className="text-left">
-                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest">Product</h4>
-                  <ul className="space-y-2 text-sm text-gray-400">
-                      <li><Link href="#features" className="hover:text-purple-400 transition-colors">Features</Link></li>
-                      <li><Link href="/pricing" className="hover:text-purple-400 transition-colors">Pricing</Link></li>
-                      <li><Link href="/create" className="hover:text-purple-400 transition-colors">Create Timeline</Link></li>
-                  </ul>
-              </div>
-
-              <div className="text-left">
-                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest">Company</h4>
-                  <ul className="space-y-2 text-sm text-gray-400">
-                      <li><Link href="/about" className="hover:text-purple-400 transition-colors">About Us</Link></li>
-                      <li><Link href="/contact" className="hover:text-purple-400 transition-colors">Contact Us</Link></li>
-                      <li><Link href="/privacy" className="hover:text-purple-400 transition-colors">Privacy Policy</Link></li>
-                  </ul>
-              </div>
-
-              <div className="text-left">
-                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest">Stay Updated</h4>
+                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest">Newsletter</h4>
                   <div className="flex gap-2">
-                      <input type="email" placeholder="Email address" className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm w-full focus:outline-none focus:border-purple-500 text-white" />
+                      <input type="email" placeholder="Email" className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm w-full focus:outline-none focus:border-purple-500 text-white" />
                       <button className="bg-purple-600 hover:bg-purple-500 p-2 rounded-lg transition-colors"><ArrowRight className="w-4 h-4 text-white"/></button>
                   </div>
               </div>
@@ -245,6 +224,37 @@ export default function LandingPage() {
       </footer>
     </div>
   );
+}
+
+// 🧩 REUSABLE COMPONENTS
+function FeatureCard({ icon, title, desc }: any) {
+    return (
+        <div className="bg-[#0f172a] border border-white/5 p-8 rounded-2xl hover:border-purple-500/30 transition-all hover:-translate-y-1 group">
+            <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 text-2xl group-hover:bg-white/10 transition-colors">{icon}</div>
+            <h3 className="text-xl font-bold text-white mb-3 tracking-tight">{title}</h3>
+            <p className="text-gray-400 leading-relaxed text-sm">{desc}</p>
+        </div>
+    )
+}
+
+function PricingCard({ title, price, priceSuffix, features, buttonText, footer, featured }: any) {
+    return (
+        <div className={`p-8 rounded-2xl flex flex-col transition-all ${featured ? 'bg-[#1a1033] border-purple-500 shadow-[0_0_40px_rgba(168,85,247,0.15)] relative' : 'bg-[#0f172a]/50 border border-white/10 hover:border-white/20'}`}>
+            {featured && <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Best for Students</div>}
+            <h3 className={`text-xl font-bold mb-2 ${featured ? 'text-purple-300' : 'text-gray-300'}`}>{title}</h3>
+            <div className="text-4xl font-bold text-white mb-2">{price} <span className="text-sm text-gray-500 font-normal">{priceSuffix}</span></div>
+            <p className="text-gray-500 text-sm mb-8 italic">{footer}</p>
+            <div className="space-y-4 mb-8 flex-1">
+                {features.map((f: string, i: number) => (
+                    <div key={i} className="flex items-center gap-3">
+                        <Check className="w-4 h-4 text-green-400" />
+                        <span className="text-sm text-gray-300">{f}</span>
+                    </div>
+                ))}
+            </div>
+            <button className={`w-full py-3 rounded-xl font-bold transition-transform hover:scale-[1.02] ${featured ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white' : 'bg-white text-black'}`}>{buttonText}</button>
+        </div>
+    )
 }
 
 function PricingCheck({ text, active }: any) {
@@ -258,14 +268,13 @@ function PricingCheck({ text, active }: any) {
     )
 }
 
-function FeatureCard({ icon, title, desc }: any) {
+function FooterLinkGroup({ title, links }: any) {
     return (
-        <div className="bg-[#0f172a] border border-white/5 p-8 rounded-2xl hover:border-purple-500/30 transition-all hover:-translate-y-1 group text-left">
-            <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 text-2xl group-hover:bg-white/10 transition-colors">
-                {icon}
-            </div>
-            <h3 className="text-xl font-bold text-white mb-3 tracking-tight">{title}</h3>
-            <p className="text-gray-400 leading-relaxed text-sm">{desc}</p>
+        <div className="text-left">
+            <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest">{title}</h4>
+            <ul className="space-y-2 text-sm text-gray-400">
+                {links.map((l: string, i: number) => <li key={i} className="hover:text-purple-400 cursor-pointer transition-colors">{l}</li>)}
+            </ul>
         </div>
     )
 }
