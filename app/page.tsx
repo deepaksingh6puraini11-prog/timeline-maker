@@ -21,7 +21,7 @@ export default function LandingPage() {
       
       {/* 🌟 NAVBAR */}
       <nav className="sticky top-0 z-50 backdrop-blur-lg bg-[#050505]/80 border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between text-left">
             <div className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-purple-900/20">
                     <History className="text-white w-5 h-5" />
@@ -36,15 +36,10 @@ export default function LandingPage() {
             </div>
 
             <div className="flex gap-4 items-center">
-                <Link 
-                  href="/es" 
-                  className="flex items-center gap-1 text-sm font-bold text-gray-400 hover:text-white transition-colors mr-2 border border-white/10 px-2 py-1 rounded-md hover:bg-white/5"
-                  title="Ir a Español"
-                >
+                <Link href="/es" className="flex items-center gap-1 text-sm font-bold text-gray-400 hover:text-white transition-colors mr-2 border border-white/10 px-2 py-1 rounded-md hover:bg-white/5" title="Ir a Español">
                     <Globe className="w-3 h-3" />
                     <span>ES</span>
                 </Link>
-
                 <Link href="/login" className="hidden md:block text-sm font-medium text-gray-300 hover:text-white transition-colors py-2">Login</Link>
                 <Link href="/create" className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-transform hover:scale-105 shadow-xl">Get Started Free</Link>
             </div>
@@ -74,7 +69,7 @@ export default function LandingPage() {
             </div>
         </motion.div>
 
-        {/* 💻 BROWSER MOCKUP */}
+        {/* 💻 BROWSER MOCKUP - RESTORED */}
         <motion.div id="preview" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8 }} className="relative mx-auto max-w-5xl group">
             <div className="rounded-2xl bg-[#0f172a] border border-white/10 shadow-2xl shadow-purple-900/40 overflow-hidden">
                 <div className="h-10 bg-[#1e293b] border-b border-white/5 flex items-center px-4 gap-2">
@@ -144,7 +139,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 💰 PRICING - CLEAN HOME VERSION */}
+      {/* 💰 PRICING - DETAILED CONTENT RESTORED */}
       <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-16 text-center">
               <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter text-center">Invest in your Grades</h2>
@@ -152,6 +147,7 @@ export default function LandingPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
+              {/* Free Starter */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
                   <h3 className="text-xl font-bold text-gray-300 mb-2">Free Starter</h3>
                   <div className="text-4xl font-bold text-white mb-2">$0</div>
@@ -165,6 +161,7 @@ export default function LandingPage() {
                   <button className="w-full bg-white text-black py-3 rounded-xl font-bold cursor-default hover:bg-gray-200 transition-colors">Start Free</button>
               </div>
 
+              {/* Single Project */}
               <div className="bg-[#1a1033] border border-purple-500 p-8 rounded-2xl flex flex-col relative transform hover:-translate-y-2 transition-transform shadow-[0_0_40px_rgba(168,85,247,0.15)]">
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">Best for Students</div>
                   <h3 className="text-xl font-bold text-purple-300 mb-2">Single Project</h3>
@@ -182,6 +179,7 @@ export default function LandingPage() {
                   </Link>
               </div>
 
+              {/* Pro Monthly */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
                   <h3 className="text-xl font-bold text-gray-300 mb-2">Pro Monthly</h3>
                   <div className="text-4xl font-bold text-white mb-2">$5 <span className="text-sm text-gray-500 font-normal">/ month</span></div>
@@ -198,7 +196,7 @@ export default function LandingPage() {
           </div>
       </section>
 
-      {/* 🦶 FOOTER */}
+      {/* 🦶 FOOTER (Centered Copyright) */}
       <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10 text-left">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
               <div className="col-span-1">
@@ -237,7 +235,7 @@ export default function LandingPage() {
               </div>
 
               <div className="text-left">
-                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest text-left">Newsletter</h4>
+                  <h4 className="font-bold mb-4 text-white uppercase text-xs tracking-widest text-left">Stay Updated</h4>
                   <div className="flex gap-2">
                       <input type="email" placeholder="Email address" className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm w-full focus:outline-none focus:border-purple-500 text-white" />
                       <button className="bg-purple-600 hover:bg-purple-500 p-2 rounded-lg transition-colors"><ArrowRight className="w-4 h-4 text-white"/></button>
