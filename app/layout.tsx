@@ -1,30 +1,29 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css"; // 👈 CSS Import zaroori hai
-import { Toaster } from "react-hot-toast"; // Toasts ke liye
+import Link from "next/link";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "AI Timeline Maker",
-  description: "Generate historical timelines in seconds",
-  // 👇 Google Search Console verification yahan add kiya hai
-  verification: {
-    google: "EhOY7Gu11Sd4KQa0IEs-NmuwOzofWc7Eli8wUOYMUB4",
-  },
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function Footer() {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        {children}
-        <Toaster position="bottom-right" />
-      </body>
-    </html>
+    <footer className="border-t border-white/10 bg-[#050505] py-12 mt-20">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+        
+        {/* Logo & Copyright */}
+        <div className="text-center md:text-left">
+          <h2 className="text-xl font-bold text-white mb-2">AI Timeline Maker</h2>
+          <p className="text-gray-500 text-sm">© 2026 AI Timeline Maker. All rights reserved.</p>
+        </div>
+
+        {/* Legal Links */}
+        <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+          <Link href="/privacy" className="hover:text-purple-400 transition-colors">Privacy Policy</Link>
+          <Link href="/terms" className="hover:text-purple-400 transition-colors">Terms of Service</Link>
+          <Link href="/refund" className="hover:text-purple-400 transition-colors">Refund Policy</Link>
+          <Link href="/contact" className="hover:text-purple-400 transition-colors">Contact Us</Link>
+        </div>
+
+        {/* Payment Partner (Approval ke liye zaroori) */}
+        <div className="text-gray-500 text-xs text-center">
+          Payments secured by <span className="text-gray-300 font-medium">Lemon Squeezy</span>
+        </div>
+      </div>
+    </footer>
   );
 }
