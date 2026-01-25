@@ -27,26 +27,31 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-purple-500/30 overflow-x-hidden">
       
-      {/* 🌟 NAVBAR */}
+      {/* 🌟 NAVBAR (Updated as per image_8e7477.jpg) */}
       <nav className="sticky top-0 z-50 backdrop-blur-lg bg-[#050505]/80 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            {/* Logo */}
             <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
                     <History className="text-white w-5 h-5" />
                 </div>
                 <span className="text-xl font-bold tracking-tight">AI Timeline Maker</span>
             </div>
             
-            <div className="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+            {/* Nav Links */}
+            <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
                 <Link href="#features" className="hover:text-white transition-colors">Features</Link>
                 <Link href="#pricing" className="hover:text-white transition-colors">Pricing</Link>
+                <Link href="#testimonials" className="hover:text-white transition-colors">Testimonials</Link>
             </div>
 
-            <div className="flex gap-4 items-center">
+            {/* Actions */}
+            <div className="flex items-center gap-6">
                 <Link href="/es" className="flex items-center gap-1 text-sm font-bold text-gray-400 hover:text-white transition-colors mr-2">
                     <Globe className="w-3 h-3" />
                     <span>ES</span>
                 </Link>
+                <Link href="/login" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Login</Link>
                 <Link href="/create" className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-transform hover:scale-105 shadow-xl">Get Started Free</Link>
             </div>
         </div>
@@ -123,15 +128,14 @@ export default function LandingPage() {
           </div>
       </section>
 
-      {/* 💰 PRICING SECTION (Fixed as per screenshot) */}
+      {/* 💰 PRICING SECTION (Fixed as per image_98699a.png) */}
       <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-16">
               <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Invest in your Grades</h2>
               <p className="text-gray-400">Choose the plan that fits your project needs. No hidden fees.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left items-stretch">
-              
-              {/* Free Starter */}
+              {/* Free Plan */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
                   <h3 className="text-xl font-bold text-gray-300 mb-2">Free Starter</h3>
                   <div className="text-4xl font-bold text-white mb-2">$0</div>
@@ -145,13 +149,13 @@ export default function LandingPage() {
                   <button className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors">Start Free</button>
               </div>
 
-              {/* Single Project (Best for Students) */}
+              {/* $2 Highlighted Plan */}
               <div className="bg-[#1a1033] border-2 border-purple-500 p-8 rounded-2xl flex flex-col relative transform scale-105 z-10 shadow-[0_0_40px_rgba(168,85,247,0.15)]">
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
                       Best for Students
                   </div>
                   <h3 className="text-xl font-bold text-purple-300 mb-2">Single Project</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$2 <span className="text-sm text-gray-500 font-normal">/ one-time</span></div>
+                  <div className="text-4xl font-bold text-white mb-2">$2 <span className="text-sm text-gray-400 font-normal">/ one-time</span></div>
                   <p className="text-gray-500 text-sm mb-8 italic">For that one important assignment.</p>
                   <div className="space-y-4 mb-8 flex-1">
                       <PricingCheck text="Remove Watermark" active />
@@ -165,10 +169,10 @@ export default function LandingPage() {
                   </button>
               </div>
 
-              {/* Pro Monthly */}
+              {/* $5 Plan */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
                   <h3 className="text-xl font-bold text-gray-300 mb-2">Pro Monthly</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$5 <span className="text-sm text-gray-500 font-normal">/ month</span></div>
+                  <div className="text-4xl font-bold text-white mb-2">$5 <span className="text-sm text-gray-400 font-normal">/ month</span></div>
                   <p className="text-gray-500 text-sm mb-8 italic">For power users & teachers.</p>
                   <div className="space-y-4 mb-8 flex-1">
                       <PricingCheck text="Everything in Single" active />
@@ -181,6 +185,8 @@ export default function LandingPage() {
               </div>
           </div>
       </section>
+
+      {/* Footer is centrally handled by layout.tsx ✅ */}
     </div>
   );
 }
