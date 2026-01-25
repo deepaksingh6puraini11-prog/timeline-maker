@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="border-t border-white/10 bg-[#050505] pt-16 pb-8 mt-20">
       <div className="max-w-7xl mx-auto px-6">
         
-        {/* --- TOP SECTION: Newsletter & Info --- */}
+        {/* --- TOP SECTION --- */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           
           {/* Column 1: Brand */}
@@ -35,13 +35,16 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Company & Support */}
+          {/* Column 3: Company (सारे लीगल पेज अब यहीं हैं) */}
           <div>
             <h3 className="text-white font-bold mb-6 text-sm uppercase tracking-widest">Company</h3>
             <ul className="space-y-4 text-gray-500 text-sm">
               <li><Link href="/about" className="hover:text-purple-400 transition-colors">About Us</Link></li>
               <li><Link href="/contact" className="hover:text-purple-400 transition-colors">Contact Us</Link></li>
+              {/* ✅ यहाँ सारे पेज जोड़ दिए हैं */}
               <li><Link href="/privacy" className="hover:text-purple-400 transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-purple-400 transition-colors">Terms of Service</Link></li>
+              <li><Link href="/refund" className="hover:text-purple-400 transition-colors">Refund Policy</Link></li>
             </ul>
           </div>
 
@@ -63,19 +66,14 @@ export default function Footer() {
 
         </div>
 
-        {/* --- BOTTOM SECTION: Legal & Copyright --- */}
+        {/* --- BOTTOM SECTION --- */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="text-gray-600 text-xs text-center md:text-left">
             <p>© 2026 AI Timeline Maker. All rights reserved.</p>
             <p className="mt-1">MADE WITH ❤️ IN INDIA.</p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-6 text-xs text-gray-400">
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="/refund" className="hover:text-white transition-colors">Refund Policy</Link>
-          </div>
-
+          {/* 👇 नीचे से एक्स्ट्रा लिंक्स हटा दिए हैं ताकि सफाई रहे */}
           <div className="text-gray-600 text-[10px] tracking-widest uppercase">
             Payments secured by <span className="text-gray-400 font-bold">Lemon Squeezy</span>
           </div>
