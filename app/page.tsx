@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, History, FileText, Zap, Globe, ChevronLeft, ChevronRight, Check } from "lucide-react";
+import { ArrowRight, Sparkles, History, FileText, Zap, Globe, ChevronLeft, ChevronRight, Check, FileSpreadsheet, LayoutTemplate, Palette } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const previewImages = [
@@ -30,7 +30,6 @@ export default function LandingPage() {
       {/* 🌟 NAVBAR (Updated as per image_8e7477.jpg) */}
       <nav className="sticky top-0 z-50 backdrop-blur-lg bg-[#050505]/80 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            {/* Logo */}
             <div className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
                     <History className="text-white w-5 h-5" />
@@ -38,14 +37,12 @@ export default function LandingPage() {
                 <span className="text-xl font-bold tracking-tight">AI Timeline Maker</span>
             </div>
             
-            {/* Nav Links */}
             <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
                 <Link href="#features" className="hover:text-white transition-colors">Features</Link>
                 <Link href="#pricing" className="hover:text-white transition-colors">Pricing</Link>
                 <Link href="#testimonials" className="hover:text-white transition-colors">Testimonials</Link>
             </div>
 
-            {/* Actions */}
             <div className="flex items-center gap-6">
                 <Link href="/es" className="flex items-center gap-1 text-sm font-bold text-gray-400 hover:text-white transition-colors mr-2">
                     <Globe className="w-3 h-3" />
@@ -115,32 +112,56 @@ export default function LandingPage() {
         </motion.div>
       </main>
 
-      {/* ⚡ FEATURES SECTION */}
+      {/* ⚡ KILLER FEATURES SECTION (Detailed English) */}
       <section id="features" className="max-w-7xl mx-auto px-6 py-24 text-center">
-          <div className="mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Everything you need.</h2>
-              <p className="text-gray-400">Designed for speed, accuracy, and professional results.</p>
+          <div className="mb-20">
+              <h2 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tighter">
+                  Built for <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Speed & Beauty.</span>
+              </h2>
+              <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+                  Stop wasting hours on manual entries. Our tool is designed to turn complex data into stunning visual stories instantly.
+              </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6 text-left">
-              <FeatureCard icon={<Sparkles className="text-purple-400" />} title="AI Brain" desc="Simply describe your topic. Our AI researches and plots the events accurately." />
-              <FeatureCard icon={<FileText className="text-red-400" />} title="HD Export" desc="Get high-quality PDF or PNG files. Perfect for assignments and presentations." />
-              <FeatureCard icon={<Zap className="text-yellow-400" />} title="Smart Editor" desc="Want to change a date? Just edit it. The layout adjusts itself automatically." />
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+              <div className="bg-[#0f172a] border border-white/5 p-8 rounded-3xl hover:border-purple-500/30 transition-all group">
+                  <div className="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-6"><Sparkles className="text-purple-400 w-6 h-6" /></div>
+                  <h3 className="text-xl font-bold text-white mb-3">Smart Paste (AI)</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">Paste a Wikipedia link or raw text. Our AI automatically extracts dates and events to build your timeline. A massive time-saver for students.</p>
+              </div>
+
+              <div className="bg-[#0f172a] border border-white/5 p-8 rounded-3xl hover:border-blue-500/30 transition-all group">
+                  <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6"><FileSpreadsheet className="text-blue-400 w-6 h-6" /></div>
+                  <h3 className="text-xl font-bold text-white mb-3">Magic Sync</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">No need to type line-by-line. Connect your Google Sheets or Notion, and watch your data transform into a beautiful interactive roadmap.</p>
+              </div>
+
+              <div className="bg-[#0f172a] border border-white/5 p-8 rounded-3xl hover:border-emerald-500/30 transition-all group">
+                  <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-6"><LayoutTemplate className="text-emerald-400 w-6 h-6" /></div>
+                  <h3 className="text-xl font-bold text-white mb-3">1000+ Templates</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">From "WW2 History" to "Startup Roadmaps"—access thousands of pre-made templates. Just pick, edit, and export in seconds.</p>
+              </div>
+
+              <div className="bg-[#0f172a] border border-white/5 p-8 rounded-3xl hover:border-pink-500/30 transition-all group">
+                  <div className="w-12 h-12 bg-pink-500/10 rounded-xl flex items-center justify-center mb-6"><Palette className="text-pink-400 w-6 h-6" /></div>
+                  <h3 className="text-xl font-bold text-white mb-3">Design First</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">Ditch boring charts. Get Instagram-ready, modern, dark-mode graphics that make your projects stand out in any classroom or meeting.</p>
+              </div>
           </div>
       </section>
 
       {/* 💰 PRICING SECTION (Fixed as per image_98699a.png) */}
       <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Invest in your Grades</h2>
-              <p className="text-gray-400">Choose the plan that fits your project needs. No hidden fees.</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter text-center">Invest in your Grades</h2>
+              <p className="text-gray-400 text-center">Choose the plan that fits your project needs. No hidden fees.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left items-stretch">
-              {/* Free Plan */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
                   <h3 className="text-xl font-bold text-gray-300 mb-2">Free Starter</h3>
                   <div className="text-4xl font-bold text-white mb-2">$0</div>
-                  <p className="text-gray-500 text-sm mb-8 italic">Perfect for testing & drafts.</p>
-                  <div className="space-y-4 mb-8 flex-1">
+                  <p className="text-gray-500 text-sm mb-8 italic text-left">Perfect for testing & drafts.</p>
+                  <div className="space-y-4 mb-8 flex-1 text-left">
                       <PricingCheck text="Unlimited Drafts" active />
                       <PricingCheck text="Basic AI Generation" active />
                       <PricingCheck text="Watermarked Export" active />
@@ -149,15 +170,12 @@ export default function LandingPage() {
                   <button className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors">Start Free</button>
               </div>
 
-              {/* $2 Highlighted Plan */}
               <div className="bg-[#1a1033] border-2 border-purple-500 p-8 rounded-2xl flex flex-col relative transform scale-105 z-10 shadow-[0_0_40px_rgba(168,85,247,0.15)]">
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
-                      Best for Students
-                  </div>
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">Best for Students</div>
                   <h3 className="text-xl font-bold text-purple-300 mb-2">Single Project</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$2 <span className="text-sm text-gray-400 font-normal">/ one-time</span></div>
-                  <p className="text-gray-500 text-sm mb-8 italic">For that one important assignment.</p>
-                  <div className="space-y-4 mb-8 flex-1">
+                  <div className="text-4xl font-bold text-white mb-2">$2 <span className="text-sm text-gray-500 font-normal">/ one-time</span></div>
+                  <p className="text-gray-500 text-sm mb-8 italic text-left">For that one important assignment.</p>
+                  <div className="space-y-4 mb-8 flex-1 text-left">
                       <PricingCheck text="Remove Watermark" active />
                       <PricingCheck text="HD PDF & PNG Export" active />
                       <PricingCheck text="Lifetime Access" active />
@@ -169,12 +187,11 @@ export default function LandingPage() {
                   </button>
               </div>
 
-              {/* $5 Plan */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
                   <h3 className="text-xl font-bold text-gray-300 mb-2">Pro Monthly</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$5 <span className="text-sm text-gray-400 font-normal">/ month</span></div>
-                  <p className="text-gray-500 text-sm mb-8 italic">For power users & teachers.</p>
-                  <div className="space-y-4 mb-8 flex-1">
+                  <div className="text-4xl font-bold text-white mb-2">$5 <span className="text-sm text-gray-500 font-normal">/ month</span></div>
+                  <p className="text-gray-500 text-sm mb-8 italic text-left">For power users & teachers.</p>
+                  <div className="space-y-4 mb-8 flex-1 text-left">
                       <PricingCheck text="Everything in Single" active />
                       <PricingCheck text="Unlimited Exports" active />
                       <PricingCheck text="Priority 24/7 Support" active />
@@ -185,8 +202,6 @@ export default function LandingPage() {
               </div>
           </div>
       </section>
-
-      {/* Footer is centrally handled by layout.tsx ✅ */}
     </div>
   );
 }
