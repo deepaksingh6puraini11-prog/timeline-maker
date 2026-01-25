@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import Footer from "./components/Footer"; // 👈 यहाँ चेक करें कि रास्ता सही है
+// 👇 यहाँ बदलाव किया है: './' की जगह '../' किया है
+import Footer from "../components/Footer"; 
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main>{children}</main> {/* 👈 children के बाहर Footer रखें */}
+        <main>{children}</main>
         <Footer /> 
         <Toaster position="bottom-right" />
       </body>
