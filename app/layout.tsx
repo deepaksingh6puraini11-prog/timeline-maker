@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-// 👇 यहाँ मैंने सुधार कर दिया है: अब यह सही पाथ है
 import Footer from "./components/Footer"; 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -10,6 +9,10 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "AI Timeline Maker",
   description: "Generate historical timelines in seconds",
+  // ✅ यहाँ आपका नया फेविकॉन जुड़ गया है
+  icons: {
+    icon: "/icon.png", 
+  },
   verification: {
     google: "EhOY7Gu11Sd4KQa0IEs-NmuwOzofWc7Eli8wUOYMUB4",
   },
