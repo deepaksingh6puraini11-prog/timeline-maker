@@ -1,18 +1,18 @@
 import Link from "next/link";
-import { Twitter, Instagram, Github, Mail, Send } from "lucide-react";
+import { Twitter, Instagram, Github, Send } from "lucide-react";
 
 export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-[#050505] pt-16 pb-8 mt-20">
       <div className="max-w-7xl mx-auto px-6">
         
-        {/* --- TOP SECTION --- */}
+        {/* --- मेन ग्रिड सेक्शन --- */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           
-          {/* Column 1: Brand */}
+          {/* कॉलम 1: ब्रांड और सोशल */}
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center font-bold">T</div>
+              <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center font-bold text-white">T</div>
               <h2 className="text-xl font-bold text-white tracking-tight">AI Timeline Maker</h2>
             </div>
             <p className="text-gray-500 text-sm leading-relaxed">
@@ -25,7 +25,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Product */}
+          {/* कॉलम 2: प्रोडक्ट */}
           <div>
             <h3 className="text-white font-bold mb-6 text-sm uppercase tracking-widest">Product</h3>
             <ul className="space-y-4 text-gray-500 text-sm">
@@ -35,20 +35,19 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Company (सारे लीगल पेज अब यहीं हैं) */}
+          {/* कॉलम 3: कंपनी और लीगल (सारे लिंक्स यहाँ हैं) */}
           <div>
             <h3 className="text-white font-bold mb-6 text-sm uppercase tracking-widest">Company</h3>
             <ul className="space-y-4 text-gray-500 text-sm">
               <li><Link href="/about" className="hover:text-purple-400 transition-colors">About Us</Link></li>
               <li><Link href="/contact" className="hover:text-purple-400 transition-colors">Contact Us</Link></li>
-              {/* ✅ यहाँ सारे पेज जोड़ दिए हैं */}
               <li><Link href="/privacy" className="hover:text-purple-400 transition-colors">Privacy Policy</Link></li>
               <li><Link href="/terms" className="hover:text-purple-400 transition-colors">Terms of Service</Link></li>
               <li><Link href="/refund" className="hover:text-purple-400 transition-colors">Refund Policy</Link></li>
             </ul>
           </div>
 
-          {/* Column 4: Newsletter */}
+          {/* कॉलम 4: न्यूज़लेटर */}
           <div>
             <h3 className="text-white font-bold mb-6 text-sm uppercase tracking-widest">Newsletter</h3>
             <p className="text-gray-500 text-sm mb-4">Get the latest updates and AI features.</p>
@@ -56,9 +55,9 @@ export default function Footer() {
               <input 
                 type="email" 
                 placeholder="Email address" 
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-purple-500 transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-purple-500 transition-all text-white"
               />
-              <button className="absolute right-2 top-2 p-1.5 bg-purple-600 hover:bg-purple-500 rounded-lg transition-colors">
+              <button className="absolute right-2 top-2 p-1.5 bg-purple-600 hover:bg-purple-500 rounded-lg transition-colors text-white">
                 <Send size={16} />
               </button>
             </div>
@@ -66,14 +65,13 @@ export default function Footer() {
 
         </div>
 
-        {/* --- BOTTOM SECTION --- */}
+        {/* --- बॉटम कॉपीराइट सेक्शन --- */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-gray-600 text-xs text-center md:text-left">
+          <div className="text-gray-600 text-[10px] md:text-xs text-center md:text-left tracking-wider uppercase">
             <p>© 2026 AI Timeline Maker. All rights reserved.</p>
             <p className="mt-1">MADE WITH ❤️ IN INDIA.</p>
           </div>
 
-          {/* 👇 नीचे से एक्स्ट्रा लिंक्स हटा दिए हैं ताकि सफाई रहे */}
           <div className="text-gray-600 text-[10px] tracking-widest uppercase">
             Payments secured by <span className="text-gray-400 font-bold">Lemon Squeezy</span>
           </div>
