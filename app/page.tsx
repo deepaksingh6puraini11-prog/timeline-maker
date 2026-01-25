@@ -39,7 +39,7 @@ export default function LandingPage() {
             
             <div className="hidden md:flex gap-8 text-sm font-medium text-gray-400">
                 <Link href="#features" className="hover:text-white transition-colors">Features</Link>
-                <Link href="/pricing" className="hover:text-white transition-colors">Pricing</Link>
+                <Link href="#pricing" className="hover:text-white transition-colors">Pricing</Link>
             </div>
 
             <div className="flex gap-4 items-center">
@@ -123,48 +123,64 @@ export default function LandingPage() {
           </div>
       </section>
 
-      {/* 💰 PRICING SECTION */}
+      {/* 💰 PRICING SECTION (Fixed as per screenshot) */}
       <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-16">
               <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Invest in your Grades</h2>
               <p className="text-gray-400">Choose the plan that fits your project needs. No hidden fees.</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left items-stretch">
+              
+              {/* Free Starter */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
                   <h3 className="text-xl font-bold text-gray-300 mb-2">Free Starter</h3>
                   <div className="text-4xl font-bold text-white mb-2">$0</div>
+                  <p className="text-gray-500 text-sm mb-8 italic">Perfect for testing & drafts.</p>
                   <div className="space-y-4 mb-8 flex-1">
                       <PricingCheck text="Unlimited Drafts" active />
+                      <PricingCheck text="Basic AI Generation" active />
                       <PricingCheck text="Watermarked Export" active />
+                      <PricingCheck text="Standard Support" active />
                   </div>
-                  <button className="w-full bg-white text-black py-3 rounded-xl font-bold">Start Free</button>
+                  <button className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors">Start Free</button>
               </div>
 
-              <div className="bg-[#1a1033] border border-purple-500 p-8 rounded-2xl flex flex-col relative transform hover:-translate-y-2 transition-transform shadow-[0_0_40px_rgba(168,85,247,0.15)]">
+              {/* Single Project (Best for Students) */}
+              <div className="bg-[#1a1033] border-2 border-purple-500 p-8 rounded-2xl flex flex-col relative transform scale-105 z-10 shadow-[0_0_40px_rgba(168,85,247,0.15)]">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">
+                      Best for Students
+                  </div>
                   <h3 className="text-xl font-bold text-purple-300 mb-2">Single Project</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$2</div>
+                  <div className="text-4xl font-bold text-white mb-2">$2 <span className="text-sm text-gray-500 font-normal">/ one-time</span></div>
+                  <p className="text-gray-500 text-sm mb-8 italic">For that one important assignment.</p>
                   <div className="space-y-4 mb-8 flex-1">
                       <PricingCheck text="Remove Watermark" active />
                       <PricingCheck text="HD PDF & PNG Export" active />
+                      <PricingCheck text="Lifetime Access" active />
+                      <PricingCheck text="Premium AI Models" active />
+                      <PricingCheck text="No Subscription" active />
                   </div>
-                  <Link href="/pricing" className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2">
-                      Buy Now
-                  </Link>
+                  <button className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-lg">
+                      <Zap className="w-4 h-4 fill-current" /> Buy Now
+                  </button>
               </div>
 
+              {/* Pro Monthly */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
                   <h3 className="text-xl font-bold text-gray-300 mb-2">Pro Monthly</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$5</div>
+                  <div className="text-4xl font-bold text-white mb-2">$5 <span className="text-sm text-gray-500 font-normal">/ month</span></div>
+                  <p className="text-gray-500 text-sm mb-8 italic">For power users & teachers.</p>
                   <div className="space-y-4 mb-8 flex-1">
+                      <PricingCheck text="Everything in Single" active />
                       <PricingCheck text="Unlimited Exports" active />
-                      <PricingCheck text="Priority Support" active />
+                      <PricingCheck text="Priority 24/7 Support" active />
+                      <PricingCheck text="Early Access Features" active />
+                      <PricingCheck text="Cancel Anytime" active />
                   </div>
-                  <Link href="/pricing" className="w-full bg-white text-black py-3 rounded-xl font-bold text-center">Subscribe</Link>
+                  <button className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors">Subscribe</button>
               </div>
           </div>
       </section>
-      
-      {/* 🦶 NOTE: फुटर यहाँ से हटा दिया गया है क्योंकि यह layout.tsx में है ✅ */}
     </div>
   );
 }
