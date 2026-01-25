@@ -2,13 +2,16 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, History, FileText, Zap, Globe, ChevronLeft, ChevronRight, Check, FileSpreadsheet, LayoutTemplate, Palette } from "lucide-react";
+import { ArrowRight, Sparkles, History, FileText, Zap, Globe, ChevronLeft, ChevronRight, Check, FileSpreadsheet, LayoutTemplate, Palette, Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const previewImages = [
-  "/preview.png", 
-  "/preview1.png", 
-  "/preview2.png", 
+const previewImages = ["/preview.png", "/preview1.png", "/preview2.png"];
+
+const testimonials = [
+  { name: "Sarah Jenkins", role: "History Student", content: "This tool saved my final project! I created a timeline of the French Revolution in 2 minutes. The AI research is scary good.", rating: 5 },
+  { name: "Dr. Robert Chen", role: "University Professor", content: "I recommend this to all my students. It helps them visualize historical context better than any textbook ever could.", rating: 5 },
+  { name: "Marco Diaz", role: "Project Manager", content: "Not just for students! I use it for my product roadmaps. The design is clean and the exports are high-quality.", rating: 5 },
+  { name: "Emily Watson", role: "High School Teacher", content: "The Smart Paste feature is a game changer. My students just paste their notes and boom—a beautiful timeline.", rating: 5 }
 ];
 
 export default function LandingPage() {
@@ -111,99 +114,87 @@ export default function LandingPage() {
         </motion.div>
       </main>
 
-      {/* ⚡ KILLER FEATURES SECTION */}
+      {/* ⚡ FEATURES SECTION */}
       <section id="features" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-20">
               <h2 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tighter">
                   Built for <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Speed & Beauty.</span>
               </h2>
-              <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-                  Stop wasting hours on manual entries. Our tool is designed to turn complex data into stunning visual stories instantly.
-              </p>
           </div>
-
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-              <div className="bg-[#0f172a] border border-white/5 p-8 rounded-3xl hover:border-purple-500/30 transition-all group">
-                  <div className="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-6"><Sparkles className="text-purple-400 w-6 h-6" /></div>
-                  <h3 className="text-xl font-bold text-white mb-3">Smart Paste (AI)</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">Paste a Wikipedia link or raw text. Our AI automatically extracts dates and events to build your timeline.</p>
-              </div>
+              <FeatureCard icon={<Sparkles className="text-purple-400" />} title="Smart Paste (AI)" desc="Paste text from Wikipedia or notes. AI builds the timeline for you." />
+              <FeatureCard icon={<FileSpreadsheet className="text-blue-400" />} title="Magic Sync" desc="Connect Sheets or Notion to transform data into roadmaps instantly." />
+              <FeatureCard icon={<LayoutTemplate className="text-emerald-400" />} title="1000+ Templates" desc="From History to Startups—access ready-to-use templates in seconds." />
+              <FeatureCard icon={<Palette className="text-pink-400" />} title="Design First" desc="Instagram-ready graphics that make your projects stand out in class." />
+          </div>
+      </section>
 
-              <div className="bg-[#0f172a] border border-white/5 p-8 rounded-3xl hover:border-blue-500/30 transition-all group">
-                  <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6"><FileSpreadsheet className="text-blue-400 w-6 h-6" /></div>
-                  <h3 className="text-xl font-bold text-white mb-3">Magic Sync</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">No need to type line-by-line. Connect your Google Sheets or Notion and transform data into roadmaps.</p>
-              </div>
-
-              <div className="bg-[#0f172a] border border-white/5 p-8 rounded-3xl hover:border-emerald-500/30 transition-all group">
-                  <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-6"><LayoutTemplate className="text-emerald-400 w-6 h-6" /></div>
-                  <h3 className="text-xl font-bold text-white mb-3">1000+ Templates</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">From "History" to "Startup Roadmaps"—access thousands of pre-made templates instantly.</p>
-              </div>
-
-              <div className="bg-[#0f172a] border border-white/5 p-8 rounded-3xl hover:border-pink-500/30 transition-all group">
-                  <div className="w-12 h-12 bg-pink-500/10 rounded-xl flex items-center justify-center mb-6"><Palette className="text-pink-400 w-6 h-6" /></div>
-                  <h3 className="text-xl font-bold text-white mb-3">Design First</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">Ditch boring charts. Get Instagram-ready, modern graphics that stand out in any classroom.</p>
-              </div>
+      {/* ⭐ TESTIMONIALS SECTION (The सुंदर Scrolling one) */}
+      <section id="testimonials" className="py-24 bg-[#050505] overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 mb-16 text-center">
+              <h2 className="text-4xl md:text-5xl font-bold italic tracking-tighter">Loved by Students & Teachers</h2>
+          </div>
+          <div className="flex gap-6 animate-scroll whitespace-nowrap">
+              {[...testimonials, ...testimonials].map((t, i) => (
+                  <div key={i} className="inline-block w-[350px] bg-[#0f172a] border border-white/5 p-8 rounded-3xl whitespace-normal">
+                      <div className="flex gap-1 mb-4">
+                          {[...Array(t.rating)].map((_, i) => <Star key={i} className="w-4 h-4 fill-yellow-500 text-yellow-500" />)}
+                      </div>
+                      <p className="text-gray-300 text-sm mb-6 italic leading-relaxed">"{t.content}"</p>
+                      <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-purple-600/20 rounded-full flex items-center justify-center font-bold text-purple-400">{t.name[0]}</div>
+                          <div>
+                              <div className="text-white font-bold text-sm">{t.name}</div>
+                              <div className="text-gray-500 text-xs">{t.role}</div>
+                          </div>
+                      </div>
+                  </div>
+              ))}
           </div>
       </section>
 
       {/* 💰 PRICING SECTION */}
       <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter text-center">Invest in your Grades</h2>
-              <p className="text-gray-400 text-center">Choose the plan that fits your project needs. No hidden fees.</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Invest in your Grades</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left items-stretch">
-              {/* Free Starter */}
-              <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
-                  <h3 className="text-xl font-bold text-gray-300 mb-2">Free Starter</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$0</div>
-                  <p className="text-gray-500 text-sm mb-8 italic text-left">Perfect for testing & drafts.</p>
-                  <div className="space-y-4 mb-8 flex-1 text-left">
-                      <PricingCheck text="Unlimited Drafts" active />
-                      <PricingCheck text="Basic AI Generation" active />
-                      <PricingCheck text="Watermarked Export" active />
-                      <PricingCheck text="Standard Support" active />
-                  </div>
-                  <Link href="/create" className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors text-center">Start Free</Link>
-              </div>
-
-              {/* Single Project */}
-              <div className="bg-[#1a1033] border-2 border-purple-500 p-8 rounded-2xl flex flex-col relative transform scale-105 z-10 shadow-[0_0_40px_rgba(168,85,247,0.15)]">
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">Best for Students</div>
-                  <h3 className="text-xl font-bold text-purple-300 mb-2">Single Project</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$2 <span className="text-sm text-gray-500 font-normal">/ one-time</span></div>
-                  <p className="text-gray-500 text-sm mb-8 italic text-left">For that one important assignment.</p>
-                  <div className="space-y-4 mb-8 flex-1 text-left">
-                      <PricingCheck text="Remove Watermark" active />
-                      <PricingCheck text="HD PDF & PNG Export" active />
-                      <PricingCheck text="Lifetime Access" active />
-                      <PricingCheck text="Premium AI Models" active />
-                      <PricingCheck text="No Subscription" active />
-                  </div>
-                  <Link href="/create" className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-lg text-center">
-                      <Zap className="w-4 h-4 fill-current" /> Buy Now
-                  </Link>
-              </div>
-
-              {/* Pro Monthly */}
-              <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
-                  <h3 className="text-xl font-bold text-gray-300 mb-2">Pro Monthly</h3>
-                  <div className="text-4xl font-bold text-white mb-2">$5 <span className="text-sm text-gray-500 font-normal">/ month</span></div>
-                  <p className="text-gray-500 text-sm mb-8 italic text-left">For power users & teachers.</p>
-                  <div className="space-y-4 mb-8 flex-1 text-left">
-                      <PricingCheck text="Everything in Single" active />
-                      <PricingCheck text="Unlimited Exports" active />
-                      <PricingCheck text="Priority 24/7 Support" active />
-                      <PricingCheck text="Early Access Features" active />
-                      <PricingCheck text="Cancel Anytime" active />
-                  </div>
-                  <Link href="/create" className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors text-center">Subscribe</Link>
-              </div>
+              <PricingCard title="Free Starter" price="$0" features={["Unlimited Drafts", "Basic AI Generation", "Watermarked Export"]} link="/create" />
+              <PricingCard title="Single Project" price="$2" featured features={["Remove Watermark", "HD PDF & PNG Export", "Lifetime Access", "Premium AI Models"]} link="/create" />
+              <PricingCard title="Pro Monthly" price="$5" features={["Unlimited Exports", "Priority 24/7 Support", "Early Access Features", "Cancel Anytime"]} link="/create" />
           </div>
       </section>
+    </div>
+  );
+}
+
+function FeatureCard({ icon, title, desc }: any) {
+  return (
+    <div className="bg-[#0f172a] border border-white/5 p-8 rounded-3xl hover:border-purple-500/30 transition-all group">
+      <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6">{icon}</div>
+      <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
+      <p className="text-gray-400 text-sm leading-relaxed">{desc}</p>
+    </div>
+  );
+}
+
+function PricingCard({ title, price, features, featured, link }: any) {
+  return (
+    <div className={`p-8 rounded-2xl flex flex-col ${featured ? 'bg-[#1a1033] border-2 border-purple-500 transform scale-105 z-10 shadow-2xl' : 'bg-[#0f172a]/50 border border-white/10 hover:border-white/20'}`}>
+      {featured && <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase">Best for Students</div>}
+      <h3 className={`text-xl font-bold mb-2 ${featured ? 'text-purple-300' : 'text-gray-300'}`}>{title}</h3>
+      <div className="text-4xl font-bold text-white mb-8">{price}</div>
+      <div className="space-y-4 mb-8 flex-1">
+          {features.map((f: string, i: number) => (
+              <div key={i} className="flex items-center gap-3">
+                  <Check className="w-4 h-4 text-green-400" />
+                  <span className="text-sm text-gray-400">{f}</span>
+              </div>
+          ))}
+      </div>
+      <Link href={link} className={`w-full py-3 rounded-xl font-bold text-center transition-all ${featured ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg' : 'bg-white text-black hover:bg-gray-200'}`}>
+          {title === "Free Starter" ? "Start Free" : title === "Single Project" ? "Buy Now" : "Subscribe"}
+      </Link>
     </div>
   );
 }
