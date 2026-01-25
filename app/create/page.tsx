@@ -11,8 +11,8 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { motion } from "framer-motion";
 
-// 👇 IMPORT THE NEW COMPONENT
-import TimelineDisplay from "@/components/TimelineDisplay"; 
+// ✅ FIXED: अब यह सही TimelineDisplay फाइल को इम्पोर्ट करेगा, Footer को नहीं
+import TimelineDisplay from "../components/TimelineDisplay"; 
 
 // 🗣️ DICTIONARY: English vs Spanish Text
 const TRANSLATIONS = {
@@ -262,7 +262,6 @@ export default function CreatePage() {
     try {
         toast.loading("Rendering PDF...");
         
-        // 👇 FIXED: Added @ts-ignore to skip the type error
         // @ts-ignore
         const canvas = await html2canvas(printRef.current, { scale: 2, backgroundColor: "#ffffff", useCORS: true });
         
@@ -332,7 +331,6 @@ export default function CreatePage() {
                 transition={{ duration: 0.5 }}
                 className="max-w-3xl mx-auto text-center mt-6"
             >
-                {/* Hero Headline */}
                 <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
                     {t.hero_title} <br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400">{t.hero_highlight}</span>
@@ -341,7 +339,6 @@ export default function CreatePage() {
                     {t.hero_desc}
                 </p>
 
-                {/* 🚀 AI SECTION (Big Box) */}
                 <div className="relative w-full group mb-8">
                     <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
                     <form onSubmit={handleSubmit} className="relative flex bg-[#0f1014] border border-white/10 rounded-2xl p-2 shadow-2xl items-center">
@@ -364,7 +361,6 @@ export default function CreatePage() {
                         </button>
                     </form>
                     
-                    {/* Suggestions */}
                     <div className="mt-3 flex flex-wrap justify-center gap-2">
                         {suggestions.slice(0, 4).map((s) => (
                             <button 
@@ -378,14 +374,12 @@ export default function CreatePage() {
                     </div>
                 </div>
 
-                {/* OR DIVIDER */}
                 <div className="flex items-center justify-center gap-4 mb-8">
                     <div className="h-px bg-white/10 w-24"></div>
                     <span className="text-gray-500 text-sm font-bold">{t.or}</span>
                     <div className="h-px bg-white/10 w-24"></div>
                 </div>
 
-                {/* 🛠️ MANUAL SECTION (HIGHLIGHTED) */}
                 <button 
                     onClick={handleManualCreate}
                     className="w-full group relative bg-[#0f1014] hover:bg-[#15151a] border border-white/10 hover:border-white/20 rounded-2xl p-6 flex items-center gap-6 transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer text-left"
@@ -401,7 +395,6 @@ export default function CreatePage() {
                         <ArrowRight size={24} />
                     </div>
                 </button>
-
             </motion.div>
         )}
 
@@ -433,7 +426,6 @@ export default function CreatePage() {
         {timeline && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4">
                 
-                {/* Editor Toolbar with SAVE BUTTON */}
                 <div className="bg-[#0f1014]/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl sticky top-4 z-40 shadow-2xl flex flex-wrap gap-4 items-center justify-between mb-8">
                     <div className="flex items-center gap-4">
                         <div className="p-2 bg-purple-500/20 text-purple-400 rounded-lg">
@@ -473,7 +465,6 @@ export default function CreatePage() {
                     </div>
                 </div>
 
-                {/* 👇 THIS IS THE CHANGE: Using TimelineDisplay for images */}
                 {timeline.length > 0 ? (
                     <TimelineDisplay events={timeline} />
                 ) : (
@@ -485,7 +476,7 @@ export default function CreatePage() {
             </motion.div>
         )}
 
-        {/* --- EDITOR MODAL (Kept for manual edits) --- */}
+        {/* --- EDITOR MODAL --- */}
         {isEditorOpen && (
             <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60] flex items-center justify-center p-4">
                 <motion.div initial={{scale: 0.95, opacity: 0}} animate={{scale: 1, opacity: 1}} className="bg-[#0f1014] border border-white/10 rounded-2xl w-full max-w-lg shadow-2xl flex flex-col max-h-[90vh]">
@@ -575,7 +566,6 @@ export default function CreatePage() {
             </div>
         )}
 
-        {/* PRINT TEMPLATE (Hidden) - for PDF Engine compatibility */}
         <div ref={printRef} className="hidden" style={{ width: '800px', background: 'white', padding: '50px', color: 'black', fontFamily: 'sans-serif' }}>
             <div style={{ borderBottom: '2px solid #ddd', paddingBottom: '20px', marginBottom: '40px' }}>
                 <h1 style={{ fontSize: '36px', fontWeight: 'bold', margin: '0 0 10px 0', textTransform: 'capitalize' }}>{topic}</h1>
@@ -611,3 +601,6 @@ export default function CreatePage() {
     </div>
   );
 }
+
+// Icon for footer
+import { Sparkles as SparklesIcon } from "lucide-react";
