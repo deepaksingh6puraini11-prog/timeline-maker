@@ -27,7 +27,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-purple-500/30 overflow-x-hidden">
       
-      {/* 🌟 NAVBAR (Updated as per image_8e7477.jpg) */}
+      {/* 🌟 NAVBAR */}
       <nav className="sticky top-0 z-50 backdrop-blur-lg bg-[#050505]/80 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -87,7 +87,6 @@ export default function LandingPage() {
                       <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
                     </div>
                 </div>
-                
                 <div className="relative h-auto bg-[#050505] overflow-hidden group">
                     <AnimatePresence mode="wait">
                       <motion.img 
@@ -112,7 +111,7 @@ export default function LandingPage() {
         </motion.div>
       </main>
 
-      {/* ⚡ KILLER FEATURES SECTION (Detailed English) */}
+      {/* ⚡ KILLER FEATURES SECTION */}
       <section id="features" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-20">
               <h2 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tighter">
@@ -127,36 +126,37 @@ export default function LandingPage() {
               <div className="bg-[#0f172a] border border-white/5 p-8 rounded-3xl hover:border-purple-500/30 transition-all group">
                   <div className="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-6"><Sparkles className="text-purple-400 w-6 h-6" /></div>
                   <h3 className="text-xl font-bold text-white mb-3">Smart Paste (AI)</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">Paste a Wikipedia link or raw text. Our AI automatically extracts dates and events to build your timeline. A massive time-saver for students.</p>
+                  <p className="text-gray-400 text-sm leading-relaxed">Paste a Wikipedia link or raw text. Our AI automatically extracts dates and events to build your timeline.</p>
               </div>
 
               <div className="bg-[#0f172a] border border-white/5 p-8 rounded-3xl hover:border-blue-500/30 transition-all group">
                   <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6"><FileSpreadsheet className="text-blue-400 w-6 h-6" /></div>
                   <h3 className="text-xl font-bold text-white mb-3">Magic Sync</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">No need to type line-by-line. Connect your Google Sheets or Notion, and watch your data transform into a beautiful interactive roadmap.</p>
+                  <p className="text-gray-400 text-sm leading-relaxed">No need to type line-by-line. Connect your Google Sheets or Notion and transform data into roadmaps.</p>
               </div>
 
               <div className="bg-[#0f172a] border border-white/5 p-8 rounded-3xl hover:border-emerald-500/30 transition-all group">
                   <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-6"><LayoutTemplate className="text-emerald-400 w-6 h-6" /></div>
                   <h3 className="text-xl font-bold text-white mb-3">1000+ Templates</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">From "WW2 History" to "Startup Roadmaps"—access thousands of pre-made templates. Just pick, edit, and export in seconds.</p>
+                  <p className="text-gray-400 text-sm leading-relaxed">From "History" to "Startup Roadmaps"—access thousands of pre-made templates instantly.</p>
               </div>
 
               <div className="bg-[#0f172a] border border-white/5 p-8 rounded-3xl hover:border-pink-500/30 transition-all group">
                   <div className="w-12 h-12 bg-pink-500/10 rounded-xl flex items-center justify-center mb-6"><Palette className="text-pink-400 w-6 h-6" /></div>
                   <h3 className="text-xl font-bold text-white mb-3">Design First</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">Ditch boring charts. Get Instagram-ready, modern, dark-mode graphics that make your projects stand out in any classroom or meeting.</p>
+                  <p className="text-gray-400 text-sm leading-relaxed">Ditch boring charts. Get Instagram-ready, modern graphics that stand out in any classroom.</p>
               </div>
           </div>
       </section>
 
-      {/* 💰 PRICING SECTION (Fixed as per image_98699a.png) */}
+      {/* 💰 PRICING SECTION */}
       <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-center">
           <div className="mb-16">
               <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter text-center">Invest in your Grades</h2>
               <p className="text-gray-400 text-center">Choose the plan that fits your project needs. No hidden fees.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left items-stretch">
+              {/* Free Starter */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
                   <h3 className="text-xl font-bold text-gray-300 mb-2">Free Starter</h3>
                   <div className="text-4xl font-bold text-white mb-2">$0</div>
@@ -167,9 +167,10 @@ export default function LandingPage() {
                       <PricingCheck text="Watermarked Export" active />
                       <PricingCheck text="Standard Support" active />
                   </div>
-                  <button className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors">Start Free</button>
+                  <Link href="/create" className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors text-center">Start Free</Link>
               </div>
 
+              {/* Single Project */}
               <div className="bg-[#1a1033] border-2 border-purple-500 p-8 rounded-2xl flex flex-col relative transform scale-105 z-10 shadow-[0_0_40px_rgba(168,85,247,0.15)]">
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg">Best for Students</div>
                   <h3 className="text-xl font-bold text-purple-300 mb-2">Single Project</h3>
@@ -182,11 +183,12 @@ export default function LandingPage() {
                       <PricingCheck text="Premium AI Models" active />
                       <PricingCheck text="No Subscription" active />
                   </div>
-                  <button className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-lg">
+                  <Link href="/create" className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-lg text-center">
                       <Zap className="w-4 h-4 fill-current" /> Buy Now
-                  </button>
+                  </Link>
               </div>
 
+              {/* Pro Monthly */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all">
                   <h3 className="text-xl font-bold text-gray-300 mb-2">Pro Monthly</h3>
                   <div className="text-4xl font-bold text-white mb-2">$5 <span className="text-sm text-gray-500 font-normal">/ month</span></div>
@@ -198,7 +200,7 @@ export default function LandingPage() {
                       <PricingCheck text="Early Access Features" active />
                       <PricingCheck text="Cancel Anytime" active />
                   </div>
-                  <button className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors">Subscribe</button>
+                  <Link href="/create" className="w-full bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors text-center">Subscribe</Link>
               </div>
           </div>
       </section>
@@ -213,18 +215,6 @@ function PricingCheck({ text, active }: any) {
                 <Check className="w-2.5 h-2.5" />
             </div>
             <span className={`text-sm ${active ? 'text-white' : 'text-gray-400'}`}>{text}</span>
-        </div>
-    )
-}
-
-function FeatureCard({ icon, title, desc }: any) {
-    return (
-        <div className="bg-[#0f172a] border border-white/5 p-8 rounded-2xl hover:border-purple-500/30 transition-all hover:-translate-y-1 group text-left">
-            <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 text-2xl group-hover:bg-white/10 transition-colors">
-                {icon}
-            </div>
-            <h3 className="text-xl font-bold text-white mb-3 tracking-tight">{title}</h3>
-            <p className="text-gray-400 leading-relaxed text-sm">{desc}</p>
         </div>
     )
 }
