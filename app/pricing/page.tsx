@@ -11,10 +11,9 @@ import { createBrowserClient } from "@supabase/ssr";
 // ✅ STORE NAME
 const STORE_SLUG = "timelinemakerai"; 
 
-// 🔄 FIXED: IDs ko SWAP kar diya hai (Ab sahi link khulega)
-// Pehle ye ulta tha, ab Maine ID badal di hai
-const ID_SINGLE_PROJECT = "3aab6e9b-86d2-4fd2-9c0b-9dad6943ce20"; // Ab ye $2 wala hai
-const ID_MONTHLY_PRO = "bf134d98-d5d3-41a4-a0e9-4b6938fc9676";    // Ab ye $5 wala hai
+// 🔄 FIXED: Live Mode IDs Updated (Ab asli payment link khulega)
+const ID_SINGLE_PROJECT = "0925ec6f-d5c6-4631-b7d6-5dceda7d8ef1"; // $2 वाला Live ID
+const ID_MONTHLY_PRO = "be758e5d-a55a-4f5a-9843-973813a9805c";    // $5 वाला Live ID
 
 // 🗣️ DICTIONARY: English vs Spanish Text
 const TRANSLATIONS = {
@@ -125,7 +124,7 @@ export default function PricingPage() {
         if (user) setUserId(user.id);
     };
     getUser();
-  }, []);
+  }, [supabase.auth]);
 
   const toggleLanguage = () => {
     const newLang = lang === 'en' ? 'es' : 'en';
