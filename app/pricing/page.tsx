@@ -32,7 +32,7 @@ export default function LandingPage() {
           </div>
 
           <div className="flex gap-4 items-center">
-            {/* 🌍 SPANISH LANGUAGE BUTTON */}
+            {/* 🌍 SPANISH LANGUAGE BUTTON RESTORED */}
             <Link
               href="/es"
               className="flex items-center gap-1 text-sm font-bold text-gray-400 hover:text-white transition-colors mr-2 border border-white/10 px-2 py-1 rounded-md hover:bg-white/5"
@@ -141,7 +141,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 💰 PRICING SECTION (Full Original Structure Restored) */}
+      {/* 💰 PRICING SECTION (Original 334-line style preserved) */}
       <section id="pricing" className="max-w-7xl mx-auto px-6 py-24 text-center">
         <div className="mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">Invest in your Grades</h2>
@@ -176,7 +176,7 @@ export default function LandingPage() {
               <PricingCheck text="Premium AI Models" active />
               <PricingCheck text="No Subscription" active />
             </div>
-            {/* ✅ FIXED LIVE LINK: Sending directly to Lemon Squeezy to fix 404 */}
+            {/* ✅ FIXED: Live Lemon Squeezy Link */}
             <Link 
               href="https://timelinemakerai.lemonsqueezy.com/checkout/buy/0925ec6f-d5c6-4631-b7d6-5dceda7d8ef1" 
               className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform"
@@ -197,7 +197,7 @@ export default function LandingPage() {
               <PricingCheck text="Early Access Features" active />
               <PricingCheck text="Cancel Anytime" active />
             </div>
-            {/* ✅ FIXED LIVE LINK: Sending directly to Lemon Squeezy to fix 404 */}
+            {/* ✅ FIXED: Live Lemon Squeezy Link */}
             <Link 
               href="https://timelinemakerai.lemonsqueezy.com/checkout/buy/be758e5d-a55a-4f5a-9843-973813a9805c" 
               className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors shadow-lg"
@@ -208,7 +208,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 🦶 FOOTER (Full Detailed Footer Restored) */}
+      {/* 🦶 FOOTER (Centered Copyright Restored) */}
       <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10 text-left">
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1">
@@ -262,7 +262,6 @@ export default function LandingPage() {
   );
 }
 
-// 🧩 HELPER COMPONENTS
 function PricingCheck({ text, active }: any) {
   return (
     <div className="flex items-center gap-3">
