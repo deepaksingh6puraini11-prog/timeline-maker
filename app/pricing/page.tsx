@@ -37,21 +37,60 @@ const testimonials = [
   },
 ];
 
-// ✅ Safe builder for checkout URL + custom user_id
+// ✅ Always attaches custom user_id correctly (no manual ? / & mistakes)
 function buildCheckoutUrl(storeDomain: string, buyId: string, userId: string) {
   const u = new URL(`https://${storeDomain}/checkout/buy/${buyId}`);
   u.searchParams.set("checkout[custom][user_id]", userId);
   return u.toString();
 }
 
+function PricingCheck({ text, active }: { text: string; active: boolean }) {
+  return (
+    <div className="flex items-center gap-3">
+      <div
+        className={`w-4 h-4 rounded-full flex items-center justify-center ${
+          active ? "bg-green-500/20 text-green-400" : "bg-white/5 text-gray-400"
+        }`}
+      >
+        <Check className="w-2.5 h-2.5" />
+      </div>
+      <span className={`text-sm ${active ? "text-white" : "text-gray-400"}`}>
+        {text}
+      </span>
+    </div>
+  );
+}
+
+function FeatureCard({
+  icon,
+  title,
+  desc,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <div className="bg-[#0f172a] border border-white/5 p-8 rounded-2xl hover:border-purple-500/30 transition-all hover:-translate-y-1 group text-left">
+      <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors">
+        {icon}
+      </div>
+      <h3 className="text-xl font-bold text-white mb-3 tracking-tight">
+        {title}
+      </h3>
+      <p className="text-gray-400 leading-relaxed text-sm">{desc}</p>
+    </div>
+  );
+}
+
 export default function PricingPage() {
-  // ✅ stable supabase client (prevents effect re-run loop)
+  // ✅ stable supabase client
   const supabase = useMemo(() => createClientComponentClient(), []);
 
   const [userId, setUserId] = useState<string | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
 
-  // ✅ Fetch logged-in userId
+  // ✅ fetch logged in user id
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -70,13 +109,13 @@ export default function PricingPage() {
     getUser();
   }, [supabase]);
 
-  // ✅ Lemon Squeezy Store + BUY IDs (UUID) — Checkout ke liye yahi use honge
+  // ✅ Lemon Squeezy config (BUY IDs UUID — checkout ke liye yahi use honge)
   const STORE_DOMAIN = "timelinemakerai.lemonsqueezy.com";
 
-  // ✅ Single ($2) BUY ID (UUID)
+  // $2 Single Project (one-time)
   const BUY_ID_SINGLE = "0925ec6f-d5c6-4631-b7d6-5dceda7d8ef1";
 
-  // ✅ Monthly ($5) BUY ID (UUID)
+  // $5 Pro Monthly (subscription)
   const BUY_ID_MONTHLY = "be758e5d-a55a-4f5a-9843-973813a9805c";
 
   const SINGLE_CHECKOUT_URL = userId
@@ -148,7 +187,7 @@ export default function PricingPage() {
       <main className="max-w-7xl mx-auto px-6 pt-20 pb-16 relative">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[120px] -z-10 pointer-events-none" />
 
-        {/* 💰 PRICING SECTION */}
+        {/* 💰 PRICING */}
         <section id="pricing" className="py-12 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -160,7 +199,7 @@ export default function PricingPage() {
                 Invest in your Grades
               </h2>
               <p className="text-gray-400">
-                Choose the plan that fits your project needs.
+                Choose the plan that fits your project needs. No hidden fees.
               </p>
             </div>
 
@@ -170,40 +209,51 @@ export default function PricingPage() {
                 <h3 className="text-xl font-bold text-gray-300 mb-2">
                   Free Starter
                 </h3>
-                <div className="text-4xl font-bold text-white mb-8">$0</div>
+                <div className="text-4xl font-bold text-white mb-2">$0</div>
+                <p className="text-gray-400 text-sm mb-8 italic">
+                  Perfect for testing & drafts.
+                </p>
 
                 <div className="space-y-4 mb-8 flex-1">
                   <PricingCheck text="Unlimited Drafts" active />
                   <PricingCheck text="Basic AI Generation" active />
+                  <PricingCheck text="Watermarked Export" active />
+                  <PricingCheck text="Standard Support" active />
                 </div>
 
-                <button className="w-full bg-white/10 text-white py-3 rounded-xl font-bold cursor-default">
+                <button className="w-full bg-white text-black py-3 rounded-xl font-bold cursor-default">
                   Current Plan
                 </button>
               </div>
 
-              {/* Single Project ($2) */}
+              {/* Single Project ($2 one-time) */}
               <div className="bg-[#1a1033] border border-purple-500 p-8 rounded-2xl flex flex-col relative transform hover:-translate-y-2 transition-transform shadow-[0_0_40px_rgba(168,85,247,0.15)] text-left">
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase">
                   Best for Students
                 </div>
 
-                <h3 className="text-xl font-bold text-purple-300 mb-2">
+                <h3 className="text-xl font-bold text-purple-200 mb-2">
                   Single Project
                 </h3>
 
-                <div className="text-4xl font-bold text-white mb-8">
+                <div className="text-4xl font-bold text-white mb-2">
                   $2{" "}
-                  <span className="text-sm text-gray-500 font-normal">
-                    / once
+                  <span className="text-sm text-gray-400 font-normal">
+                    / one-time
                   </span>
                 </div>
 
-                {/* ✅ Single = 1 project only */}
+                <p className="text-gray-400 text-sm mb-8 italic">
+                  For that one important assignment.
+                </p>
+
+                {/* ✅ exactly like your screenshot */}
                 <div className="space-y-4 mb-8 flex-1">
-                  <PricingCheck text="1 Project Unlock" active />
-                  <PricingCheck text="Remove Watermark (1 project)" active />
-                  <PricingCheck text="HD PDF & PNG Export (1 project)" active />
+                  <PricingCheck text="Remove Watermark" active />
+                  <PricingCheck text="HD PDF & PNG Export" active />
+                  <PricingCheck text="Lifetime Access" active />
+                  <PricingCheck text="Premium AI Models" active />
+                  <PricingCheck text="No Subscription" active />
                 </div>
 
                 {loadingUser ? (
@@ -227,23 +277,29 @@ export default function PricingPage() {
                 )}
               </div>
 
-              {/* Pro Monthly ($5) */}
+              {/* Pro Monthly ($5/month) */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all text-left">
-                <h3 className="text-xl font-bold text-gray-300 mb-2">
+                <h3 className="text-xl font-bold text-gray-200 mb-2">
                   Pro Monthly
                 </h3>
 
-                <div className="text-4xl font-bold text-white mb-8">
+                <div className="text-4xl font-bold text-white mb-2">
                   $5{" "}
-                  <span className="text-sm text-gray-500 font-normal">
+                  <span className="text-sm text-gray-400 font-normal">
                     / month
                   </span>
                 </div>
 
+                <p className="text-gray-400 text-sm mb-8 italic">
+                  For power users & teachers.
+                </p>
+
                 <div className="space-y-4 mb-8 flex-1">
                   <PricingCheck text="Everything in Single" active />
                   <PricingCheck text="Unlimited Exports" active />
-                  <PricingCheck text="Priority Support" active />
+                  <PricingCheck text="Priority 24/7 Support" active />
+                  <PricingCheck text="Early Access Features" active />
+                  <PricingCheck text="Cancel Anytime" active />
                 </div>
 
                 {loadingUser ? (
@@ -339,9 +395,7 @@ export default function PricingPage() {
             <h2 className="text-3xl md:text-5xl font-bold mb-4 italic">
               Real feedback.
             </h2>
-            <p className="text-gray-400">
-              Join our growing community of creators.
-            </p>
+            <p className="text-gray-400">Join our growing community of creators.</p>
           </div>
 
           <div className="flex overflow-hidden">
@@ -363,9 +417,7 @@ export default function PricingPage() {
                       {t.name[0]}
                     </div>
                     <div className="text-left">
-                      <div className="font-bold text-white text-sm">
-                        {t.name}
-                      </div>
+                      <div className="font-bold text-white text-sm">{t.name}</div>
                       <div className="text-xs text-purple-400">{t.role}</div>
                     </div>
                   </div>
@@ -388,45 +440,6 @@ export default function PricingPage() {
           </div>
         </div>
       </footer>
-    </div>
-  );
-}
-
-function PricingCheck({ text, active }: { text: string; active: boolean }) {
-  return (
-    <div className="flex items-center gap-3">
-      <div
-        className={`w-4 h-4 rounded-full flex items-center justify-center ${
-          active ? "bg-green-500/20 text-green-400" : "bg-white/5 text-gray-400"
-        }`}
-      >
-        <Check className="w-2.5 h-2.5" />
-      </div>
-      <span className={`text-sm ${active ? "text-white" : "text-gray-400"}`}>
-        {text}
-      </span>
-    </div>
-  );
-}
-
-function FeatureCard({
-  icon,
-  title,
-  desc,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-}) {
-  return (
-    <div className="bg-[#0f172a] border border-white/5 p-8 rounded-2xl hover:border-purple-500/30 transition-all hover:-translate-y-1 group text-left">
-      <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 group-hover:bg-white/10 transition-colors">
-        {icon}
-      </div>
-      <h3 className="text-xl font-bold text-white mb-3 tracking-tight">
-        {title}
-      </h3>
-      <p className="text-gray-400 leading-relaxed text-sm">{desc}</p>
     </div>
   );
 }
