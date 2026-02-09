@@ -37,21 +37,27 @@ const testimonials = [
   },
 ];
 
+// ✅ Safe builder for checkout URL + custom user_id
+function buildCheckoutUrl(storeDomain: string, buyId: string, userId: string) {
+  const u = new URL(`https://${storeDomain}/checkout/buy/${buyId}`);
+  u.searchParams.set("checkout[custom][user_id]", userId);
+  return u.toString();
+}
+
 export default function PricingPage() {
-  // ✅ Stable Supabase client (prevents effect loop)
+  // ✅ stable supabase client (prevents effect re-run loop)
   const supabase = useMemo(() => createClientComponentClient(), []);
 
   const [userId, setUserId] = useState<string | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
 
-  // ✅ 1) Fetch logged-in userId
+  // ✅ Fetch logged-in userId
   useEffect(() => {
     const getUser = async () => {
       try {
         setLoadingUser(true);
         const { data, error } = await supabase.auth.getUser();
         if (error) console.error("Supabase getUser:", error.message);
-
         setUserId(data.user?.id ?? null);
       } catch (e) {
         console.error("Supabase getUser exception:", e);
@@ -64,22 +70,21 @@ export default function PricingPage() {
     getUser();
   }, [supabase]);
 
-  // ✅ 3) Correct Lemon Squeezy Store + Variant IDs
-  const STORE_URL = "timelinemakerai.lemonsqueezy.com";
-  const ID_SINGLE = "1273917"; // $2 Single Project
-  const ID_MONTHLY = "1273928"; // $5 Pro Monthly
+  // ✅ Lemon Squeezy Store + BUY IDs (UUID) — Checkout ke liye yahi use honge
+  const STORE_DOMAIN = "timelinemakerai.lemonsqueezy.com";
 
-  // ✅ 2) Dynamic checkout URLs with custom user_id
+  // ✅ Single ($2) BUY ID (UUID)
+  const BUY_ID_SINGLE = "0925ec6f-d5c6-4631-b7d6-5dceda7d8ef1";
+
+  // ✅ Monthly ($5) BUY ID (UUID)
+  const BUY_ID_MONTHLY = "be758e5d-a55a-4f5a-9843-973813a9805c";
+
   const SINGLE_CHECKOUT_URL = userId
-    ? `https://${STORE_URL}/checkout/buy/${ID_SINGLE}?checkout[custom][user_id]=${encodeURIComponent(
-        userId
-      )}`
+    ? buildCheckoutUrl(STORE_DOMAIN, BUY_ID_SINGLE, userId)
     : "";
 
   const PRO_CHECKOUT_URL = userId
-    ? `https://${STORE_URL}/checkout/buy/${ID_MONTHLY}?checkout[custom][user_id]=${encodeURIComponent(
-        userId
-      )}`
+    ? buildCheckoutUrl(STORE_DOMAIN, BUY_ID_MONTHLY, userId)
     : "";
 
   return (
@@ -97,7 +102,10 @@ export default function PricingPage() {
           </div>
 
           <div className="hidden md:flex gap-8 text-sm font-medium text-gray-400">
-            <Link href="#features" className="hover:text-white transition-colors">
+            <Link
+              href="#features"
+              className="hover:text-white transition-colors"
+            >
               Features
             </Link>
             <Link href="#pricing" className="hover:text-white transition-colors">
@@ -140,7 +148,7 @@ export default function PricingPage() {
       <main className="max-w-7xl mx-auto px-6 pt-20 pb-16 relative">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[120px] -z-10 pointer-events-none" />
 
-        {/* 💰 PRICING */}
+        {/* 💰 PRICING SECTION */}
         <section id="pricing" className="py-12 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -174,7 +182,7 @@ export default function PricingPage() {
                 </button>
               </div>
 
-              {/* Single Project */}
+              {/* Single Project ($2) */}
               <div className="bg-[#1a1033] border border-purple-500 p-8 rounded-2xl flex flex-col relative transform hover:-translate-y-2 transition-transform shadow-[0_0_40px_rgba(168,85,247,0.15)] text-left">
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase">
                   Best for Students
@@ -191,14 +199,13 @@ export default function PricingPage() {
                   </span>
                 </div>
 
-                {/* ✅ FIX: No lifetime. It's 1 project only */}
+                {/* ✅ Single = 1 project only */}
                 <div className="space-y-4 mb-8 flex-1">
                   <PricingCheck text="1 Project Unlock" active />
                   <PricingCheck text="Remove Watermark (1 project)" active />
                   <PricingCheck text="HD PDF & PNG Export (1 project)" active />
                 </div>
 
-                {/* ✅ FIX: Avoid glitch with Loading */}
                 {loadingUser ? (
                   <button className="w-full bg-white/10 text-white py-3 rounded-xl font-bold opacity-60 cursor-not-allowed">
                     Loading...
@@ -220,7 +227,7 @@ export default function PricingPage() {
                 )}
               </div>
 
-              {/* Pro Monthly */}
+              {/* Pro Monthly ($5) */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all text-left">
                 <h3 className="text-xl font-bold text-gray-300 mb-2">
                   Pro Monthly
@@ -332,7 +339,9 @@ export default function PricingPage() {
             <h2 className="text-3xl md:text-5xl font-bold mb-4 italic">
               Real feedback.
             </h2>
-            <p className="text-gray-400">Join our growing community of creators.</p>
+            <p className="text-gray-400">
+              Join our growing community of creators.
+            </p>
           </div>
 
           <div className="flex overflow-hidden">
@@ -354,7 +363,9 @@ export default function PricingPage() {
                       {t.name[0]}
                     </div>
                     <div className="text-left">
-                      <div className="font-bold text-white text-sm">{t.name}</div>
+                      <div className="font-bold text-white text-sm">
+                        {t.name}
+                      </div>
                       <div className="text-xs text-purple-400">{t.role}</div>
                     </div>
                   </div>
