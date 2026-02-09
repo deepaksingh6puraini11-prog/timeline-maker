@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import {
-  ArrowRight,
   Sparkles,
   History,
   FileText,
@@ -37,13 +36,6 @@ const testimonials = [
     text: "Got an 'A' on my history final! The timeline looked so professional.",
   },
 ];
-
-// ✅ Always attaches custom user_id correctly
-function buildCheckoutUrl(storeDomain: string, buyId: string, userId: string) {
-  const u = new URL(`https://${storeDomain}/checkout/buy/${buyId}`);
-  u.searchParams.set("checkout[custom][user_id]", userId);
-  return u.toString();
-}
 
 function PricingCheck({ text, active }: { text: string; active: boolean }) {
   return (
@@ -98,12 +90,14 @@ export default function PricingPage() {
       try {
         setLoadingUser(true);
 
+        // 1) current session
         const { data: sessionData, error } = await supabase.auth.getSession();
         if (error) console.error("getSession error:", error.message);
 
         const id = sessionData.session?.user?.id ?? null;
         if (mounted) setUserId(id);
 
+        // 2) listen changes
         const { data: sub } = supabase.auth.onAuthStateChange(
           (_event, session) => {
             if (!mounted) return;
@@ -122,9 +116,7 @@ export default function PricingPage() {
     };
 
     let cleanup: (() => void) | null = null;
-    init().then((fn) => {
-      cleanup = fn;
-    });
+    init().then((fn) => (cleanup = fn));
 
     return () => {
       mounted = false;
@@ -132,22 +124,27 @@ export default function PricingPage() {
     };
   }, [supabase]);
 
-  // ✅ Lemon Squeezy config (BUY IDs UUID)
+  // ✅ Lemon Squeezy
   const STORE_DOMAIN = "timelinemakerai.lemonsqueezy.com";
 
-  // $2 Single Project (one-time)
-  const BUY_ID_SINGLE = "0925ec6f-d5c6-4631-b7d6-5dceda7d8ef1";
+  // ✅ BUY IDs (UUID)
+  const BUY_ID_SINGLE = "0925ec6f-d5c6-4631-b7d6-5dceda7d8ef1"; // $2 one-time
+  const BUY_ID_MONTHLY = "be758e5d-a55a-4f5a-9843-973813a9805c"; // $5/month
 
-  // $5 Pro Monthly (subscription)
-  const BUY_ID_MONTHLY = "be758e5d-a55a-4f5a-9843-973813a9805c";
+  // ✅ INLINE checkout URLs (bulletproof)
+  const singleHref =
+    userId
+      ? `https://${STORE_DOMAIN}/checkout/buy/${BUY_ID_SINGLE}?checkout[custom][user_id]=${encodeURIComponent(
+          userId
+        )}`
+      : "";
 
-  const SINGLE_CHECKOUT_URL = userId
-    ? buildCheckoutUrl(STORE_DOMAIN, BUY_ID_SINGLE, userId)
-    : "";
-
-  const PRO_CHECKOUT_URL = userId
-    ? buildCheckoutUrl(STORE_DOMAIN, BUY_ID_MONTHLY, userId)
-    : "";
+  const proHref =
+    userId
+      ? `https://${STORE_DOMAIN}/checkout/buy/${BUY_ID_MONTHLY}?checkout[custom][user_id]=${encodeURIComponent(
+          userId
+        )}`
+      : "";
 
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-purple-500/30 overflow-x-hidden">
@@ -189,14 +186,12 @@ export default function PricingPage() {
               <Globe className="w-3 h-3" />
               <span>ES</span>
             </Link>
-
             <Link
               href="/login"
               className="hidden md:block text-sm font-medium text-gray-300 hover:text-white transition-colors py-2"
             >
               Login
             </Link>
-
             <Link
               href="/create"
               className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-transform hover:scale-105 shadow-xl"
@@ -284,7 +279,7 @@ export default function PricingPage() {
                   </button>
                 ) : userId ? (
                   <a
-                    href={SINGLE_CHECKOUT_URL}
+                    href={singleHref}
                     className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform"
                   >
                     <Zap className="w-4 h-4" /> Buy Now
@@ -330,7 +325,7 @@ export default function PricingPage() {
                   </button>
                 ) : userId ? (
                   <a
-                    href={PRO_CHECKOUT_URL}
+                    href={proHref}
                     className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors"
                   >
                     Subscribe
@@ -364,7 +359,6 @@ export default function PricingPage() {
                 <div className="w-3 h-3 rounded-full bg-green-500/80" />
               </div>
             </div>
-
             <div className="relative h-auto bg-[#050505] overflow-hidden">
               <img
                 src="/timeline-preview.png"
@@ -441,9 +435,7 @@ export default function PricingPage() {
                       {t.name[0]}
                     </div>
                     <div className="text-left">
-                      <div className="font-bold text-white text-sm">
-                        {t.name}
-                      </div>
+                      <div className="font-bold text-white text-sm">{t.name}</div>
                       <div className="text-xs text-purple-400">{t.role}</div>
                     </div>
                   </div>
