@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import {
+  ArrowRight,
   Sparkles,
   History,
   FileText,
@@ -37,7 +38,7 @@ const testimonials = [
   },
 ];
 
-// ✅ Always attaches custom user_id correctly (no manual ? / & mistakes)
+// ✅ Always attaches custom user_id correctly
 function buildCheckoutUrl(storeDomain: string, buyId: string, userId: string) {
   const u = new URL(`https://${storeDomain}/checkout/buy/${buyId}`);
   u.searchParams.set("checkout[custom][user_id]", userId);
@@ -84,32 +85,54 @@ function FeatureCard({
 }
 
 export default function PricingPage() {
-  // ✅ stable supabase client
   const supabase = useMemo(() => createClientComponentClient(), []);
 
   const [userId, setUserId] = useState<string | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
 
-  // ✅ fetch logged in user id
+  // ✅ Reliable auth: session + listener
   useEffect(() => {
-    const getUser = async () => {
+    let mounted = true;
+
+    const init = async () => {
       try {
         setLoadingUser(true);
-        const { data, error } = await supabase.auth.getUser();
-        if (error) console.error("Supabase getUser:", error.message);
-        setUserId(data.user?.id ?? null);
+
+        const { data: sessionData, error } = await supabase.auth.getSession();
+        if (error) console.error("getSession error:", error.message);
+
+        const id = sessionData.session?.user?.id ?? null;
+        if (mounted) setUserId(id);
+
+        const { data: sub } = supabase.auth.onAuthStateChange(
+          (_event, session) => {
+            if (!mounted) return;
+            setUserId(session?.user?.id ?? null);
+          }
+        );
+
+        return () => sub.subscription.unsubscribe();
       } catch (e) {
-        console.error("Supabase getUser exception:", e);
-        setUserId(null);
+        console.error("auth init error:", e);
+        if (mounted) setUserId(null);
+        return () => {};
       } finally {
-        setLoadingUser(false);
+        if (mounted) setLoadingUser(false);
       }
     };
 
-    getUser();
+    let cleanup: (() => void) | null = null;
+    init().then((fn) => {
+      cleanup = fn;
+    });
+
+    return () => {
+      mounted = false;
+      if (cleanup) cleanup();
+    };
   }, [supabase]);
 
-  // ✅ Lemon Squeezy config (BUY IDs UUID — checkout ke liye yahi use honge)
+  // ✅ Lemon Squeezy config (BUY IDs UUID)
   const STORE_DOMAIN = "timelinemakerai.lemonsqueezy.com";
 
   // $2 Single Project (one-time)
@@ -226,7 +249,7 @@ export default function PricingPage() {
                 </button>
               </div>
 
-              {/* Single Project ($2 one-time) */}
+              {/* Single Project */}
               <div className="bg-[#1a1033] border border-purple-500 p-8 rounded-2xl flex flex-col relative transform hover:-translate-y-2 transition-transform shadow-[0_0_40px_rgba(168,85,247,0.15)] text-left">
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase">
                   Best for Students
@@ -247,7 +270,6 @@ export default function PricingPage() {
                   For that one important assignment.
                 </p>
 
-                {/* ✅ exactly like your screenshot */}
                 <div className="space-y-4 mb-8 flex-1">
                   <PricingCheck text="Remove Watermark" active />
                   <PricingCheck text="HD PDF & PNG Export" active />
@@ -277,7 +299,7 @@ export default function PricingPage() {
                 )}
               </div>
 
-              {/* Pro Monthly ($5/month) */}
+              {/* Pro Monthly */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all text-left">
                 <h3 className="text-xl font-bold text-gray-200 mb-2">
                   Pro Monthly
@@ -395,7 +417,9 @@ export default function PricingPage() {
             <h2 className="text-3xl md:text-5xl font-bold mb-4 italic">
               Real feedback.
             </h2>
-            <p className="text-gray-400">Join our growing community of creators.</p>
+            <p className="text-gray-400">
+              Join our growing community of creators.
+            </p>
           </div>
 
           <div className="flex overflow-hidden">
@@ -417,7 +441,9 @@ export default function PricingPage() {
                       {t.name[0]}
                     </div>
                     <div className="text-left">
-                      <div className="font-bold text-white text-sm">{t.name}</div>
+                      <div className="font-bold text-white text-sm">
+                        {t.name}
+                      </div>
                       <div className="text-xs text-purple-400">{t.role}</div>
                     </div>
                   </div>
