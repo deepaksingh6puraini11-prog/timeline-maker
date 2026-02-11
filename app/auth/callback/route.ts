@@ -1,43 +1,51 @@
-import { NextResponse } from 'next/server'
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+mkdir app\auth\callback -Force
+
+@'
+import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { createServerClient } from "@supabase/ssr";
 
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url)
-  const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/dashboard'
+  const { searchParams, origin } = new URL(request.url);
+
+  const code = searchParams.get("code");
+  const next = searchParams.get("next") ?? "/dashboard";
+
+  // If Supabase sent an error, go back to login with message
+  const error = searchParams.get("error");
+  const errorDesc = searchParams.get("error_description");
+  if (error) {
+    const msg = errorDesc ? encodeURIComponent(errorDesc) : "oauth_error";
+    return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(error)}&msg=${msg}`);
+  }
 
   if (code) {
-    const cookieStore = cookies()
+    const cookieStore = cookies();
 
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value
+          getAll() {
+            return cookieStore.getAll();
           },
-          set(name: string, value: string, options: CookieOptions) {
-            cookieStore.set({ name, value, ...options })
-          },
-          remove(name: string, options: CookieOptions) {
-            cookieStore.delete({ name, ...options })
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }: any) => {
+              cookieStore.set(name, value, options);
+            });
           },
         },
       }
-    )
-    
-    // Code Exchange
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
-    
-    if (!error) {
-      return NextResponse.redirect(`${origin}${next}`)
-    } else {
-        console.error("Auth Callback Error:", error)
+    );
+
+    const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+
+    if (exchangeError) {
+      return NextResponse.redirect(`${origin}/login?error=exchange_failed`);
     }
   }
 
-  // Error handle
-  return NextResponse.redirect(`${origin}/login?error=auth-code-error`)
+  return NextResponse.redirect(`${origin}${next}`);
 }
+'@ | Out-File -Encoding utf8 app\auth\callback\route.ts
