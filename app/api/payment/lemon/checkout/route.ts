@@ -4,80 +4,123 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    // 1. User Authentication
-    const cookieStore = await cookies();
+    const cookieStore = cookies();
+
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
-          getAll() { return cookieStore.getAll(); },
-          // FIX: Added ': any' below to solve the TypeScript error
-          setAll(cookiesToSet: any) { 
-            try { 
-              cookiesToSet.forEach(({ name, value, options }: any) => cookieStore.set(name, value, options)); 
-            } catch {} 
+          // ✅ read cookies
+          getAll() {
+            return cookieStore.getAll();
           },
+          // ✅ DO NOT write cookies in route handlers
+          setAll() {},
         },
       }
     );
 
-    const { data: { user } } = await supabase.auth.getUser();
+    // ✅ Use getSession (more reliable with SSR cookies)
+    const { data: sessionData, error: sessionErr } = await supabase.auth.getSession();
+    if (sessionErr) console.error("supabase getSession:", sessionErr.message);
+
+    const user = sessionData.session?.user ?? null;
+
     if (!user) {
       return NextResponse.json({ error: "Please login first" }, { status: 401 });
     }
 
-    // 2. Plan Check (Frontend se aayega)
-    const reqData = await request.json();
-    const planType = reqData.planType; // 'single' ya 'monthly'
+    const reqData = await request.json().catch(() => ({}));
+    const planType = reqData.planType as "single" | "monthly";
 
-    let VARIANT_ID;
-
-    // Logic: Sahi ID select karo
-    if (planType === 'monthly') {
-        VARIANT_ID = process.env.LEMONSQUEEZY_VARIANT_ID_MONTHLY; // $5 
-    } else {
-        VARIANT_ID = process.env.LEMONSQUEEZY_VARIANT_ID_SINGLE;  // $2
+    if (planType !== "single" && planType !== "monthly") {
+      return NextResponse.json({ error: "Invalid planType" }, { status: 400 });
     }
+
+    const VARIANT_ID =
+      planType === "monthly"
+        ? process.env.LEMONSQUEEZY_VARIANT_ID_MONTHLY
+        : process.env.LEMONSQUEEZY_VARIANT_ID_SINGLE;
 
     if (!VARIANT_ID) {
-        return NextResponse.json({ error: "Plan ID missing in Server .env" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Plan ID missing in Server .env" },
+        { status: 500 }
+      );
     }
 
-    // 3. Call Lemon Squeezy
+    if (!process.env.LEMONSQUEEZY_API_KEY) {
+      return NextResponse.json(
+        { error: "LEMONSQUEEZY_API_KEY missing" },
+        { status: 500 }
+      );
+    }
+
+    if (!process.env.LEMONSQUEEZY_STORE_ID) {
+      return NextResponse.json(
+        { error: "LEMONSQUEEZY_STORE_ID missing" },
+        { status: 500 }
+      );
+    }
+
+    // ✅ Create Lemon checkout
     const response = await fetch("https://api.lemonsqueezy.com/v1/checkouts", {
       method: "POST",
       headers: {
-        "Accept": "application/vnd.api+json",
+        Accept: "application/vnd.api+json",
         "Content-Type": "application/vnd.api+json",
-        "Authorization": `Bearer ${process.env.LEMONSQUEEZY_API_KEY}`,
+        Authorization: `Bearer ${process.env.LEMONSQUEEZY_API_KEY}`,
       },
       body: JSON.stringify({
         data: {
           type: "checkouts",
           attributes: {
             checkout_data: {
-              email: user.email, 
+              email: user.email,
               custom: {
                 user_id: user.id,
-                plan: planType, // Webhook ke liye
+                plan: planType,
               },
+            },
+            // fallback
+            custom: {
+              user_id: user.id,
+              plan: planType,
             },
           },
           relationships: {
-            store: { data: { type: "stores", id: process.env.LEMONSQUEEZY_STORE_ID } },
-            variant: { data: { type: "variants", id: VARIANT_ID } },
+            store: {
+              data: { type: "stores", id: process.env.LEMONSQUEEZY_STORE_ID },
+            },
+            variant: {
+              data: { type: "variants", id: VARIANT_ID },
+            },
           },
         },
       }),
     });
 
-    const data = await response.json();
-    if (data.errors) return NextResponse.json({ error: data.errors[0].detail }, { status: 500 });
+    const data = await response.json().catch(() => ({}));
 
-    return NextResponse.json({ url: data.data.attributes.url });
+    if (!response.ok) {
+      const msg = data?.errors?.[0]?.detail || "Lemon API error";
+      return NextResponse.json({ error: msg }, { status: 500 });
+    }
 
+    const url = data?.data?.attributes?.url;
+    if (!url) {
+      return NextResponse.json(
+        { error: "Checkout URL missing from Lemon response" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ url });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: error?.message || "Server error" },
+      { status: 500 }
+    );
   }
 }
