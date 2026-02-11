@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
+          cookiesToSet.forEach(({ name, value, options }: any) => {
             response.cookies.set({ name, value, ...options, path: "/" });
           });
         },
@@ -43,7 +43,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // ✅ webhook ko bypass do
-    "/((?!api/webhook|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    // ✅ IMPORTANT: OAuth callback ko bypass karo (PKCE fix)
+    "/((?!api/webhook|auth/callback|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
