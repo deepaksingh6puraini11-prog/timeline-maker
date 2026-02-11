@@ -19,6 +19,39 @@ import {
 import toast from "react-hot-toast";
 import Link from "next/link";
 
+// ✅ COOKIE HELPERS (PKCE FIX)
+function getCookie(name: string) {
+  if (typeof document === "undefined") return undefined;
+  const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+  return match ? decodeURIComponent(match[2]) : undefined;
+}
+
+function setCookie(name: string, value: string, options: any = {}) {
+  if (typeof document === "undefined") return;
+
+  const opts = {
+    path: "/",
+    sameSite: "lax",
+    ...options,
+  };
+
+  let cookieStr = `${name}=${encodeURIComponent(value)}`;
+
+  if (opts.maxAge) cookieStr += `; Max-Age=${opts.maxAge}`;
+  if (opts.expires) cookieStr += `; Expires=${new Date(opts.expires).toUTCString()}`;
+  if (opts.path) cookieStr += `; Path=${opts.path}`;
+  if (opts.domain) cookieStr += `; Domain=${opts.domain}`;
+  if (opts.sameSite) cookieStr += `; SameSite=${opts.sameSite}`;
+  // production me secure hona chahiye; supabase options usually secure pass karta hai
+  if (opts.secure) cookieStr += `; Secure`;
+
+  document.cookie = cookieStr;
+}
+
+function removeCookie(name: string, options: any = {}) {
+  setCookie(name, "", { ...options, maxAge: 0 });
+}
+
 // 🗣️ DICTIONARY: English vs Spanish Text
 const TRANSLATIONS = {
   en: {
@@ -94,18 +127,29 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // 🌍 Language State
   const [lang, setLang] = useState<"en" | "es">("en");
 
-  // ✅ Make supabase client stable (no re-init every render)
+  // ✅ Supabase browser client that stores PKCE verifier in COOKIES (fixes PKCE error)
   const supabase = useMemo(() => {
     return createBrowserClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return getCookie(name);
+          },
+          set(name: string, value: string, options: any) {
+            setCookie(name, value, options);
+          },
+          remove(name: string, options: any) {
+            removeCookie(name, options);
+          },
+        },
+      }
     );
   }, []);
 
-  // 1️⃣ DETECT LANGUAGE Logic
   useEffect(() => {
     const savedLang = localStorage.getItem("app-lang") as "en" | "es";
     if (savedLang) {
@@ -118,7 +162,6 @@ export default function LoginPage() {
     }
   }, []);
 
-  // 🔄 Language Toggle
   const toggleLanguage = () => {
     const newLang = lang === "en" ? "es" : "en";
     setLang(newLang);
@@ -127,13 +170,12 @@ export default function LoginPage() {
 
   const t = TRANSLATIONS[lang];
 
-  // ✅ Force SAME domain in production (NO www mismatch)
+  // ✅ IMPORTANT: keep domain consistent (non-www)
   const redirectUrl =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000/auth/callback"
       : "https://aitimelinemaker.online/auth/callback";
 
-  // 👇 GOOGLE LOGIN
   const handleGoogleLogin = async () => {
     setLoading(true);
 
@@ -204,7 +246,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex bg-[#050505] text-white font-sans relative">
-      {/* 🧭 NAV BUTTONS (Absolute Top) */}
       <div className="absolute top-6 left-6 md:left-8 z-50">
         <Link
           href={lang === "es" ? "/es" : "/"}
@@ -224,7 +265,6 @@ export default function LoginPage() {
         </button>
       </div>
 
-      {/* 👈 LEFT SIDE (Features) */}
       <div className="hidden lg:flex w-1/2 bg-[#0a0a0a] border-r border-white/5 flex-col justify-center px-16 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"></div>
         <div className="relative z-10">
@@ -265,7 +305,6 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* 👉 RIGHT SIDE (Login Form) */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative">
         <div className="max-w-md w-full">
           <div className="text-center mb-8 lg:text-left">
@@ -277,7 +316,6 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* 🔵 GOOGLE BUTTON */}
           <div className="mb-8">
             <button
               onClick={handleGoogleLogin}
@@ -317,7 +355,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* EMAIL FORM */}
           <form onSubmit={handleAuth} className="space-y-4">
             {isSignUp && (
               <div className="relative group animate-in fade-in slide-in-from-top-2">
