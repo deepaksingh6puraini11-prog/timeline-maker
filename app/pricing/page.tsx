@@ -11,8 +11,7 @@ import {
   Check,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import React, { useEffect, useMemo, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import React, { useState } from "react";
 
 const testimonials = [
   {
@@ -77,74 +76,38 @@ function FeatureCard({
 }
 
 export default function PricingPage() {
-  const supabase = useMemo(() => createClientComponentClient(), []);
+  const [payLoading, setPayLoading] = useState<"single" | "monthly" | null>(null);
 
-  const [userId, setUserId] = useState<string | null>(null);
-  const [loadingUser, setLoadingUser] = useState(true);
+  async function goCheckout(planType: "single" | "monthly") {
+    try {
+      setPayLoading(planType);
 
-  // ✅ Reliable auth: session + listener
-  useEffect(() => {
-    let mounted = true;
+      const res = await fetch("/api/payment/lemon/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ planType }), // ✅ server expects planType
+      });
 
-    const init = async () => {
-      try {
-        setLoadingUser(true);
-
-        // 1) current session
-        const { data: sessionData, error } = await supabase.auth.getSession();
-        if (error) console.error("getSession error:", error.message);
-
-        const id = sessionData.session?.user?.id ?? null;
-        if (mounted) setUserId(id);
-
-        // 2) listen changes
-        const { data: sub } = supabase.auth.onAuthStateChange(
-          (_event, session) => {
-            if (!mounted) return;
-            setUserId(session?.user?.id ?? null);
-          }
-        );
-
-        return () => sub.subscription.unsubscribe();
-      } catch (e) {
-        console.error("auth init error:", e);
-        if (mounted) setUserId(null);
-        return () => {};
-      } finally {
-        if (mounted) setLoadingUser(false);
+      if (res.status === 401) {
+        window.location.href = "/login";
+        return;
       }
-    };
 
-    let cleanup: (() => void) | null = null;
-    init().then((fn) => (cleanup = fn));
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.url) {
+        console.error("Checkout error:", data);
+        alert(data?.error || "Checkout failed. Please try again.");
+        return;
+      }
 
-    return () => {
-      mounted = false;
-      if (cleanup) cleanup();
-    };
-  }, [supabase]);
-
-  // ✅ Lemon Squeezy
-  const STORE_DOMAIN = "timelinemakerai.lemonsqueezy.com";
-
-  // ✅ BUY IDs (UUID)
-  const BUY_ID_SINGLE = "0925ec6f-d5c6-4631-b7d6-5dceda7d8ef1"; // $2 one-time
-  const BUY_ID_MONTHLY = "be758e5d-a55a-4f5a-9843-973813a9805c"; // $5/month
-
-  // ✅ INLINE checkout URLs (bulletproof)
-  const singleHref =
-    userId
-      ? `https://${STORE_DOMAIN}/checkout/buy/${BUY_ID_SINGLE}?checkout[custom][user_id]=${encodeURIComponent(
-          userId
-        )}`
-      : "";
-
-  const proHref =
-    userId
-      ? `https://${STORE_DOMAIN}/checkout/buy/${BUY_ID_MONTHLY}?checkout[custom][user_id]=${encodeURIComponent(
-          userId
-        )}`
-      : "";
+      window.location.href = data.url;
+    } catch (e) {
+      console.error(e);
+      alert("Checkout failed. Please try again.");
+    } finally {
+      setPayLoading(null);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-purple-500/30 overflow-x-hidden">
@@ -186,12 +149,14 @@ export default function PricingPage() {
               <Globe className="w-3 h-3" />
               <span>ES</span>
             </Link>
+
             <Link
               href="/login"
               className="hidden md:block text-sm font-medium text-gray-300 hover:text-white transition-colors py-2"
             >
               Login
             </Link>
+
             <Link
               href="/create"
               className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-transform hover:scale-105 shadow-xl"
@@ -273,25 +238,14 @@ export default function PricingPage() {
                   <PricingCheck text="No Subscription" active />
                 </div>
 
-                {loadingUser ? (
-                  <button className="w-full bg-white/10 text-white py-3 rounded-xl font-bold opacity-60 cursor-not-allowed">
-                    Loading...
-                  </button>
-                ) : userId ? (
-                  <a
-                    href={singleHref}
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform"
-                  >
-                    <Zap className="w-4 h-4" /> Buy Now
-                  </a>
-                ) : (
-                  <Link
-                    href="/login"
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform"
-                  >
-                    <Zap className="w-4 h-4" /> Login to Buy
-                  </Link>
-                )}
+                <button
+                  onClick={() => goCheckout("single")}
+                  disabled={payLoading !== null}
+                  className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  <Zap className="w-4 h-4" />
+                  {payLoading === "single" ? "Redirecting..." : "Buy Now"}
+                </button>
               </div>
 
               {/* Pro Monthly */}
@@ -319,25 +273,13 @@ export default function PricingPage() {
                   <PricingCheck text="Cancel Anytime" active />
                 </div>
 
-                {loadingUser ? (
-                  <button className="w-full bg-white/10 text-white py-3 rounded-xl font-bold opacity-60 cursor-not-allowed">
-                    Loading...
-                  </button>
-                ) : userId ? (
-                  <a
-                    href={proHref}
-                    className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors"
-                  >
-                    Subscribe
-                  </a>
-                ) : (
-                  <Link
-                    href="/login"
-                    className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors"
-                  >
-                    Login to Subscribe
-                  </Link>
-                )}
+                <button
+                  onClick={() => goCheckout("monthly")}
+                  disabled={payLoading !== null}
+                  className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {payLoading === "monthly" ? "Redirecting..." : "Subscribe"}
+                </button>
               </div>
             </div>
           </motion.div>
@@ -359,6 +301,7 @@ export default function PricingPage() {
                 <div className="w-3 h-3 rounded-full bg-green-500/80" />
               </div>
             </div>
+
             <div className="relative h-auto bg-[#050505] overflow-hidden">
               <img
                 src="/timeline-preview.png"
@@ -435,7 +378,9 @@ export default function PricingPage() {
                       {t.name[0]}
                     </div>
                     <div className="text-left">
-                      <div className="font-bold text-white text-sm">{t.name}</div>
+                      <div className="font-bold text-white text-sm">
+                        {t.name}
+                      </div>
                       <div className="text-xs text-purple-400">{t.role}</div>
                     </div>
                   </div>
