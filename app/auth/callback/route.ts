@@ -1,51 +1,24 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { createServerClient } from "@supabase/ssr";
+import { createClient } from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url);
+  const url = new URL(request.url);
+  const code = url.searchParams.get("code");
+  const next = url.searchParams.get("next") ?? "/dashboard";
+  const origin = url.origin;
 
-  const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/dashboard";
-
-  const error = searchParams.get("error");
-  const errorDesc = searchParams.get("error_description");
-  if (error) {
+  if (!code) {
     return NextResponse.redirect(
-      `${origin}/login?error=${encodeURIComponent(error)}&msg=${encodeURIComponent(
-        errorDesc ?? ""
-      )}`
+      `${origin}/login?error=exchange_failed&msg=No%20code`
     );
   }
 
-  if (!code) {
-    return NextResponse.redirect(`${origin}/login?error=no_code`);
-  }
+  const supabase = createClient();
+  const { error } = await supabase.auth.exchangeCodeForSession(code);
 
-  const cookieStore = cookies();
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }: any) => {
-            cookieStore.set(name, value, options);
-          });
-        },
-      },
-    }
-  );
-
-  const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-
-  if (exchangeError) {
+  if (error) {
     return NextResponse.redirect(
-      `${origin}/login?error=exchange_failed&msg=${encodeURIComponent(exchangeError.message)}`
+      `${origin}/login?error=exchange_failed&msg=${encodeURIComponent(error.message)}`
     );
   }
 

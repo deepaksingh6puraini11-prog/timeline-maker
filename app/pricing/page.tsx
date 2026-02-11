@@ -11,7 +11,8 @@ import {
   Check,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 const testimonials = [
   {
@@ -76,42 +77,64 @@ function FeatureCard({
 }
 
 export default function PricingPage() {
-  const [payLoading, setPayLoading] = useState<"single" | "monthly" | null>(null);
+  const supabase = useMemo(() => createClient(), []);
 
-  async function goCheckout(planType: "single" | "monthly") {
-    try {
-      setPayLoading(planType);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [loadingUser, setLoadingUser] = useState(true);
 
-      const res = await fetch("/api/payment/lemon/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ planType }), // ✅ server expects planType
-      });
+  useEffect(() => {
+    let mounted = true;
 
-      if (res.status === 401) {
-        window.location.href = "/login";
-        return;
+    const init = async () => {
+      try {
+        setLoadingUser(true);
+
+        const { data } = await supabase.auth.getSession();
+        if (!mounted) return;
+        setUserId(data.session?.user?.id ?? null);
+
+        const { data: sub } = supabase.auth.onAuthStateChange(
+          (_event, session) => {
+            if (!mounted) return;
+            setUserId(session?.user?.id ?? null);
+          }
+        );
+
+        return () => sub.subscription.unsubscribe();
+      } finally {
+        if (mounted) setLoadingUser(false);
       }
+    };
 
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data?.url) {
-        console.error("Checkout error:", data);
-        alert(data?.error || "Checkout failed. Please try again.");
-        return;
-      }
+    let cleanup: undefined | (() => void);
+    init().then((c) => (cleanup = c));
 
-      window.location.href = data.url;
-    } catch (e) {
-      console.error(e);
-      alert("Checkout failed. Please try again.");
-    } finally {
-      setPayLoading(null);
-    }
-  }
+    return () => {
+      mounted = false;
+      if (cleanup) cleanup();
+    };
+  }, [supabase]);
+
+  // ✅ Lemon store + Buy IDs (tumhare final)
+  const STORE_DOMAIN = "timelinemakerai.lemonsqueezy.com";
+  const BUY_ID_SINGLE = "0925ec6f-d5c6-4631-b7d6-5dceda7d8ef1"; // $2 one-time
+  const BUY_ID_MONTHLY = "be758e5d-a55a-4f5a-9843-973813a9805c"; // $5/month
+
+  const singleHref = userId
+    ? `https://${STORE_DOMAIN}/checkout/buy/${BUY_ID_SINGLE}?checkout[custom][user_id]=${encodeURIComponent(
+        userId
+      )}&checkout[custom][plan]=single`
+    : "";
+
+  const proHref = userId
+    ? `https://${STORE_DOMAIN}/checkout/buy/${BUY_ID_MONTHLY}?checkout[custom][user_id]=${encodeURIComponent(
+        userId
+      )}&checkout[custom][plan]=monthly`
+    : "";
 
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-purple-500/30 overflow-x-hidden">
-      {/* 🌟 NAVBAR */}
+      {/* NAVBAR */}
       <nav className="sticky top-0 z-50 backdrop-blur-lg bg-[#050505]/80 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -124,10 +147,7 @@ export default function PricingPage() {
           </div>
 
           <div className="hidden md:flex gap-8 text-sm font-medium text-gray-400">
-            <Link
-              href="#features"
-              className="hover:text-white transition-colors"
-            >
+            <Link href="#features" className="hover:text-white transition-colors">
               Features
             </Link>
             <Link href="#pricing" className="hover:text-white transition-colors">
@@ -149,14 +169,12 @@ export default function PricingPage() {
               <Globe className="w-3 h-3" />
               <span>ES</span>
             </Link>
-
             <Link
               href="/login"
               className="hidden md:block text-sm font-medium text-gray-300 hover:text-white transition-colors py-2"
             >
               Login
             </Link>
-
             <Link
               href="/create"
               className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-200 transition-transform hover:scale-105 shadow-xl"
@@ -170,7 +188,7 @@ export default function PricingPage() {
       <main className="max-w-7xl mx-auto px-6 pt-20 pb-16 relative">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[120px] -z-10 pointer-events-none" />
 
-        {/* 💰 PRICING */}
+        {/* PRICING */}
         <section id="pricing" className="py-12 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -182,26 +200,25 @@ export default function PricingPage() {
                 Invest in your Grades
               </h2>
               <p className="text-gray-400">
-                Choose the plan that fits your project needs. No hidden fees.
+                Free plan for drafts, Single for 1 project, Pro for unlimited.
               </p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {/* Free Starter */}
+              {/* Free */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all text-left">
                 <h3 className="text-xl font-bold text-gray-300 mb-2">
-                  Free Starter
+                  Free Plan
                 </h3>
                 <div className="text-4xl font-bold text-white mb-2">$0</div>
                 <p className="text-gray-400 text-sm mb-8 italic">
-                  Perfect for testing & drafts.
+                  Drafts & basic AI.
                 </p>
 
                 <div className="space-y-4 mb-8 flex-1">
                   <PricingCheck text="Unlimited Drafts" active />
                   <PricingCheck text="Basic AI Generation" active />
                   <PricingCheck text="Watermarked Export" active />
-                  <PricingCheck text="Standard Support" active />
                 </div>
 
                 <button className="w-full bg-white text-black py-3 rounded-xl font-bold cursor-default">
@@ -209,10 +226,10 @@ export default function PricingPage() {
                 </button>
               </div>
 
-              {/* Single Project */}
+              {/* Single */}
               <div className="bg-[#1a1033] border border-purple-500 p-8 rounded-2xl flex flex-col relative transform hover:-translate-y-2 transition-transform shadow-[0_0_40px_rgba(168,85,247,0.15)] text-left">
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#ff2e9b] text-white px-4 py-1 rounded-full text-[10px] font-bold uppercase">
-                  Best for Students
+                  One-time (1 project)
                 </div>
 
                 <h3 className="text-xl font-bold text-purple-200 mb-2">
@@ -227,28 +244,38 @@ export default function PricingPage() {
                 </div>
 
                 <p className="text-gray-400 text-sm mb-8 italic">
-                  For that one important assignment.
+                  1 project export unlock. Next project needs purchase again.
                 </p>
 
                 <div className="space-y-4 mb-8 flex-1">
                   <PricingCheck text="Remove Watermark" active />
                   <PricingCheck text="HD PDF & PNG Export" active />
-                  <PricingCheck text="Lifetime Access" active />
-                  <PricingCheck text="Premium AI Models" active />
-                  <PricingCheck text="No Subscription" active />
+                  <PricingCheck text="Premium AI Models (for this project)" active />
                 </div>
 
-                <button
-                  onClick={() => goCheckout("single")}
-                  disabled={payLoading !== null}
-                  className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  <Zap className="w-4 h-4" />
-                  {payLoading === "single" ? "Redirecting..." : "Buy Now"}
-                </button>
+                {loadingUser ? (
+                  <button className="w-full bg-white/10 text-white py-3 rounded-xl font-bold opacity-60 cursor-not-allowed">
+                    Loading...
+                  </button>
+                ) : userId ? (
+                  <a
+                    href={singleHref}
+                    rel="noopener noreferrer"
+                    className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform"
+                  >
+                    <Zap className="w-4 h-4" /> Buy Now
+                  </a>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform"
+                  >
+                    <Zap className="w-4 h-4" /> Login to Buy
+                  </Link>
+                )}
               </div>
 
-              {/* Pro Monthly */}
+              {/* Pro */}
               <div className="bg-[#0f172a]/50 border border-white/10 p-8 rounded-2xl flex flex-col hover:border-white/20 transition-all text-left">
                 <h3 className="text-xl font-bold text-gray-200 mb-2">
                   Pro Monthly
@@ -262,30 +289,42 @@ export default function PricingPage() {
                 </div>
 
                 <p className="text-gray-400 text-sm mb-8 italic">
-                  For power users & teachers.
+                  Unlimited exports + premium models.
                 </p>
 
                 <div className="space-y-4 mb-8 flex-1">
-                  <PricingCheck text="Everything in Single" active />
                   <PricingCheck text="Unlimited Exports" active />
-                  <PricingCheck text="Priority 24/7 Support" active />
-                  <PricingCheck text="Early Access Features" active />
+                  <PricingCheck text="Premium AI Models" active />
+                  <PricingCheck text="Priority Support" active />
                   <PricingCheck text="Cancel Anytime" active />
                 </div>
 
-                <button
-                  onClick={() => goCheckout("monthly")}
-                  disabled={payLoading !== null}
-                  className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  {payLoading === "monthly" ? "Redirecting..." : "Subscribe"}
-                </button>
+                {loadingUser ? (
+                  <button className="w-full bg-white/10 text-white py-3 rounded-xl font-bold opacity-60 cursor-not-allowed">
+                    Loading...
+                  </button>
+                ) : userId ? (
+                  <a
+                    href={proHref}
+                    rel="noopener noreferrer"
+                    className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors"
+                  >
+                    Subscribe
+                  </a>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors"
+                  >
+                    Login to Subscribe
+                  </Link>
+                )}
               </div>
             </div>
           </motion.div>
         </section>
 
-        {/* 💻 PREVIEW */}
+        {/* PREVIEW */}
         <motion.div
           id="preview"
           initial={{ opacity: 0, y: 50 }}
@@ -301,7 +340,6 @@ export default function PricingPage() {
                 <div className="w-3 h-3 rounded-full bg-green-500/80" />
               </div>
             </div>
-
             <div className="relative h-auto bg-[#050505] overflow-hidden">
               <img
                 src="/timeline-preview.png"
@@ -315,7 +353,7 @@ export default function PricingPage() {
           </div>
         </motion.div>
 
-        {/* ⚡ FEATURES */}
+        {/* FEATURES */}
         <section id="features" className="py-24 text-center">
           <div className="mb-16 text-center">
             <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">
@@ -330,22 +368,22 @@ export default function PricingPage() {
             <FeatureCard
               icon={<Sparkles className="text-purple-400 w-6 h-6" />}
               title="AI Brain"
-              desc="Simply describe your topic. Our AI researches and plots the events accurately."
+              desc="Describe your topic. AI plots events fast."
             />
             <FeatureCard
               icon={<FileText className="text-red-400 w-6 h-6" />}
               title="HD Export"
-              desc="Get high-quality PDF or PNG files. Perfect for assignments and presentations."
+              desc="High-quality PDF & PNG exports."
             />
             <FeatureCard
               icon={<Zap className="text-yellow-400 w-6 h-6" />}
               title="Smart Editor"
-              desc="Want to change a date? Just edit it. The layout adjusts itself automatically."
+              desc="Edit dates; layout adjusts automatically."
             />
           </div>
         </section>
 
-        {/* 🗣️ TESTIMONIALS */}
+        {/* TESTIMONIALS */}
         <section
           id="testimonials"
           className="py-24 bg-[#080808] border-y border-white/5 relative overflow-hidden"
@@ -391,7 +429,7 @@ export default function PricingPage() {
         </section>
       </main>
 
-      {/* 🦶 FOOTER */}
+      {/* FOOTER */}
       <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
           <div className="flex items-center gap-2">
