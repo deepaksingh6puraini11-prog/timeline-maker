@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     const { meta, data } = payload;
     const eventName = meta.event_name;
     
-    // 👇 YAHAN SE USER ID MILEGI (Jo frontend se bheji thi)
+    // User ID (Jo frontend se checkout link me bheji thi)
     const userId = meta.custom_data?.user_id; 
 
     if (!userId) {
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "No user_id found" }, { status: 200 });
     }
 
-    // 3. Supabase Admin Client (RLS Bypass karne ke liye)
+    // 3. Supabase Admin Client
     const supabaseAdmin = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY! 
@@ -39,45 +39,36 @@ export async function POST(request: Request) {
 
     // 4. Logic: Order Created (Payment Success)
     if (eventName === "order_created") {
-      
-      // Check karo kaunsa product bika hai
       const variantId = String(data.attributes.first_order_item.variant_id);
-
-      // Environment Variables se IDs uthao
       const ID_SINGLE = process.env.LEMONSQUEEZY_VARIANT_ID_SINGLE;   // $2
       const ID_MONTHLY = process.env.LEMONSQUEEZY_VARIANT_ID_MONTHLY; // $5
 
       console.log(`💰 Payment from User: ${userId} | Variant: ${variantId}`);
 
-      // ➤ CASE 1: Single Project ($2)
+      // ➤ CASE 1: Single Project ($2) - Increment Credits by 1
       if (variantId === ID_SINGLE) {
-        // Logic: Plan = 'single', Credits = 1 (ya add 1)
-        // Pehle current credit check karte hain
-        const { data: user } = await supabaseAdmin.from('users').select('credits').eq('id', userId).single();
-        const newCredits = (user?.credits || 0) + 1; // Existing me 1 jod do
+        // ✅ Safe RPC Call: Database level par increment karega
+        const { error } = await supabaseAdmin.rpc('increment_credits', { 
+          user_id: userId, 
+          amount: 1 
+        });
 
-        await supabaseAdmin
-          .from('users')
-          .update({ 
-            plan_type: 'single',
-            credits: newCredits 
-          })
-          .eq('id', userId);
+        if (error) {
+          console.error("❌ RPC Error:", error.message);
+          throw error;
+        }
         
-        console.log("✅ User upgraded to SINGLE plan (+1 Credit)");
+        console.log("✅ User upgraded to SINGLE plan (+1 Credit via RPC)");
       }
 
       // ➤ CASE 2: Monthly Pro ($5)
       else if (variantId === ID_MONTHLY) {
-        // Logic: Plan = 'pro', Credits ka tension nahi
-        await supabaseAdmin
+        const { error } = await supabaseAdmin
           .from('users')
-          .update({ 
-            plan_type: 'pro',
-            // Pro walo ke credits update karne ki zarurat nahi, wo unlimited hain
-          })
+          .update({ plan_type: 'pro' })
           .eq('id', userId);
 
+        if (error) throw error;
         console.log("✅ User upgraded to PRO plan");
       }
     }
