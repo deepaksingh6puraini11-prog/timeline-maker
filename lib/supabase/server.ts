@@ -13,11 +13,9 @@ export function createClient() {
           return cookieStore.getAll();
         },
         setAll(cookiesToSet) {
-          try {
-            cookiesToSet.forEach(({ name, value, options }: any) => {
-              cookieStore.set(name, value, { ...options, path: "/" });
-            });
-          } catch {}
+          cookiesToSet.forEach(({ name, value, options }) => {
+            cookieStore.set(name, value, options);
+          });
         },
       },
     }

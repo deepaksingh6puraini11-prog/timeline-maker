@@ -2,17 +2,23 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
 export async function middleware(request: NextRequest) {
-  // ✅ Force non-www (important)
+  const url = request.nextUrl;
+
+  // ✅ 1) Force non-www (domain mismatch PKCE ko todta hai)
   const host = request.headers.get("host") || "";
   if (host.startsWith("www.")) {
-    const url = request.nextUrl.clone();
-    url.host = host.replace(/^www\./, "");
-    return NextResponse.redirect(url);
+    const nonWww = host.replace(/^www\./, "");
+    const redirectUrl = new URL(request.url);
+    redirectUrl.host = nonWww;
+    return NextResponse.redirect(redirectUrl);
   }
 
-  let response = NextResponse.next({
-    request: { headers: request.headers },
-  });
+  // ✅ 2) IMPORTANT: OAuth callback ko middleware touch nahi karega
+  if (url.pathname.startsWith("/auth/callback")) {
+    return NextResponse.next();
+  }
+
+  let response = NextResponse.next();
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -34,9 +40,9 @@ export async function middleware(request: NextRequest) {
   const { data } = await supabase.auth.getUser();
   const user = data.user;
 
-  const path = request.nextUrl.pathname;
+  // Protect routes
+  const path = url.pathname;
 
-  // Protect dashboard/create only
   if (!user && (path.startsWith("/dashboard") || path.startsWith("/create"))) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
