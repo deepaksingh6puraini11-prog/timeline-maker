@@ -2,23 +2,11 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
 export async function middleware(request: NextRequest) {
-  const url = request.nextUrl;
-
-  // ✅ 1) Force non-www (domain mismatch PKCE ko todta hai)
-  const host = request.headers.get("host") || "";
-  if (host.startsWith("www.")) {
-    const nonWww = host.replace(/^www\./, "");
-    const redirectUrl = new URL(request.url);
-    redirectUrl.host = nonWww;
-    return NextResponse.redirect(redirectUrl);
-  }
-
-  // ✅ 2) IMPORTANT: OAuth callback ko middleware touch nahi karega
-  if (url.pathname.startsWith("/auth/callback")) {
-    return NextResponse.next();
-  }
-
-  let response = NextResponse.next();
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -29,20 +17,28 @@ export async function middleware(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            response.cookies.set({ name, value, ...options, path: "/" });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            request.cookies.set(name, value)
+          );
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
           });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          );
         },
       },
     }
   );
 
-  const { data } = await supabase.auth.getUser();
-  const user = data.user;
+  const { data: { user } } = await supabase.auth.getUser();
 
-  // Protect routes
+  const url = request.nextUrl.clone();
   const path = url.pathname;
 
+  // Protected routes logic
   if (!user && (path.startsWith("/dashboard") || path.startsWith("/create"))) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
