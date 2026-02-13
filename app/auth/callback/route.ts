@@ -5,7 +5,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
   
-  // प्रोडक्शन का पक्का URL
+  // ✅ Pro Fix: Hardcoded stable URL to avoid domain mismatch
   const baseUrl = "https://aitimelinemaker.online"
 
   if (code) {
@@ -13,12 +13,11 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     
     if (!error) {
-      // ✅ सीधे डैशबोर्ड पर भेजें
+      // ✅ Session exchange successful, go to dashboard
       return NextResponse.redirect(`${baseUrl}/dashboard`)
     }
     
     console.error('Auth exchange error:', error)
-    // ❌ फेल होने पर लॉगिन पेज पर एरर के साथ
     return NextResponse.redirect(`${baseUrl}/login?error=exchange_failed`)
   }
 
