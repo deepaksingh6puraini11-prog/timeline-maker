@@ -5,7 +5,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
   
-  // ✅ Pro Fix: Hardcoded stable URL to avoid domain mismatch
+  // ✅ Pro Fix: Hardcoded URL use karein taaki mismatch na ho
   const baseUrl = "https://aitimelinemaker.online"
 
   if (code) {
@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     
     if (!error) {
-      // ✅ Session exchange successful, go to dashboard
+      // ✅ Success! Dashboard par bhejein
       return NextResponse.redirect(`${baseUrl}/dashboard`)
     }
     
