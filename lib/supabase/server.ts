@@ -15,16 +15,12 @@ export function createClient() {
         set(name: string, value: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value, ...options });
-          } catch (error) {
-            // Server Component में set() कॉल होने पर एरर न आए इसलिए इसे खाली छोड़ें
-          }
+          } catch (error) {}
         },
         remove(name: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value: "", ...options });
-          } catch (error) {
-            // Middleware इसे संभाल लेगा
-          }
+          } catch (error) {}
         },
       },
     }
