@@ -1,33 +1,37 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { type NextRequest, NextResponse } from "next/server";
 
-export async function createClient() {
-  // NEXT.JS 15 FIX: yahan await lagana hi padega varna 500 error aayega
-  const cookieStore = await cookies(); 
+export async function updateSession(request: NextRequest) {
+  let response = NextResponse.next({
+    request: { headers: request.headers },
+  });
 
-  return createServerClient(
+  const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         get(name: string) {
-          return cookieStore.get(name)?.value;
+          return request.cookies.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
-          try {
-            cookieStore.set({ name, value, ...options });
-          } catch (error) {
-            // Server Component mein set block hone par error na dikhaye
-          }
+          request.cookies.set({ name, value, ...options });
+          response = NextResponse.next({
+            request: { headers: request.headers },
+          });
+          response.cookies.set({ name, value, ...options });
         },
         remove(name: string, options: CookieOptions) {
-          try {
-            cookieStore.set({ name, value: "", ...options });
-          } catch (error) {
-            // Middleware handle kar lega
-          }
+          request.cookies.set({ name, value: "", ...options });
+          response = NextResponse.next({
+            request: { headers: request.headers },
+          });
+          response.cookies.set({ name, value: "", ...options });
         },
       },
     }
   );
+
+  await supabase.auth.getUser();
+  return response;
 }
