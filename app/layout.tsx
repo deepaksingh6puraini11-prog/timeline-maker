@@ -2,16 +2,15 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import Footer from "./components/Footer"; 
+import FooterGate from "./components/FooterGate";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "AI Timeline Maker",
   description: "Generate historical timelines in seconds",
-  // ✅ यहाँ आपका नया फेविकॉन जुड़ गया है
   icons: {
-    icon: "/icon.png", 
+    icon: "/icon.png",
   },
   verification: {
     google: "EhOY7Gu11Sd4KQa0IEs-NmuwOzofWc7Eli8wUOYMUB4",
@@ -26,9 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main>{children}</main>
-        <Footer /> 
         <Toaster position="bottom-right" />
+        <main>{children}</main>
+
+        {/* ✅ Footer will auto-hide on /login, /auth/*, /signup */}
+        <FooterGate />
       </body>
     </html>
   );
