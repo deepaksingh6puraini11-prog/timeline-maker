@@ -120,17 +120,26 @@ export default function PricingPage() {
   const BUY_ID_SINGLE = "0925ec6f-d5c6-4631-b7d6-5dceda7d8ef1"; // $2 one-time
   const BUY_ID_MONTHLY = "be758e5d-a55a-4f5a-9843-973813a9805c"; // $5/month
 
-  const singleHref = userId
-    ? `https://${STORE_DOMAIN}/checkout/buy/${BUY_ID_SINGLE}?checkout[custom][user_id]=${encodeURIComponent(
-        userId
-      )}&checkout[custom][plan]=single`
-    : "";
+  // ✅ NEW: hard-guard checkout (user_id missing handle)
+  const LOGIN_REDIRECT = "/login?next=/pricing";
 
-  const proHref = userId
-    ? `https://${STORE_DOMAIN}/checkout/buy/${BUY_ID_MONTHLY}?checkout[custom][user_id]=${encodeURIComponent(
-        userId
-      )}&checkout[custom][plan]=monthly`
-    : "";
+  const goCheckout = (plan: "single" | "monthly") => {
+    if (loadingUser) return;
+
+    if (!userId) {
+      window.location.href = LOGIN_REDIRECT;
+      return;
+    }
+
+    const buyId = plan === "single" ? BUY_ID_SINGLE : BUY_ID_MONTHLY;
+
+    const url =
+      `https://${STORE_DOMAIN}/checkout/buy/${buyId}` +
+      `?checkout[custom][user_id]=${encodeURIComponent(userId)}` +
+      `&checkout[custom][plan]=${encodeURIComponent(plan)}`;
+
+    window.location.href = url;
+  };
 
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-purple-500/30 overflow-x-hidden">
@@ -250,29 +259,24 @@ export default function PricingPage() {
                 <div className="space-y-4 mb-8 flex-1">
                   <PricingCheck text="Remove Watermark" active />
                   <PricingCheck text="HD PDF & PNG Export" active />
-                  <PricingCheck text="Premium AI Models (for this project)" active />
+                  <PricingCheck
+                    text="Premium AI Models (for this project)"
+                    active
+                  />
                 </div>
 
-                {loadingUser ? (
-                  <button className="w-full bg-white/10 text-white py-3 rounded-xl font-bold opacity-60 cursor-not-allowed">
-                    Loading...
-                  </button>
-                ) : userId ? (
-                  <a
-                    href={singleHref}
-                    rel="noopener noreferrer"
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform"
-                  >
-                    <Zap className="w-4 h-4" /> Buy Now
-                  </a>
-                ) : (
-                  <Link
-                    href="/login"
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform"
-                  >
-                    <Zap className="w-4 h-4" /> Login to Buy
-                  </Link>
-                )}
+                <button
+                  onClick={() => goCheckout("single")}
+                  disabled={loadingUser}
+                  className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:scale-105 transition-transform disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  <Zap className="w-4 h-4" />
+                  {loadingUser
+                    ? "Loading..."
+                    : userId
+                    ? "Buy Now"
+                    : "Login to Buy"}
+                </button>
               </div>
 
               {/* Pro */}
@@ -299,26 +303,17 @@ export default function PricingPage() {
                   <PricingCheck text="Cancel Anytime" active />
                 </div>
 
-                {loadingUser ? (
-                  <button className="w-full bg-white/10 text-white py-3 rounded-xl font-bold opacity-60 cursor-not-allowed">
-                    Loading...
-                  </button>
-                ) : userId ? (
-                  <a
-                    href={proHref}
-                    rel="noopener noreferrer"
-                    className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors"
-                  >
-                    Subscribe
-                  </a>
-                ) : (
-                  <Link
-                    href="/login"
-                    className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors"
-                  >
-                    Login to Subscribe
-                  </Link>
-                )}
+                <button
+                  onClick={() => goCheckout("monthly")}
+                  disabled={loadingUser}
+                  className="w-full bg-white text-black py-3 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {loadingUser
+                    ? "Loading..."
+                    : userId
+                    ? "Subscribe"
+                    : "Login to Subscribe"}
+                </button>
               </div>
             </div>
           </motion.div>
