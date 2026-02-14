@@ -7,10 +7,21 @@ import FooterGate from "./components/FooterGate";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AI Timeline Maker",
+  metadataBase: new URL("https://aitimelinemaker.online"),
+  title: {
+    default: "AI Timeline Maker",
+    template: "%s | AI Timeline Maker",
+  },
   description: "Generate historical timelines in seconds",
   icons: {
     icon: "/icon.png",
+  },
+  openGraph: {
+    title: "AI Timeline Maker",
+    description: "Generate historical timelines in seconds",
+    url: "https://aitimelinemaker.online",
+    siteName: "AI Timeline Maker",
+    type: "website",
   },
   verification: {
     google: "EhOY7Gu11Sd4KQa0IEs-NmuwOzofWc7Eli8wUOYMUB4",
@@ -25,11 +36,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Toaster position="bottom-right" />
         <main>{children}</main>
 
-        {/* ✅ Footer will auto-hide on /login, /auth/*, /signup */}
+        {/* ✅ Footer auto-hide on /login, /signup, /auth/* */}
         <FooterGate />
+
+        <Toaster position="bottom-right" />
       </body>
     </html>
   );
