@@ -206,12 +206,10 @@ export default function PricingPage() {
     };
   }, [supabase]);
 
-  // ✅ Lemon store + Buy IDs (tumhare final)
   const STORE_DOMAIN = "timelinemakerai.lemonsqueezy.com";
-  const BUY_ID_SINGLE = "0925ec6f-d5c6-4631-b7d6-5dceda7d8ef1"; // $2 one-time
-  const BUY_ID_MONTHLY = "be758e5d-a55a-4f5a-9843-973813a9805c"; // $5/month
+  const BUY_ID_SINGLE = "0925ec6f-d5c6-4631-b7d6-5dceda7d8ef1";
+  const BUY_ID_MONTHLY = "be758e5d-a55a-4f5a-9843-973813a9805c";
 
-  // ✅ hard-guard checkout (user_id missing handle)
   const LOGIN_REDIRECT = "/login?next=/pricing";
 
   const goCheckout = (plan: "single" | "monthly") => {
@@ -262,10 +260,7 @@ export default function PricingPage() {
             <Link href="#features" className="hover:text-white transition-colors">
               Features
             </Link>
-            <Link
-              href="#testimonials"
-              className="hover:text-white transition-colors"
-            >
+            <Link href="#testimonials" className="hover:text-white transition-colors">
               Testimonials
             </Link>
           </div>
@@ -323,11 +318,13 @@ export default function PricingPage() {
                 <span>Checking your login…</span>
               ) : isLoggedIn ? (
                 <span>
-                  You’re logged in: <span className="text-gray-200 font-medium">checkout will include your user_id</span>
+                  You’re logged in:{" "}
+                  <span className="text-gray-200 font-medium">checkout will include your user_id</span>
                 </span>
               ) : (
                 <span>
-                  Not logged in: <span className="text-gray-200 font-medium">we’ll ask you to login before checkout</span>
+                  Not logged in:{" "}
+                  <span className="text-gray-200 font-medium">we’ll ask you to login before checkout</span>
                 </span>
               )}
             </div>
@@ -337,7 +334,6 @@ export default function PricingPage() {
         {/* PRICING */}
         <section id="pricing" className="mt-14">
           <div className="grid lg:grid-cols-3 gap-6">
-            {/* FREE */}
             <PlanCard
               title="Free"
               price="$0"
@@ -353,7 +349,6 @@ export default function PricingPage() {
               disabled
             />
 
-            {/* SINGLE (highlight) */}
             <PlanCard
               badge="One-time (1 project)"
               title="Single Project"
@@ -366,15 +361,12 @@ export default function PricingPage() {
                 { text: "Premium AI models (for this project)", active: true },
                 { text: "Next project needs purchase again", active: true },
               ]}
-              cta={
-                loadingUser ? "Loading…" : userId ? "Buy Now" : "Login to Buy"
-              }
+              cta={loadingUser ? "Loading…" : userId ? "Buy Now" : "Login to Buy"}
               ctaVariant="primary"
               disabled={loadingUser}
               onClick={() => goCheckout("single")}
             />
 
-            {/* PRO */}
             <PlanCard
               title="Pro Monthly"
               price="$5"
@@ -385,16 +377,13 @@ export default function PricingPage() {
                 { text: "Priority support", active: true },
                 { text: "Cancel anytime", active: true },
               ]}
-              cta={
-                loadingUser ? "Loading…" : userId ? "Subscribe" : "Login to Subscribe"
-              }
+              cta={loadingUser ? "Loading…" : userId ? "Subscribe" : "Login to Subscribe"}
               ctaVariant="secondary"
               disabled={loadingUser}
               onClick={() => goCheckout("monthly")}
             />
           </div>
 
-          {/* Micro trust row */}
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 text-xs text-gray-400">
             <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full border border-white/10 bg-white/[0.03]">
               <ShieldCheck className="w-4 h-4" /> Secure checkout
@@ -484,19 +473,6 @@ export default function PricingPage() {
             </motion.div>
           </div>
         </section>
-
-        {/* Footer */}
-        <footer className="mt-18 pt-16 pb-10 border-t border-white/10">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
-            <div className="flex items-center gap-2">
-              <History className="text-purple-300 w-6 h-6" />
-              <span className="text-base font-semibold">AI Timeline Maker</span>
-            </div>
-            <div className="text-gray-500 text-[11px] tracking-wider uppercase">
-              © 2026 aitimelinemaker.online
-            </div>
-          </div>
-        </footer>
       </main>
     </div>
   );
