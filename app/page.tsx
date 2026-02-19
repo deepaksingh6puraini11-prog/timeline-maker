@@ -1,14 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
   Sparkles,
   History,
-  FileText,
-  Zap,
-  Globe,
   ChevronLeft,
   ChevronRight,
   Check,
@@ -18,6 +15,7 @@ import {
   Star,
   Menu,
   X,
+  Globe,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -72,10 +70,11 @@ export default function LandingPage() {
     setCurrentSlide((prev) =>
       prev === previewImages.length - 1 ? 0 : prev + 1
     );
-  const prevSlide = () =>
-    setCurrentSlide((prev) => (prev === 0 ? previewImages.length - 1 : prev - 1));
 
-  const year = useMemo(() => new Date().getFullYear(), []);
+  const prevSlide = () =>
+    setCurrentSlide((prev) =>
+      prev === 0 ? previewImages.length - 1 : prev - 1
+    );
 
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-purple-500/30 overflow-x-hidden">
@@ -99,7 +98,10 @@ export default function LandingPage() {
             <a href="#pricing" className="hover:text-white transition-colors">
               Pricing
             </a>
-            <a href="#testimonials" className="hover:text-white transition-colors">
+            <a
+              href="#testimonials"
+              className="hover:text-white transition-colors"
+            >
               Testimonials
             </a>
           </div>
@@ -133,7 +135,11 @@ export default function LandingPage() {
             onClick={() => setMobileMenu((s) => !s)}
             aria-label="Toggle menu"
           >
-            {mobileMenu ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenu ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
         </div>
 
@@ -225,8 +231,8 @@ export default function LandingPage() {
           </h1>
 
           <p className="text-gray-400 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-8 leading-relaxed">
-            Type your topic and our AI builds a clean, visual timeline instantly — perfect for
-            assignments, documentaries, and roadmaps.
+            Type your topic and our AI builds a clean, visual timeline instantly —
+            perfect for assignments, documentaries, and roadmaps.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-12 sm:mb-16">
@@ -246,7 +252,7 @@ export default function LandingPage() {
           </div>
         </motion.div>
 
-        {/* ✅ PREVIEW (mobile-friendly controls + dots) */}
+        {/* ✅ PREVIEW */}
         <motion.div
           id="preview"
           initial={{ opacity: 0, y: 40 }}
@@ -280,10 +286,9 @@ export default function LandingPage() {
                 />
               </AnimatePresence>
 
-              {/* Always visible on mobile */}
               <button
                 onClick={prevSlide}
-                className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/55 hover:bg-black/80 p-2 rounded-full border border-white/10 transition-opacity z-10"
+                className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/55 hover:bg-black/80 p-2 rounded-full border border-white/10 z-10"
                 aria-label="Previous"
               >
                 <ChevronLeft className="w-5 h-5 text-white" />
@@ -291,13 +296,12 @@ export default function LandingPage() {
 
               <button
                 onClick={nextSlide}
-                className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/55 hover:bg-black/80 p-2 rounded-full border border-white/10 transition-opacity z-10"
+                className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/55 hover:bg-black/80 p-2 rounded-full border border-white/10 z-10"
                 aria-label="Next"
               >
                 <ChevronRight className="w-5 h-5 text-white" />
               </button>
 
-              {/* Dots */}
               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
                 {previewImages.map((_, i) => (
                   <button
@@ -316,7 +320,10 @@ export default function LandingPage() {
       </main>
 
       {/* ✅ FEATURES */}
-      <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
+      <section
+        id="features"
+        className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center"
+      >
         <div className="mb-10 sm:mb-14">
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-4 tracking-tighter">
             Built for{" "}
@@ -354,15 +361,16 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ✅ TESTIMONIALS (reliable + professional) */}
-      <section id="testimonials" className="py-16 sm:py-24 bg-[#050505] overflow-hidden">
+      {/* ✅ TESTIMONIALS */}
+      <section
+        id="testimonials"
+        className="py-16 sm:py-24 bg-[#050505] overflow-hidden"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-10 sm:mb-14 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold italic tracking-tighter">
             Loved by Students & Teachers
           </h2>
-          <p className="text-gray-400 mt-3">
-            Real feedback from early users.
-          </p>
+          <p className="text-gray-400 mt-3">Real feedback from early users.</p>
         </div>
 
         <div className="relative">
@@ -401,14 +409,16 @@ export default function LandingPage() {
             ))}
           </motion.div>
 
-          {/* subtle fade edges */}
           <div className="pointer-events-none absolute inset-y-0 left-0 w-10 sm:w-24 bg-gradient-to-r from-[#050505] to-transparent" />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-10 sm:w-24 bg-gradient-to-l from-[#050505] to-transparent" />
         </div>
       </section>
 
-      {/* ✅ PRICING CTA (no payment logic here, only link) */}
-      <section id="pricing" className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
+      {/* ✅ PRICING CTA */}
+      <section
+        id="pricing"
+        className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center"
+      >
         <div className="mb-10 sm:mb-14">
           <h2 className="text-3xl md:text-5xl font-bold mb-4 italic tracking-tighter">
             Invest in your Grades
@@ -422,7 +432,11 @@ export default function LandingPage() {
           <PricingCard
             title="Free Starter"
             price="$0"
-            features={["Unlimited Drafts", "Basic AI Generation", "Watermarked Export"]}
+            features={[
+              "Unlimited Drafts",
+              "Basic AI Generation",
+              "Watermarked Export",
+            ]}
             link="/create"
           />
           <PricingCard
@@ -441,67 +455,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ✅ ONE PROFESSIONAL FOOTER (NO extra copyright strip) */}
-      <footer className="border-t border-white/10 bg-[#050505]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                  <History className="w-4 h-4 text-white" />
-                </div>
-                <span className="font-bold">AI Timeline Maker</span>
-              </div>
-              <p className="text-sm text-gray-400 leading-relaxed">
-                Make history and projects visual — fast, clean, and export-ready.
-              </p>
-            </div>
-
-            <div>
-              <div className="text-xs font-bold text-gray-300 tracking-widest mb-3">
-                PRODUCT
-              </div>
-              <div className="flex flex-col gap-2 text-sm text-gray-400">
-                <Link href="/pricing" className="hover:text-white">Pricing</Link>
-                <Link href="/create" className="hover:text-white">Create Timeline</Link>
-                <Link href="/dashboard" className="hover:text-white">Dashboard</Link>
-              </div>
-            </div>
-
-            <div>
-              <div className="text-xs font-bold text-gray-300 tracking-widest mb-3">
-                COMPANY
-              </div>
-              <div className="flex flex-col gap-2 text-sm text-gray-400">
-                <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
-                <Link href="/terms" className="hover:text-white">Terms of Service</Link>
-                <Link href="/refund" className="hover:text-white">Refund Policy</Link>
-                <Link href="/contact" className="hover:text-white">Contact</Link>
-              </div>
-            </div>
-
-            <div>
-              <div className="text-xs font-bold text-gray-300 tracking-widest mb-3">
-                GET STARTED
-              </div>
-              <p className="text-sm text-gray-400 mb-4">
-                Try it free. Upgrade only when you need exports.
-              </p>
-              <Link
-                href="/create"
-                className="inline-flex items-center justify-center gap-2 bg-white text-black px-5 py-3 rounded-xl text-sm font-bold hover:bg-gray-200 transition-colors"
-              >
-                Start Free <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-
-          <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500">
-            <div>© {year} AI Timeline Maker. All rights reserved.</div>
-            <div>Made with ❤️ in India.</div>
-          </div>
-        </div>
-      </footer>
+      {/* ❌ IMPORTANT: footer REMOVED from home page (layout.tsx has FooterGate) */}
     </div>
   );
 }
@@ -533,7 +487,11 @@ function PricingCard({ title, price, features, featured, link }: any) {
         </div>
       )}
 
-      <h3 className={`text-lg font-bold mb-2 ${featured ? "text-purple-200" : "text-gray-200"}`}>
+      <h3
+        className={`text-lg font-bold mb-2 ${
+          featured ? "text-purple-200" : "text-gray-200"
+        }`}
+      >
         {title}
       </h3>
 
@@ -556,7 +514,11 @@ function PricingCard({ title, price, features, featured, link }: any) {
             : "bg-white text-black hover:bg-gray-200"
         }`}
       >
-        {title === "Free Starter" ? "Start Free" : title === "Single Project" ? "Buy Now" : "Subscribe"}
+        {title === "Free Starter"
+          ? "Start Free"
+          : title === "Single Project"
+          ? "Buy Now"
+          : "Subscribe"}
       </Link>
     </div>
   );

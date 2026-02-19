@@ -243,53 +243,6 @@ export default function LandingPageES() {
           </div>
       </section>
 
-      {/* 🦶 FOOTER */}
-      <footer className="max-w-7xl mx-auto px-6 py-16 border-t border-white/10">
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
-              <div className="col-span-1 md:col-span-1">
-                  <div className="flex items-center gap-2 mb-4">
-                        <div className="w-6 h-6 bg-purple-600 rounded flex items-center justify-center">
-                            <History className="text-white w-3 h-3" />
-                        </div>
-                        <span className="text-lg font-bold">AI Timeline Maker</span>
-                  </div>
-                  <p className="text-gray-500 text-sm leading-relaxed">
-                      Haciendo la historia visual e interactiva para todos. Construido con el poder de la IA.
-                  </p>
-              </div>
-              
-              <div>
-                  <h4 className="font-bold mb-4 text-white">Producto</h4>
-                  <ul className="space-y-2 text-sm text-gray-400">
-                      <li><Link href="#features" className="hover:text-purple-400 transition-colors">Características</Link></li>
-                      <li><Link href="/pricing" className="hover:text-purple-400 transition-colors">Precios</Link></li>
-                      <li><Link href="/create" className="hover:text-purple-400 transition-colors">Crear Timeline</Link></li>
-                  </ul>
-              </div>
-
-              <div>
-                  <h4 className="font-bold mb-4 text-white">Compañía</h4>
-                  <ul className="space-y-2 text-sm text-gray-400">
-                      <li><Link href="/about" className="hover:text-purple-400 transition-colors">Sobre Nosotros</Link></li>
-                      <li><Link href="/contact" className="hover:text-purple-400 transition-colors">Contacto</Link></li>
-                      <li><Link href="/privacy" className="hover:text-purple-400 transition-colors">Política de Privacidad</Link></li>
-                  </ul>
-              </div>
-
-              <div>
-                  <h4 className="font-bold mb-4 text-white">Mantente Actualizado</h4>
-                  <p className="text-xs text-gray-500 mb-4">Recibe las últimas noticias y trucos.</p>
-                  <div className="flex gap-2">
-                      <input type="email" placeholder="Tu correo electrónico" className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm w-full focus:outline-none focus:border-purple-500 text-white" />
-                      <button className="bg-purple-600 hover:bg-purple-500 p-2 rounded-lg transition-colors"><ArrowRight className="w-4 h-4 text-white"/></button>
-                  </div>
-              </div>
-          </div>
-          <div className="text-center text-gray-600 text-xs pt-8 border-t border-white/5">
-              © 2026 aitimelinemaker.online. Todos los derechos reservados. Hecho con ❤️ en India.
-          </div>
-      </footer>
-
     </div>
   );
 }
@@ -326,3 +279,5 @@ function FeatureCard({ icon, title, desc }: any) {
         </div>
     )
 }
+
+::contentReference[oaicite:0]{index=0}
