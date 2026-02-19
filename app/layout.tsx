@@ -14,11 +14,9 @@ export const metadata: Metadata = {
   },
   description: "Generate historical timelines in seconds",
 
+  // ✅ Keep favicon simple (most reliable)
   icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/icon.png", type: "image/png" },
-    ],
+    icon: "/favicon.ico",
   },
 
   openGraph: {
