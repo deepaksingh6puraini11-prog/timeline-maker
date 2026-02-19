@@ -280,4 +280,3 @@ function FeatureCard({ icon, title, desc }: any) {
     )
 }
 
-::contentReference[oaicite:0]{index=0}
