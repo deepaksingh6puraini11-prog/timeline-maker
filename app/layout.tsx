@@ -14,14 +14,11 @@ export const metadata: Metadata = {
   },
   description: "Generate historical timelines in seconds",
 
-  // ✅ FAVICON (best practice)
   icons: {
     icon: [
-      { url: "/favicon.ico" }, // ✅ MOST IMPORTANT (removes Vercel default)
-      { url: "/icon.png", type: "image/png" }, // backup
+      { url: "/favicon.ico" },
+      { url: "/icon.png", type: "image/png" },
     ],
-    // agar aap apple-touch-icon.png add karte ho to ye enable rahega
-    apple: [{ url: "/apple-touch-icon.png" }],
   },
 
   openGraph: {
@@ -46,10 +43,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <main>{children}</main>
-
-        {/* ✅ Footer auto-hide on /login, /signup, /auth/* */}
         <FooterGate />
-
         <Toaster position="bottom-right" />
       </body>
     </html>
