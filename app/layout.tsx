@@ -13,9 +13,17 @@ export const metadata: Metadata = {
     template: "%s | AI Timeline Maker",
   },
   description: "Generate historical timelines in seconds",
+
+  // ✅ FAVICON (best practice)
   icons: {
-    icon: "/icon.png",
+    icon: [
+      { url: "/favicon.ico" }, // ✅ MOST IMPORTANT (removes Vercel default)
+      { url: "/icon.png", type: "image/png" }, // backup
+    ],
+    // agar aap apple-touch-icon.png add karte ho to ye enable rahega
+    apple: [{ url: "/apple-touch-icon.png" }],
   },
+
   openGraph: {
     title: "AI Timeline Maker",
     description: "Generate historical timelines in seconds",
@@ -23,6 +31,7 @@ export const metadata: Metadata = {
     siteName: "AI Timeline Maker",
     type: "website",
   },
+
   verification: {
     google: "EhOY7Gu11Sd4KQa0IEs-NmuwOzofWc7Eli8wUOYMUB4",
   },
